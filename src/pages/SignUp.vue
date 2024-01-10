@@ -7,37 +7,60 @@
       <h2>Sign Up</h2>
     </v-row>
     <v-row>
-      <v-text-field label="Name" :rules="[notEmpty]"></v-text-field>
+      <v-col>
+        <v-form ref="signUpForm">
+          <v-text-field label="Name" v-model="model.name" :rules="[notEmpty]"></v-text-field>
+          <v-text-field label="Email" type="email" v-model="model.email" :rules="[notEmpty, email]"></v-text-field>
+          <v-text-field label="Password" type="password" v-model="model.password"
+                        :rules="[notEmpty, password]"></v-text-field>
+          <v-text-field label="Confirm Password" type="password" v-model="model.confirmPassword"
+                        :rules="[notEmpty, passwordMatch]"></v-text-field>
+        </v-form>
+      </v-col>
     </v-row>
     <v-row>
-      <v-text-field label="Email" type="email" :rules="[notEmpty, email]"></v-text-field>
-    </v-row>
-    <v-row>
-      <v-text-field label="Password" type="password" :rules="[notEmpty, password]">{{password1}}</v-text-field>
-    </v-row>
-    <v-row>
-      <v-text-field label="Confirm Password" type="password" :rules="[notEmpty, passwordMatch]"></v-text-field>
-    </v-row>
-    <v-row>
-      <v-btn width="100%">Sign Up</v-btn>
+      <v-btn width="100%" @click="buttonOnClick">Sign Up</v-btn>
     </v-row>
   </v-container>
 </template>
 
-<script setup>
-
-import {notEmpty, email, password} from "/src/modules/validation/rules"
+<script setup lang="ts">
+import {notEmpty, email, password} from "@/modules/validation/rules"
 import {ref} from "vue";
+import {SignUpModel} from "@/modules/auth/model";
+import {SignUpDto} from "@/modules/auth/dto"
 
-const password1 = ref("")
+import axios from "axios";
+import {VForm} from "vuetify/components";
 
-const passwordMatch = (value) => value === password1.value || 'min 10 chars'
+const signUpForm: VForm = ref(null)
+const model = ref(new SignUpModel())
 
+const passwordMatch = (value: any) => {
+  return value === model.value.password || 'password does not match'
+}
+
+async function buttonOnClick() {
+  const {valid} = await signUpForm.value.validate()
+
+  if (valid) {
+    const signUpDto : SignUpDto = model.value.toDto()
+    console.log(JSON.stringify(signUpDto))
+    await axios.post("/api/signup"
+      , JSON.stringify(signUpDto)
+      , {
+        headers: {'Content-Type': 'application/json'}
+      }
+    ).catch(error =>{
+      console.log(error)
+    })
+  }
+}
 
 </script>
 
 <style scoped>
-.mw-500{
+.mw-500 {
   max-width: 500px;
 }
 </style>
