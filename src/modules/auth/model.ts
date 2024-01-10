@@ -1,4 +1,4 @@
-import {SignUpDto} from "@/modules/auth/dto";
+import {LoginDto, SignUpDto} from "@/modules/auth/dto";
 
 export class SignUpModel{
   name : string = "";
@@ -8,5 +8,14 @@ export class SignUpModel{
 
   toDto() : SignUpDto{
     return new SignUpDto(this.name, this.email, this.password);
+  }
+}
+
+export class LoginModel{
+  email : string = ""
+  password : string = ""
+
+  toDto() : LoginDto{
+    return new LoginDto(this.email, this.password)
   }
 }

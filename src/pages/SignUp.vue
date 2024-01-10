@@ -26,14 +26,15 @@
 
 <script setup lang="ts">
 import {notEmpty, email, password} from "@/modules/validation/rules"
-import {ref} from "vue";
+import {Ref, ref} from "vue";
 import {SignUpModel} from "@/modules/auth/model";
 import {SignUpDto} from "@/modules/auth/dto"
 
-import axios from "axios";
 import {VForm} from "vuetify/components";
+import router from "@/router";
+import {ApiClient} from "@/modules/common/api-client";
 
-const signUpForm: VForm = ref(null)
+const signUpForm: Ref<VForm> = ref<any>()
 const model = ref(new SignUpModel())
 
 const passwordMatch = (value: any) => {
@@ -42,18 +43,17 @@ const passwordMatch = (value: any) => {
 
 async function buttonOnClick() {
   const {valid} = await signUpForm.value.validate()
-
   if (valid) {
     const signUpDto : SignUpDto = model.value.toDto()
     console.log(JSON.stringify(signUpDto))
-    await axios.post("/api/signup"
-      , JSON.stringify(signUpDto)
-      , {
-        headers: {'Content-Type': 'application/json'}
-      }
-    ).catch(error =>{
-      console.log(error)
-    })
+
+    const apiClient = ApiClient.getInstance();
+    await apiClient.signUp(model.value.toDto())
+      .then(
+        router.push("/login")
+      ).catch(error =>{
+        console.log(error)
+      })
   }
 }
 
