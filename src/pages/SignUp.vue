@@ -19,7 +19,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-btn width="100%" @click="buttonOnClick">Sign Up</v-btn>
+      <v-btn width="100%" @click="onClick">Sign Up</v-btn>
     </v-row>
   </v-container>
 </template>
@@ -41,11 +41,10 @@ const passwordMatch = (value: any) => {
   return value === model.value.password || 'password does not match'
 }
 
-async function buttonOnClick() {
+async function onClick() {
   const {valid} = await signUpForm.value.validate()
   if (valid) {
     const signUpDto : SignUpDto = model.value.toDto()
-    console.log(JSON.stringify(signUpDto))
 
     const apiClient = ApiClient.getInstance();
     await apiClient.signUp(model.value.toDto())

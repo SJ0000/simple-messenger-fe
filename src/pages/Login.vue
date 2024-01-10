@@ -7,13 +7,15 @@
       <h2>Sign in to your account</h2>
     </v-row>
     <v-row>
-      <v-text-field label="Email" :rules="[notEmpty, email]"></v-text-field>
+      <v-col>
+        <v-form ref="loginForm">
+          <v-text-field label="Email" v-model="model.email" :rules="[notEmpty, email]"></v-text-field>
+          <v-text-field label="Password" v-model="model.password" type="password" :rules="[notEmpty, password]"></v-text-field>
+        </v-form>
+      </v-col>
     </v-row>
     <v-row>
-      <v-text-field label="Password" type="password" :rules="[notEmpty, password]"></v-text-field>
-    </v-row>
-    <v-row>
-      <v-btn width="100%">Sign in</v-btn>
+      <v-btn width="100%" @click=onClick>Sign in</v-btn>
     </v-row>
     <v-row class="mt-5 justify-end">
       <p class="mr-2">Don't have an account?</p>
@@ -22,9 +24,35 @@
   </v-container>
 </template>
 
-<script setup>
+<script setup lang="ts">
 
-import {notEmpty, email, password} from "/src/modules/validation/rules"
+import {notEmpty, email, password} from "@/modules/validation/rules"
+import {ApiClient} from "@/modules/common/api-client";
+import {LoginDto} from "@/modules/auth/dto";
+import router from "@/router";
+import {Ref, ref} from "vue";
+import {LoginModel} from "@/modules/auth/model";
+import {VForm} from "vuetify/components";
+
+const loginForm: Ref<VForm> = ref<any>()
+const model = ref(new LoginModel())
+
+async function onClick(){
+  const {valid} = await loginForm.value.validate()
+  if (valid) {
+    const loginDto : LoginDto = model.value.toDto()
+    console.log(JSON.stringify(loginDto))
+
+    const apiClient = ApiClient.getInstance();
+    await apiClient.login(model.value.toDto())
+      .then(
+        router.push("/login")
+      ).catch(error =>{
+        console.log(error)
+      })
+  }
+}
+
 
 </script>
 
