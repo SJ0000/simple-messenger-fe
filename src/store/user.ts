@@ -1,24 +1,30 @@
 import {defineStore} from 'pinia'
-import {UserDto} from "@/modules/user/dto";
+import {User} from "@/modules/user/interface";
 
 export const userStore = defineStore('user', {
   state: () => {
     return {
       isLoggedIn: false,
-      data: {}
+      data: {
+        id: 0,
+        name: ""
+      }
     }
   },
   actions:{
-    login(userDto : UserDto){
+    login(user : User){
       this.isLoggedIn = true
       this.data = {
-        id: userDto.id,
-        name: userDto.name,
+        id: user.id,
+        name: user.name,
       }
     },
     logout(){
       this.isLoggedIn = false
-      this.data = {}
+      this.data = {
+        id: 0,
+        name: ""
+      }
     }
   },
   persist: true

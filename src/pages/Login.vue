@@ -36,6 +36,7 @@ import {VForm} from "vuetify/components";
 import {ACCESS_TOKEN} from "@/modules/common/LocalStorageKeyNames";
 import {userStore} from "@/store/user";
 import router from "@/router";
+import {UserDto} from "@/modules/user/dto";
 
 const loginForm: Ref<VForm> = ref<any>();
 const model = ref(new LoginModel());
@@ -51,7 +52,7 @@ async function onClick() {
       .then(result => {
           localStorage.setItem(ACCESS_TOKEN, result.data.token);
           const user = userStore();
-          user.login(result.data);
+          user.login(result.data.user);
           console.log(`user.data = ${user.data}`);
           router.push("/")
         }
