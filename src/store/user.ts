@@ -20,5 +20,6 @@ export const userStore = defineStore('user', {
       this.isLoggedIn = false
       this.data = {}
     }
-  }
+  },
+  persist: true
 })

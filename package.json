@@ -12,6 +12,7 @@
     "@stomp/stompjs": "^7.0.0",
     "axios": "^1.6.5",
     "core-js": "^3.34.0",
+    "pinia-plugin-persistedstate": "^3.2.1",
     "roboto-fontface": "*",
     "vue": "^3.3.0",
     "vuetify": "^3.0.0"
