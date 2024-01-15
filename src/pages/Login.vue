@@ -10,7 +10,8 @@
       <v-col>
         <v-form ref="loginForm">
           <v-text-field label="Email" v-model="model.email" :rules="[notEmpty, email]"></v-text-field>
-          <v-text-field label="Password" v-model="model.password" type="password" :rules="[notEmpty, password]"></v-text-field>
+          <v-text-field label="Password" v-model="model.password" type="password"
+                        :rules="[notEmpty, password]"></v-text-field>
         </v-form>
       </v-col>
     </v-row>
@@ -29,26 +30,33 @@
 import {notEmpty, email, password} from "@/modules/validation/rules"
 import {ApiClient} from "@/modules/common/api-client";
 import {LoginDto} from "@/modules/auth/dto";
-import router from "@/router";
 import {Ref, ref} from "vue";
 import {LoginModel} from "@/modules/auth/model";
 import {VForm} from "vuetify/components";
+import {ACCESS_TOKEN} from "@/modules/common/LocalStorageKeyNames";
+import {userStore} from "@/store/user";
+import router from "@/router";
 
-const loginForm: Ref<VForm> = ref<any>()
-const model = ref(new LoginModel())
+const loginForm: Ref<VForm> = ref<any>();
+const model = ref(new LoginModel());
 
-async function onClick(){
-  const {valid} = await loginForm.value.validate()
+async function onClick() {
+  const {valid} = await loginForm.value.validate();
   if (valid) {
-    const loginDto : LoginDto = model.value.toDto()
-    console.log(JSON.stringify(loginDto))
+    const loginDto: LoginDto = model.value.toDto();
+    console.log(JSON.stringify(loginDto));
 
     const apiClient = ApiClient.getInstance();
     await apiClient.login(model.value.toDto())
-      .then(
-        router.push("/login")
-      ).catch(error =>{
-        console.log(error)
+      .then(result => {
+          localStorage.setItem(ACCESS_TOKEN, result.data.token);
+          const user = userStore();
+          user.login(result.data);
+          console.log(`user.data = ${user.data}`);
+          router.push("/")
+        }
+      ).catch(error => {
+        console.log(`login failed ${error}`)
       })
   }
 }
@@ -57,7 +65,7 @@ async function onClick(){
 </script>
 
 <style scoped>
-  .mw-500{
-    max-width: 500px;
-  }
+.mw-500 {
+  max-width: 500px;
+}
 </style>

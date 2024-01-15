@@ -1,4 +1,3 @@
-import {email, password} from "@/modules/validation/rules";
 
 export class SignUpDto{
   name: string;

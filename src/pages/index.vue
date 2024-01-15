@@ -1,20 +1,30 @@
 <template>
   <v-container>
-    <v-col>
-      <v-card class="mt-3">
-        <v-card-item >
-          <router-link to="/login">Login</router-link>
-        </v-card-item>
-      </v-card>
-      <v-card class="mt-3">
-        <v-card-item>
-          <router-link to="/signup">signup</router-link>
-        </v-card-item>
-      </v-card>
-    </v-col>
+    <template v-if="user.isLoggedIn">
+      <h2>logged in</h2>
+    </template>
+    <template v-else>
+      <v-col>
+        <v-card class="mt-3">
+          <v-card-item >
+            <router-link to="/login">Login</router-link>
+          </v-card-item>
+        </v-card>
+        <v-card class="mt-3">
+          <v-card-item>
+            <router-link to="/signup">signup</router-link>
+          </v-card-item>
+        </v-card>
+      </v-col>
+    </template>
   </v-container>
 </template>
 
 <script lang="ts" setup>
+  // log in
+  import {userStore} from "@/store/user";
+  const user = userStore()
+
+
 
 </script>

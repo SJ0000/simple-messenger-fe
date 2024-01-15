@@ -44,8 +44,6 @@ const passwordMatch = (value: any) => {
 async function onClick() {
   const {valid} = await signUpForm.value.validate()
   if (valid) {
-    const signUpDto : SignUpDto = model.value.toDto()
-
     const apiClient = ApiClient.getInstance();
     await apiClient.signUp(model.value.toDto())
       .then(

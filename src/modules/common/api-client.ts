@@ -1,13 +1,36 @@
-import axios, {AxiosResponse} from 'axios'
+import axios, {AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders, AxiosResponse} from 'axios'
 import {LoginDto, SignUpDto} from "@/modules/auth/dto";
+import {ACCESS_TOKEN} from "@/modules/common/LocalStorageKeyNames";
 
 // Singleton
 export class ApiClient {
 
   private static instance: ApiClient;
 
+  private client: AxiosInstance;
+
   private constructor() {
+    this.client = this.createAxiosInstance();
   }
+
+  private createAxiosInstance(): AxiosInstance {
+    const axiosInstance: AxiosInstance = axios.create({
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+
+    axiosInstance.interceptors.request.use(function (config) {
+      const accessToken = localStorage.getItem(ACCESS_TOKEN);
+      if (accessToken !== null) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+      }
+      return config;
+    })
+
+    return axiosInstance
+  }
+
 
   public static getInstance(): ApiClient {
     if (this.instance === null || this.instance === undefined)
@@ -15,13 +38,6 @@ export class ApiClient {
 
     return this.instance
   }
-
-
-  private client = axios.create({
-    headers: {
-      'Content-Type': 'application/json',
-    }
-  })
 
 
   async signUp(dto: SignUpDto): Promise<AxiosResponse> {

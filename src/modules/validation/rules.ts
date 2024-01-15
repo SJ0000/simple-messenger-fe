@@ -7,4 +7,4 @@ function isEmail(text: string) {
 
 export const notEmpty = (value : any) => !!value || 'Required.';
 export const email = (value : any) => isEmail(value) || 'Invalid Email'
-export const password = (value : any) => value.length >= 10 || 'min 10 chars'
+export const password = (value : any) => value.length >= 10 || 'Password should be between 10 and 20 characters.'
