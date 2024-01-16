@@ -1,9 +1,6 @@
 <template>
   <v-container>
-    <template v-if="user.isLoggedIn">
-      <h2>logged in</h2>
-    </template>
-    <template v-else>
+    <template v-if="!isLoggedIn">
       <v-col>
         <v-card class="mt-3">
           <v-card-item >
@@ -23,8 +20,10 @@
 <script lang="ts" setup>
   // log in
   import {authenticationStore} from "@/store/authentication";
-  const user = authenticationStore()
+  import router from "@/router";
+  const isLoggedIn = authenticationStore().isLoggedIn
 
-
-
+  if(isLoggedIn){
+    router.push("/messenger")
+  }
 </script>

@@ -42,13 +42,12 @@ const model = ref(new LoginModel());
 async function onClick() {
   const {valid} = await loginForm.value.validate();
   if (valid) {
-    const loginDto: LoginDto = model.value.toDto();
     const apiClient = ApiClient.getInstance();
     await apiClient.login(model.value.toDto())
       .then(result => {
           const authentication = authenticationStore();
           authentication.login(result.data.token, result.data.user);
-          router.push("/")
+          router.push("/messenger")
         }
       ).catch(error => {
         console.log(`login failed ${error}`)

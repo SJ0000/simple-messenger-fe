@@ -1,6 +1,6 @@
-import axios, {AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders, AxiosResponse} from 'axios'
+import axios, {AxiosInstance, AxiosResponse} from 'axios'
 import {LoginDto, SignUpDto} from "@/modules/auth/dto";
-import {ACCESS_TOKEN} from "@/modules/common/LocalStorageKeyNames";
+import {authenticationStore} from "@/store/authentication";
 
 // Singleton
 export class ApiClient {
@@ -21,7 +21,8 @@ export class ApiClient {
     })
 
     axiosInstance.interceptors.request.use(function (config) {
-      const accessToken = localStorage.getItem(ACCESS_TOKEN);
+      const authentication = authenticationStore()
+      const accessToken = authentication.accessToken
       if (accessToken !== null) {
         config.headers.Authorization = `Bearer ${accessToken}`;
       }
