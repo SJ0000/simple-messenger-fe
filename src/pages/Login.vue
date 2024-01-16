@@ -33,10 +33,8 @@ import {LoginDto} from "@/modules/auth/dto";
 import {Ref, ref} from "vue";
 import {LoginModel} from "@/modules/auth/model";
 import {VForm} from "vuetify/components";
-import {ACCESS_TOKEN} from "@/modules/common/LocalStorageKeyNames";
-import {userStore} from "@/store/user";
+import {authenticationStore} from "@/store/authentication";
 import router from "@/router";
-import {UserDto} from "@/modules/user/dto";
 
 const loginForm: Ref<VForm> = ref<any>();
 const model = ref(new LoginModel());
@@ -45,15 +43,11 @@ async function onClick() {
   const {valid} = await loginForm.value.validate();
   if (valid) {
     const loginDto: LoginDto = model.value.toDto();
-    console.log(JSON.stringify(loginDto));
-
     const apiClient = ApiClient.getInstance();
     await apiClient.login(model.value.toDto())
       .then(result => {
-          localStorage.setItem(ACCESS_TOKEN, result.data.token);
-          const user = userStore();
-          user.login(result.data.user);
-          console.log(`user.data = ${user.data}`);
+          const authentication = authenticationStore();
+          authentication.login(result.data.token, result.data.user);
           router.push("/")
         }
       ).catch(error => {

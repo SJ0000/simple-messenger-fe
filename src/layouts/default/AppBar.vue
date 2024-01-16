@@ -1,14 +1,16 @@
 <template>
-  <v-app-bar>
+  <v-app-bar rounded>
     <v-app-bar-nav-icon/>
     <v-app-bar-title>Simple Messenger</v-app-bar-title>
     <v-spacer></v-spacer>
     <!--    popover user info? setting?-->
     <v-menu location="bottom">
       <template v-slot:activator="{ props }">
-        <v-icon size="x-large" v-bind="props" :icon="mdiAccountCircle"></v-icon>
+        <v-btn icon>
+          <v-icon size="x-large" v-bind="props" :icon="mdiAccountCircle"></v-icon>
+        </v-btn>
       </template>
-      <v-card min-width="300">
+      <v-card min-width="250">
         <v-list>
           <v-list-item
             prepend-avatar="https://cdn.vuetifyjs.com/images/john.jpg"

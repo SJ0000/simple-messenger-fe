@@ -22,8 +22,8 @@
 
 <script lang="ts" setup>
   // log in
-  import {userStore} from "@/store/user";
-  const user = userStore()
+  import {authenticationStore} from "@/store/authentication";
+  const user = authenticationStore()
 
 
 
