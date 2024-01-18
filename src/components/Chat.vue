@@ -14,8 +14,7 @@
 </template>
 
 <script setup lang="ts">
-  import {mdiMessage} from "@mdi/js"
-
+import {mdiMessage} from "@mdi/js"
 </script>
 
 

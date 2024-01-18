@@ -31,7 +31,6 @@
 </template>
 
 <script lang="ts" setup>
-  // user
-  import {mdiAccountCircle, mdiCog} from '@mdi/js'
-
+// user
+import {mdiAccountCircle, mdiCog} from '@mdi/js'
 </script>

@@ -14,9 +14,6 @@
 <script setup lang="ts">
 import ChatRoomList from "@/components/ChatRoomList.vue";
 import Chat from "@/components/Chat.vue";
-
-
-
 </script>
 
 <style scoped>

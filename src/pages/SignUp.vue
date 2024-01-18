@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import {notEmpty, email, password} from "@/modules/validation/rules"
+import {email, notEmpty, password} from "@/modules/validation/rules"
 import {Ref, ref} from "vue";
 import {SignUpModel} from "@/modules/auth/model";
 

@@ -18,10 +18,11 @@
 </template>
 
 <script lang="ts" setup>
-  // log in
-  import {authenticationStore} from "@/store/authentication";
-  import router from "@/router";
-  const isLoggedIn = authenticationStore().isLoggedIn
+// log in
+import {authenticationStore} from "@/store/authentication";
+import router from "@/router";
+
+const isLoggedIn = authenticationStore().isLoggedIn
 
   if(isLoggedIn){
     router.push("/messenger")
