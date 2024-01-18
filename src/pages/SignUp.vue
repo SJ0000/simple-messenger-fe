@@ -28,7 +28,6 @@
 import {notEmpty, email, password} from "@/modules/validation/rules"
 import {Ref, ref} from "vue";
 import {SignUpModel} from "@/modules/auth/model";
-import {SignUpDto} from "@/modules/auth/dto"
 
 import {VForm} from "vuetify/components";
 import router from "@/router";

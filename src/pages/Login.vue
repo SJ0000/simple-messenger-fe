@@ -29,7 +29,6 @@
 
 import {notEmpty, email, password} from "@/modules/validation/rules"
 import {ApiClient} from "@/modules/common/api-client";
-import {LoginDto} from "@/modules/auth/dto";
 import {Ref, ref} from "vue";
 import {LoginModel} from "@/modules/auth/model";
 import {VForm} from "vuetify/components";

@@ -5,15 +5,14 @@
       <v-list-item
         :prepend-avatar="room.avatarUrl"
         :title="room.title">
-        <span class="mr-1 text-blue"> {{room.lastMessage.senderName}} - </span>
-        <span> {{ room.lastMessage.content }} </span>
+        <span class="mr-1 text-blue text-subtitle-2"> {{room.lastMessage.senderName}} - </span>
+        <span class="text-subtitle-2"> {{ room.lastMessage.content }} </span>
       </v-list-item>
       <v-divider/>
     </template>
   </v-list>
 </template>
 <script setup lang="ts">
-
 import {ChatRoom} from "@/modules/chat/interface";
 
 const rooms : Array<ChatRoom> = [
