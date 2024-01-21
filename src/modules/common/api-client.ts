@@ -1,6 +1,7 @@
 import axios, {AxiosInstance, AxiosResponse} from 'axios'
 import {LoginDto, SignUpDto} from "@/modules/auth/dto";
 import {authenticationStore} from "@/store/authentication";
+import router from "@/router";
 
 // Singleton
 export class ApiClient {
@@ -21,13 +22,22 @@ export class ApiClient {
     })
 
     axiosInstance.interceptors.request.use(function (config) {
-      const authentication = authenticationStore()
-      const accessToken = authentication.accessToken
+      const accessToken = authenticationStore().accessToken
       if (accessToken !== null) {
         config.headers.Authorization = `Bearer ${accessToken}`;
       }
       return config;
     })
+
+    axiosInstance.interceptors.response.use(
+      (error) => {
+        if(error.status === 401){
+          authenticationStore().logout()
+        }
+        return Promise.reject(error)
+      }
+    )
+
 
     return axiosInstance
   }

@@ -3,8 +3,13 @@
     <header style="height: 30px">
       <h2>cat</h2>
     </header>
-    <v-list class="ma-1 bg-amber">
-      <template v-for="(item, index) in mr" :key="item.id">
+    <v-virtual-scroll
+      class="ma-1 bg-amber"
+      :items="mr"
+      height="600"
+      item-height="50"
+    >
+      <template v-slot:default="{ item }">
         <v-list-item
           prepend-avatar="https://cdn.vuetifyjs.com/images/lists/1.jpg"
           class="ma-2"
@@ -26,7 +31,7 @@
           </div>
         </v-list-item>
       </template>
-    </v-list>
+    </v-virtual-scroll>
     <div class="d-flex">
       <v-icon :icon="mdiMessage" size="45" class="mr-2 mt-2"></v-icon>
       <v-textarea label="message" rows="1" row-height="15"></v-textarea>
