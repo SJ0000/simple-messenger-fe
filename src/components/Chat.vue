@@ -3,34 +3,30 @@
     <header style="height: 30px">
       <h2>cat</h2>
     </header>
-    <v-virtual-scroll
-      class="ma-1 bg-amber"
-      :height="100"
-      :items="messages"
-    >
-      <template v-slot:default="{ item }">
+    <v-list class="ma-1 bg-amber">
+      <template v-for="(item, index) in mr" :key="item.id">
         <v-list-item
           prepend-avatar="https://cdn.vuetifyjs.com/images/lists/1.jpg"
           class="ma-2"
         >
-            <div>
-              <h4>{{ item.senderId }}</h4>
-              <h4>{{ item.content}}</h4>
-              <h4>{{item.sentAt}}</h4>
-            </div>
+          <div>
+            <h4>{{ item.senderId }}</h4>
+            <h4>{{ item.content }}</h4>
+            <h4>{{ item.sentAt }}</h4>
+          </div>
         </v-list-item>
         <v-list-item
           append-avatar="https://cdn.vuetifyjs.com/images/lists/1.jpg"
           class="ma-2"
         >
-            <div class="text-right">
-              <h4>{{ item.senderId }}</h4>
-              <h4>{{ item.content}}</h4>
-              <h4>{{item.sentAt}}</h4>
-            </div>
+          <div class="text-right">
+            <h4>{{ item.senderId }}</h4>
+            <h4>{{ item.content }}</h4>
+            <h4>{{ item.sentAt }}</h4>
+          </div>
         </v-list-item>
       </template>
-    </v-virtual-scroll>
+    </v-list>
     <div class="d-flex">
       <v-icon :icon="mdiMessage" size="45" class="mr-2 mt-2"></v-icon>
       <v-textarea label="message" rows="1" row-height="15"></v-textarea>
@@ -43,36 +39,40 @@
 
 <script setup lang="ts">
 import {mdiMessage} from "@mdi/js"
+import {Message} from "@/modules/chat/interface";
+import {reactive} from "vue";
 
-// 사용자 정보를 사전에 가지고 있어야 함
-const myId = 1;
-
-const messages = [
+const messages: Array<Message> = [
   {
-    id: 10,
+    id: 1,
     senderId: 1,
     content: "Hello, everyone!",
-    sentAt: "10:30 AM",
+    sentAt: new Date(),
   },
   {
-    id: 11,
+    id: 2,
     senderId: 2,
     content: "Hi Dog",
-    sentAt: "10:30 AM",
+    sentAt: new Date(),
   },
 ]
 
-function addItemTest(){
-  messages.push(
+const mr = reactive(messages)
+let messageId = 3
+
+function addItemTest() {
+  mr.push(
     {
-      id: 11,
+      id: messageId,
       senderId: 2,
       content: "messageN",
-      sentAt: "10:31 AM",
+      sentAt: new Date(),
     }
   )
+  messageId++
   console.log(messages)
 }
+
 </script>
 <style scoped>
 </style>

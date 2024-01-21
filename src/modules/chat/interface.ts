@@ -7,3 +7,10 @@ export interface ChatRoom{
     content: string
   }
 }
+
+export interface Message{
+  id: number,
+  senderId: number,
+  content: string,
+  sentAt: Date,
+}
