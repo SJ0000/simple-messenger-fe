@@ -49,7 +49,8 @@ async function onClick() {
           router.push("/messenger")
         }
       ).catch(error => {
-        console.log(`login failed ${error}`)
+        console.log(error)
+        console.log(`login failed ${error.message}`)
       })
   }
 }

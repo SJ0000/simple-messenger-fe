@@ -2,6 +2,7 @@ import axios, {AxiosInstance, AxiosResponse} from 'axios'
 import {LoginDto, SignUpDto} from "@/modules/auth/dto";
 import {authenticationStore} from "@/store/authentication";
 import router from "@/router";
+import {ChatRoom} from "@/modules/chat/interface";
 
 // Singleton
 export class ApiClient {
@@ -30,15 +31,16 @@ export class ApiClient {
     })
 
     axiosInstance.interceptors.response.use(
+      (response)=> {
+        return response
+      },
       (error) => {
-        if(error.status === 401){
+        if(error.response.status === 401){
           authenticationStore().logout()
         }
         return Promise.reject(error)
       }
     )
-
-
     return axiosInstance
   }
 
@@ -50,7 +52,6 @@ export class ApiClient {
     return this.instance
   }
 
-
   async signUp(dto: SignUpDto): Promise<AxiosResponse> {
     return await this.client.post("/api/signup", JSON.stringify(dto))
   }
@@ -59,4 +60,17 @@ export class ApiClient {
     return await this.client.post("/api/login", JSON.stringify(dto))
   }
 
+  async createChatRoom(): Promise<AxiosResponse> {
+    return await this.client.post("/api/chatrooms")
+  }
+
+  async getMyChatrooms(): Promise<ChatRoom[]>{
+    try{
+      const response = await this.client.get<ChatRoom[]>("/api/chatrooms/me")
+      return response.data
+    }catch(error){
+      console.log(error)
+      return []
+    }
+  }
 }

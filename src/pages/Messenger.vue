@@ -14,9 +14,24 @@
 <script setup lang="ts">
 import ChatRoomList from "@/components/ChatRoomList.vue";
 import Chat from "@/components/Chat.vue";
+import {MessageClient} from "@/modules/chat/message-client";
+import {ApiClient} from "@/modules/common/api-client";
+import {ChatRoom} from "@/modules/chat/interface";
+import {chatRoomStore} from "@/store/chatroom";
+
+ApiClient.getInstance().getMyChatrooms().then(
+  (chatRooms) => {
+    chatRoomStore().initialize(chatRooms)
+    console.log(chatRooms)
+  }
+)
+
+// MessageClient.getInstance().start(message => {
+//   // message store에 저장
+// })
+
 </script>
 
 <style scoped>
-
 
 </style>
