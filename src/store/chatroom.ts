@@ -3,18 +3,18 @@ import {ChatRoom} from "@/modules/chat/interface";
 
 
 export const chatRoomStore = defineStore('chatRoom', {
-  state: (): Map<number, ChatRoom> => {
-    return new Map<number, ChatRoom>()
+  state: () => {
+    return {
+      chatRooms: new Array<ChatRoom>
+    }
   },
   actions: {
     initialize(chatRooms: Array<ChatRoom>) {
-      chatRooms.forEach(chatRoom => {
-        this.set(chatRoom.id, chatRoom)
-      })
+      this.chatRooms = chatRooms
     },
 
-    join() {
-
+    join(chatRoom: ChatRoom) {
+      this.chatRooms.push(chatRoom)
     },
 
     exit() {

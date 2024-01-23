@@ -1,11 +1,16 @@
+import {types} from "sass";
+import List = types.List;
+import {User} from "@/modules/user/interface";
+
 export interface ChatRoom{
   id: number,
-  title: string,
+  name: string,
   avatarUrl: string,
-  lastMessage : {
-    senderName: string,
-    content: string
-  }
+  users: User[],
+}
+
+export interface ChatRoomCreate{
+  name: string,
 }
 
 export interface Message{
