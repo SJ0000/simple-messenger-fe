@@ -20,13 +20,8 @@ import {ChatRoom} from "@/modules/chat/interface";
 import {chatRoomStore} from "@/store/chatroom";
 import {messageStore} from "@/store/message";
 
-ApiClient.getInstance().getMyChatrooms().then(
-  (chatRooms) => {
-    chatRoomStore().initialize(chatRooms)
-    console.log(chatRooms)
-  }
-)
-
+let chatRooms = await ApiClient.getInstance().getMyChatrooms();
+chatRoomStore().initialize(chatRooms)
 messageStore().initialize()
 
 // MessageClient.getInstance().start(message => {

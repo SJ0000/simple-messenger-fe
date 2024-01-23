@@ -1,4 +1,7 @@
 <template>
+  <div class="d-flex justify-end mb-1">
+    <v-btn @click="addChatRoom">ADD Chat Room</v-btn>
+  </div>
   <v-list item-props lines="three">
     <v-list-subheader title="Chat rooms"/>
     <template v-for="(room, index) in rooms" :key="index">
@@ -14,6 +17,7 @@
 </template>
 <script setup lang="ts">
 import {ChatRoom} from "@/modules/chat/interface";
+import {ApiClient} from "@/modules/common/api-client";
 
 const rooms : Array<ChatRoom> = [
   {
@@ -88,8 +92,12 @@ const rooms : Array<ChatRoom> = [
       content: 'I\'ll be in your neighborhood doing errands this weekend. Do you want to hang out?'
     }
   },
-
 ]
+
+async function addChatRoom(){
+   await ApiClient.getInstance().createChatRoom()
+}
+
 </script>
 
 
