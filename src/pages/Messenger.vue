@@ -18,6 +18,7 @@ import {MessageClient} from "@/modules/chat/message-client";
 import {ApiClient} from "@/modules/common/api-client";
 import {ChatRoom} from "@/modules/chat/interface";
 import {chatRoomStore} from "@/store/chatroom";
+import {messageStore} from "@/store/message";
 
 ApiClient.getInstance().getMyChatrooms().then(
   (chatRooms) => {
@@ -25,6 +26,8 @@ ApiClient.getInstance().getMyChatrooms().then(
     console.log(chatRooms)
   }
 )
+
+messageStore().initialize()
 
 // MessageClient.getInstance().start(message => {
 //   // message store에 저장

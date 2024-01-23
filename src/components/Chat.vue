@@ -46,36 +46,22 @@
 import {mdiMessage} from "@mdi/js"
 import {Message} from "@/modules/chat/interface";
 import {reactive} from "vue";
+import {messageStore} from "@/store/message";
 
-const messages: Array<Message> = [
-  {
-    id: 1,
-    senderId: 1,
-    content: "Hello, everyone!",
-    sentAt: new Date(),
-  },
-  {
-    id: 2,
-    senderId: 2,
-    content: "Hi Dog",
-    sentAt: new Date(),
-  },
-]
-
+const messages: Array<Message> = messageStore().getMessages(1)
 const mr = reactive(messages)
-let messageId = 3
 
+let messageId = 1
 function addItemTest() {
-  mr.push(
-    {
-      id: messageId,
-      senderId: 2,
-      content: "messageN",
-      sentAt: new Date(),
-    }
-  )
+  const message = {
+    id: messageId,
+    senderId: 2,
+    content: "messageN",
+    sentAt: new Date(),
+  }
+  messageStore().addMessage(1, message)
   messageId++
-  console.log(messages)
+  console.log(mr.length)
 }
 
 </script>
