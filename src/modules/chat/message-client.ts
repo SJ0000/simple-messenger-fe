@@ -1,5 +1,7 @@
 // Singleton
 import {Client, messageCallbackType} from "@stomp/stompjs";
+import {messageStore} from "@/store/message";
+import {ReceivedMessage, SentMessage} from "@/modules/chat/interface";
 
 export class MessageClient {
 
@@ -11,8 +13,8 @@ export class MessageClient {
     this.client = new Client({
       brokerURL: 'ws://localhost:8080/message-broker',
     })
-  }
 
+  }
 
   public static getInstance(): MessageClient {
     if (this.instance === null || this.instance === undefined)
@@ -20,8 +22,33 @@ export class MessageClient {
     return this.instance
   }
 
-  start(callback: messageCallbackType): void {
+  start(): void {
+    this.client.onConnect = (frame) => {
+      console.log(`WS Connected. ${frame}`)
+      this.client.subscribe('/topic/chat', message => {
+        const received = JSON.parse(message.body);
+        messageStore().addMessage(1, received)
+        console.log(`Received: ${message.body}`)
+      })
+    }
+
+    this.client.onWebSocketError = (error) => {
+      console.error('Error with websocket', error);
+    };
+
+    this.client.onStompError = (frame) => {
+      console.error('Broker reported error: ' + frame.headers['message']);
+      console.error('Additional details: ' + frame.body);
+    };
+
     this.client.activate()
-    this.client.subscribe("/topic/chat",callback)
+  }
+
+  send(message: SentMessage) {
+    this.client.publish(
+      {
+        destination: "/app/chat-message",
+        body: JSON.stringify(message)
+      })
   }
 }

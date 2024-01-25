@@ -13,8 +13,16 @@ export interface ChatRoomCreate{
   name: string,
 }
 
-export interface Message{
+export interface ReceivedMessage {
   id: number,
+  chatRoomId: number,
+  senderId: number,
+  content: string,
+  receivedAt: Date,
+}
+
+export interface SentMessage{
+  chatRoomId: number,
   senderId: number,
   content: string,
   sentAt: Date,

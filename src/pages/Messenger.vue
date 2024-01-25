@@ -19,14 +19,19 @@ import {ApiClient} from "@/modules/common/api-client";
 import {ChatRoom} from "@/modules/chat/interface";
 import {chatRoomStore} from "@/store/chatroom";
 import {messageStore} from "@/store/message";
+import {Client} from "@stomp/stompjs";
+import {authenticationStore} from "@/store/authentication";
+import router from "@/router";
+
+if(!authenticationStore().isLoggedIn)
+  router.push("/")
+
 
 const chatRooms = await ApiClient.getInstance().getMyChatRooms();
 chatRoomStore().initialize(chatRooms)
 messageStore().initialize()
+MessageClient.getInstance().start()
 
-// MessageClient.getInstance().start(message => {
-//   // message store에 저장
-// })
 
 </script>
 

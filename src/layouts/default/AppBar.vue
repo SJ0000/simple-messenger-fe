@@ -24,6 +24,11 @@
               Settings
             </v-btn>
           </v-list-item>
+          <v-list-item>
+            <v-btn color="primary" @click="logout">
+              Logout
+            </v-btn>
+          </v-list-item>
         </v-list>
       </v-card>
     </v-menu>
@@ -33,4 +38,11 @@
 <script lang="ts" setup>
 // user
 import {mdiAccountCircle, mdiCog} from '@mdi/js'
+import {authenticationStore} from "@/store/authentication";
+
+
+function logout(){
+  authenticationStore().logout()
+}
+
 </script>
