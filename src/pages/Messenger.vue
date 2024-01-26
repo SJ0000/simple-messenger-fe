@@ -16,10 +16,8 @@ import ChatRoomList from "@/components/ChatRoomList.vue";
 import Chat from "@/components/Chat.vue";
 import {MessageClient} from "@/modules/chat/message-client";
 import {ApiClient} from "@/modules/common/api-client";
-import {ChatRoom} from "@/modules/chat/interface";
 import {chatRoomStore} from "@/store/chatroom";
 import {messageStore} from "@/store/message";
-import {Client} from "@stomp/stompjs";
 import {authenticationStore} from "@/store/authentication";
 import router from "@/router";
 
