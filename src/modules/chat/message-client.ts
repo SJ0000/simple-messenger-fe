@@ -1,7 +1,7 @@
 // Singleton
-import {Client, messageCallbackType} from "@stomp/stompjs";
-import {messageStore} from "@/store/message";
+import {Client} from "@stomp/stompjs";
 import {ReceivedMessage, SentMessage} from "@/modules/chat/interface";
+import {chatRoomStore} from "@/store/chatroom";
 
 export class MessageClient {
 
@@ -13,7 +13,6 @@ export class MessageClient {
     this.client = new Client({
       brokerURL: 'ws://localhost:8080/message-broker',
     })
-
   }
 
   public static getInstance(): MessageClient {
@@ -26,9 +25,8 @@ export class MessageClient {
     this.client.onConnect = (frame) => {
       console.log(`WS Connected. ${frame}`)
       this.client.subscribe('/topic/chat', message => {
-        const received = JSON.parse(message.body);
-        messageStore().addMessage(1, received)
-        console.log(`Received: ${message.body}`)
+        const received : ReceivedMessage = JSON.parse(message.body);
+        chatRoomStore().addMessage(received.chatRoomId, received)
       })
     }
 

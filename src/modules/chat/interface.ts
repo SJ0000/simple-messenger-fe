@@ -1,5 +1,3 @@
-import {types} from "sass";
-import List = types.List;
 import {User} from "@/modules/user/interface";
 
 export interface ChatRoom{
@@ -7,6 +5,7 @@ export interface ChatRoom{
   name: string,
   avatarUrl: string,
   users: User[],
+  messages: ReceivedMessage[],
 }
 
 export interface ChatRoomCreate{
@@ -14,7 +13,7 @@ export interface ChatRoomCreate{
 }
 
 export interface ReceivedMessage {
-  id: number,
+  id: string,
   chatRoomId: number,
   senderId: number,
   content: string,

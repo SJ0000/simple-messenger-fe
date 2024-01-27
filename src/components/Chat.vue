@@ -1,11 +1,11 @@
 <template>
   <div class="d-flex flex-column w-100 h-100">
     <header style="height: 30px">
-      <h2>cat</h2>
+      <h2>{{ chatRoom.name }}</h2>
     </header>
     <v-virtual-scroll
-      class="ma-1 bg-amber"
-      :items="mr"
+      class="ma-1"
+      :items="messages"
       height="600"
       item-height="50"
     >
@@ -54,22 +54,20 @@
 <script setup lang="ts">
 import {mdiMessage} from "@mdi/js"
 import {ChatRoom, ReceivedMessage, SentMessage} from "@/modules/chat/interface";
-import {reactive, ref} from "vue";
-import {messageStore} from "@/store/message";
+import {reactive, Ref, ref} from "vue";
 import {MessageClient} from "@/modules/chat/message-client";
 import {authenticationStore} from "@/store/authentication";
+import {chatRoomStore} from "@/store/chatroom";
 
 // todo chatRoom id를 Messenger Component로부터 전달받기
-const chatRoom: ChatRoom = {id: 1, name: "user", avatarUrl: "", users: []}
-const messages: Array<ReceivedMessage> = messageStore().getMessages(chatRoom.id)
-const mr = reactive(messages)
+const chatRoom : Ref<ChatRoom> = ref(chatRoomStore().selected)
+const messages = reactive(chatRoomStore().selected.messages)
 const content = ref("")
 const user = authenticationStore().user!
 
-
 function createMessage(): SentMessage {
   return {
-    chatRoomId: chatRoom.id,
+    chatRoomId: chatRoom.value.id,
     senderId: user.id,
     content: content.value,
     sentAt: new Date()
@@ -77,6 +75,8 @@ function createMessage(): SentMessage {
 }
 
 function sendMessageAndTextResetIfContentNotEmpty(){
+  if(content.value === "")
+    return
   const message = createMessage()
   MessageClient.getInstance().send(message)
   content.value = ""

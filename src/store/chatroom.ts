@@ -1,26 +1,65 @@
 import {defineStore} from "pinia";
-import {ChatRoom} from "@/modules/chat/interface";
+import {ChatRoom, ReceivedMessage} from "@/modules/chat/interface";
 
+interface chatRoomState {
+  selected: ChatRoom,
+  chatRooms: Map<number, ChatRoom>
+}
 
 export const chatRoomStore = defineStore('chatRoom', {
-  state: () => {
+  state: (): chatRoomState => {
     return {
-      chatRooms: new Array<ChatRoom>
+      selected: {
+        id: 0,
+        name: "",
+        avatarUrl: "",
+        users: [],
+        messages: []
+      },
+      chatRooms: new Map<number, ChatRoom>()
     }
   },
+
   actions: {
     initialize(chatRooms: Array<ChatRoom>) {
-      this.chatRooms = chatRooms
+      chatRooms.forEach(chatRoom => {
+        chatRoom.messages = []
+        this.chatRooms.set(chatRoom.id, chatRoom)
+      })
     },
 
     join(chatRoom: ChatRoom) {
-      this.chatRooms.push(chatRoom)
+      chatRoom.messages = []
+      this.chatRooms.set(chatRoom.id, chatRoom)
     },
 
-    exit() {
+    find(chatRoomId: number): ChatRoom {
+      const findChatRoom = this.chatRooms.get(chatRoomId)
+      if (findChatRoom === undefined)
+        throw Error(`Chat Room id ${chatRoomId} not found`)
 
+      return findChatRoom
+    },
+
+    select(chatRoomId: number) {
+      const chatRoom = this.find(chatRoomId)
+      this.selected.id = chatRoom.id;
+      this.selected.name = chatRoom.name;
+      this.selected.avatarUrl = chatRoom.avatarUrl;
+      this.selected.users = chatRoom.users;
+
+      this.selected.messages.splice(0)
+      chatRoom.messages.forEach(message => {
+        this.selected.messages.push(message)
+      })
+    },
+
+    addMessage(chatRoomId: number, message: ReceivedMessage) {
+      const findChatRoom = this.find(chatRoomId)
+      findChatRoom.messages.push(message)
+      this.selected.messages.push(message)
     }
-
   },
   persist: false
 })
+
