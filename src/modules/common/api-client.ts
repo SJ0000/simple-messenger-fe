@@ -1,8 +1,8 @@
 import axios, {AxiosInstance, AxiosResponse} from 'axios'
 import {LoginDto, SignUpDto} from "@/modules/auth/dto";
 import {authenticationStore} from "@/store/authentication";
-import router from "@/router";
-import {ChatRoom, ChatRoomCreate} from "@/modules/chat/interface";
+import {ChatRoom} from "@/modules/chat/interface";
+import {ChatRoomCreateDto} from "@/modules/chat/dto";
 
 // Singleton
 export class ApiClient {
@@ -60,7 +60,7 @@ export class ApiClient {
     return await this.client.post("/api/login", JSON.stringify(dto))
   }
 
-  async createChatRoom(dto: ChatRoomCreate): Promise<ChatRoom> {
+  async createChatRoom(dto: ChatRoomCreateDto): Promise<ChatRoom> {
     const response = await this.client.post<ChatRoom>("/api/chatrooms",dto)
     return response.data
   }

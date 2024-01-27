@@ -1,7 +1,10 @@
 <template>
   <v-app-bar rounded>
     <v-app-bar-nav-icon/>
-    <v-app-bar-title>Simple Messenger</v-app-bar-title>
+    <v-app-bar-title
+      @click="onTitleClicked"
+      style="cursor: pointer"
+    >Simple Messenger</v-app-bar-title>
     <v-spacer></v-spacer>
     <!--    popover user info? setting?-->
     <v-menu location="bottom">
@@ -39,10 +42,16 @@
 // user
 import {mdiAccountCircle, mdiCog} from '@mdi/js'
 import {authenticationStore} from "@/store/authentication";
+import router from "@/router";
 
 
-function logout(){
+function logout() {
   authenticationStore().logout()
+}
+
+function onTitleClicked() {
+  console.log("title clicked")
+  router.push("/")
 }
 
 </script>

@@ -8,10 +8,6 @@ export interface ChatRoom{
   messages: ReceivedMessage[],
 }
 
-export interface ChatRoomCreate{
-  name: string,
-}
-
 export interface ReceivedMessage {
   id: string,
   chatRoomId: number,
