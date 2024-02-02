@@ -4,23 +4,24 @@ import {User} from "@/modules/user/interface";
 
 
 export const authenticationStore = defineStore('authentication', {
-  state: () : Authentication => {
+  state: (): Authentication => {
     return {
       isLoggedIn: false,
       user: null,
-      accessToken :null
+      accessToken: null
     }
   },
-  actions:{
-    login(accessToken : string, user : User){
+  actions: {
+    login(accessToken: string, user: User) {
       this.isLoggedIn = true
       this.user = {
         id: user.id,
         name: user.name,
+        avatarUrl: user.avatarUrl.length !== 0 ? user.avatarUrl : "https://www.gravatar.com/avatar/3b3be63a4c2a439b013787725dfce802?d=identicon",
       }
       this.accessToken = accessToken
     },
-    logout(){
+    logout() {
       this.isLoggedIn = false
       this.user = null
       this.accessToken = null

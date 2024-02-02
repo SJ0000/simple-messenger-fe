@@ -14,13 +14,11 @@
         </v-btn>
       </template>
       <v-card min-width="250">
-        <v-list>
+        <v-list v-if="auth.isLoggedIn">
           <v-list-item
-            prepend-avatar="https://cdn.vuetifyjs.com/images/john.jpg"
-            title="John Leider"
-            subtitle="Founder of Vuetify"
-          >
-          </v-list-item>
+            :prepend-avatar="auth.user?.avatarUrl"
+            :title="auth.user?.name"
+          />
           <v-list-item>
             <v-btn color="primary">
               <v-icon start :icon="mdiCog"></v-icon>
@@ -30,6 +28,13 @@
           <v-list-item>
             <v-btn color="primary" @click="logout">
               Logout
+            </v-btn>
+          </v-list-item>
+        </v-list>
+        <v-list v-else>
+          <v-list-item>
+            <v-btn color="primary" @click="router.push('/login')">
+              Login
             </v-btn>
           </v-list-item>
         </v-list>
@@ -44,6 +49,7 @@ import {mdiAccountCircle, mdiCog} from '@mdi/js'
 import {authenticationStore} from "@/store/authentication";
 import router from "@/router";
 
+const auth = authenticationStore();
 
 function logout() {
   authenticationStore().logout()
