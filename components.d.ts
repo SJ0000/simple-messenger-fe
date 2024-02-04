@@ -10,6 +10,7 @@ declare module 'vue' {
     Chat: typeof import('./src/components/Chat.vue')['default']
     ChatRoomList: typeof import('./src/components/ChatRoomList.vue')['default']
     ComponentFinder: typeof import('./src/components/ComponentFinder.vue')['default']
+    CreateChatRoomDialog: typeof import('./src/components/dialog/CreateChatRoomDialog.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     InvitationLinkDialog: typeof import('./src/components/dialog/InvitationLinkDialog.vue')['default']
     Login: typeof import('./src/pages/Login.vue')['default']
