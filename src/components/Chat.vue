@@ -1,7 +1,8 @@
 <template>
   <div class="d-flex flex-column w-100 h-100">
-    <header style="height: 30px">
-      <h2>{{ chatRoom.name }}</h2>
+    <header class="d-flex justify-space-between">
+      <span class="text-h4">{{ chatRoom.name }}</span>
+      <v-btn @click="onInvitationLinkClick">invitation link</v-btn>
     </header>
     <v-virtual-scroll
       class="ma-1"
@@ -16,7 +17,7 @@
           class="ma-2"
         >
           <div class="text-right">
-            <h4>{{ item.senderId }}</h4>
+            <h4>{{ findUserName(item.senderId) }}</h4>
             <h4>{{ item.content }}</h4>
             <h4>{{ item.sentAt }}</h4>
           </div>
@@ -27,7 +28,7 @@
           class="ma-2"
         >
           <div>
-            <h4>{{ item.senderId }}</h4>
+            <h4>{{ findUserName(item.senderId) }}</h4>
             <h4>{{ item.content }}</h4>
             <h4>{{ item.sentAt }}</h4>
           </div>
@@ -49,8 +50,8 @@
       </v-btn>
     </div>
   </div>
+  <InvitationLinkDialog ref="dialog"/>
 </template>
-
 <script setup lang="ts">
 import {mdiMessage} from "@mdi/js"
 import {ChatRoom, ReceivedMessage, SentMessage} from "@/modules/chat/interface";
@@ -58,12 +59,16 @@ import {reactive, Ref, ref} from "vue";
 import {MessageClient} from "@/modules/chat/message-client";
 import {authenticationStore} from "@/store/authentication";
 import {chatRoomStore} from "@/store/chatroom";
+import {ApiClient} from "@/modules/common/api-client";
+import InvitationLinkDialog from "@/components/dialog/InvitationLinkDialog.vue";
 
 // todo chatRoom id를 Messenger Component로부터 전달받기
 const chatRoom : Ref<ChatRoom> = ref(chatRoomStore().selected)
 const messages = reactive(chatRoomStore().selected.messages)
 const content = ref("")
 const user = authenticationStore().user!
+
+const dialog = ref<InstanceType<typeof InvitationLinkDialog> | null>(null)
 
 function createMessage(): SentMessage {
   return {
@@ -74,12 +79,22 @@ function createMessage(): SentMessage {
   }
 }
 
+function findUserName(userId : number) : string{
+  return chatRoomStore().selected.users.find(user => user.id === userId)?.name ?? "unknown"
+}
+
 function sendMessageAndTextResetIfContentNotEmpty(){
   if(content.value === "")
     return
   const message = createMessage()
   MessageClient.getInstance().send(message)
   content.value = ""
+}
+
+async function onInvitationLinkClick(){
+  const chatRoomId = chatRoom.value.id
+  const invitation = await ApiClient.getInstance().createInvitation(chatRoomId)
+  dialog.value?.open(`https://localhost:3000/invite/${invitation.id}`)
 }
 
 function onSendButtonClick() {

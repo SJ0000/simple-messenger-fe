@@ -11,6 +11,7 @@ declare module 'vue' {
     ChatRoomList: typeof import('./src/components/ChatRoomList.vue')['default']
     ComponentFinder: typeof import('./src/components/ComponentFinder.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    InvitationLinkDialog: typeof import('./src/components/dialog/InvitationLinkDialog.vue')['default']
     Login: typeof import('./src/pages/Login.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

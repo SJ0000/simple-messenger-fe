@@ -22,3 +22,10 @@ export interface SentMessage{
   content: string,
   sentAt: Date,
 }
+
+export interface Invitation{
+  id: string,
+  chatRoomId: number,
+  inviterId : number,
+  expiredAt: Date,
+}

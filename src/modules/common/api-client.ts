@@ -1,7 +1,7 @@
 import axios, {AxiosInstance, AxiosResponse} from 'axios'
 import {LoginDto, SignUpDto} from "@/modules/auth/dto";
 import {authenticationStore} from "@/store/authentication";
-import {ChatRoom} from "@/modules/chat/interface";
+import {ChatRoom, Invitation} from "@/modules/chat/interface";
 import {ChatRoomCreateDto} from "@/modules/chat/dto";
 
 // Singleton
@@ -31,11 +31,11 @@ export class ApiClient {
     })
 
     axiosInstance.interceptors.response.use(
-      (response)=> {
+      (response) => {
         return response
       },
       (error) => {
-        if(error.response.status === 401){
+        if (error.response.status === 401) {
           authenticationStore().logout()
         }
         return Promise.reject(error)
@@ -61,7 +61,7 @@ export class ApiClient {
   }
 
   async createChatRoom(dto: ChatRoomCreateDto): Promise<ChatRoom> {
-    const response = await this.client.post<ChatRoom>("/api/chatrooms",dto)
+    const response = await this.client.post<ChatRoom>("/api/chatrooms", dto)
     return response.data
   }
 
@@ -70,13 +70,18 @@ export class ApiClient {
     return response.data
   }
 
-  async getMyChatRooms(): Promise<ChatRoom[]>{
-    try{
+  async getMyChatRooms(): Promise<ChatRoom[]> {
+    try {
       const response = await this.client.get<ChatRoom[]>("/api/chatrooms/me")
       return response.data
-    }catch(error){
+    } catch (error) {
       console.log(error)
       return []
     }
+  }
+
+  async createInvitation(chatRoomId: number): Promise<Invitation> {
+    const response = await this.client.post(`/api/chatrooms/${chatRoomId}/invites`)
+    return response.data
   }
 }
