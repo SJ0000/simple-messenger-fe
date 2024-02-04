@@ -2,6 +2,8 @@
  * router/index.ts
  *
  * Automatic routes for `./src/pages/*.vue`
+ *
+ * https://github.com/posva/unplugin-vue-router
  */
 
 // Composables

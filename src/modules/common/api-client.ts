@@ -80,6 +80,11 @@ export class ApiClient {
     }
   }
 
+  async getInvitation(invitationId: string): Promise<Invitation> {
+    const response = await this.client.get(`/api/chat/invite/${invitationId}`)
+    return response.data
+  }
+
   async createInvitation(chatRoomId: number): Promise<Invitation> {
     const response = await this.client.post(`/api/chatrooms/${chatRoomId}/invites`)
     return response.data
