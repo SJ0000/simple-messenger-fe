@@ -26,7 +26,11 @@ if (!authenticationStore().isLoggedIn)
 
 
 const chatRooms = await ApiClient.getInstance().getMyChatRooms();
-chatRoomStore().initialize(chatRooms)
+if(chatRooms.length > 0){
+  chatRoomStore().initialize(chatRooms)
+  chatRoomStore().select(chatRooms[0].id)
+}
+
 MessageClient.getInstance().start()
 
 

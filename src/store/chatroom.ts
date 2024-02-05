@@ -23,6 +23,10 @@ export const chatRoomStore = defineStore('chatRoom', {
   actions: {
     initialize(chatRooms: Array<ChatRoom>) {
       chatRooms.forEach(chatRoom => {
+        if(chatRoom.avatarUrl.length === 0){
+          chatRoom.avatarUrl = "/src/assets/default-avatar.jpg"
+        }
+
         chatRoom.messages = []
         this.chatRooms.set(chatRoom.id, chatRoom)
       })
