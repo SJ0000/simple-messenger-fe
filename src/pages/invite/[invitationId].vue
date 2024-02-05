@@ -8,12 +8,22 @@ import {ApiClient} from "@/modules/common/api-client";
 import {chatRoomStore} from "@/store/chatroom";
 import {authenticationStore} from "@/store/authentication";
 import router from "@/router";
+import {useRoute} from "vue-router";
+
+
 
 // Case 1: 비로그인 접근
+const route = useRoute()
+
+console.log(`invitation ${route.params.invitationId} component loaded`)
+
 if (!authenticationStore().isLoggedIn)
   router.push("/")
 
-const invitationId = this.$route.params.invitationId
+if(typeof route.params.invitationId !== 'string')
+  router.push("/")
+
+const invitationId = route.params.invitationId as string
 const invitation = await ApiClient.getInstance().getInvitation(invitationId)
 
 // Case 2: 이미 대화방에 참여한 경우

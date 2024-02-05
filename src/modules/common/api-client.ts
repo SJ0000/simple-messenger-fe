@@ -81,7 +81,7 @@ export class ApiClient {
   }
 
   async getInvitation(invitationId: string): Promise<Invitation> {
-    const response = await this.client.get(`/api/chat/invite/${invitationId}`)
+    const response = await this.client.get(`/api/chat/invites/${invitationId}`)
     return response.data
   }
 
