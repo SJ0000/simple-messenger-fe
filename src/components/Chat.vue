@@ -10,14 +10,15 @@
         <InvitationLinkDialog ref="dialog"/>
       </header>
       <v-virtual-scroll
+        id="virtual-scroll"
         class="ma-1"
         :items="messages"
         height="600"
         item-height="50"
-        ref="scroll"
       >
         <template v-slot:default="{ item }">
           <v-list-item
+            :id="item.id"
             v-if="item.senderId === user.id"
             append-avatar="https://cdn.vuetifyjs.com/images/lists/1.jpg"
             class="ma-2"
@@ -60,7 +61,7 @@
 </template>
 <script setup lang="ts">
 import {mdiMessage} from "@mdi/js"
-import {ChatRoom, ReceivedMessage, SentMessage} from "@/modules/chat/interface";
+import {ChatRoom, SentMessage} from "@/modules/chat/interface";
 import {reactive, Ref, ref, watch} from "vue";
 import {MessageClient} from "@/modules/chat/message-client";
 import {authenticationStore} from "@/store/authentication";
@@ -68,6 +69,7 @@ import {chatRoomStore} from "@/store/chatroom";
 import {ApiClient} from "@/modules/common/api-client";
 import InvitationLinkDialog from "@/components/dialog/InvitationLinkDialog.vue";
 import {VVirtualScroll} from "vuetify/components";
+import {useGoTo} from "vuetify";
 
 
 const chatRoom: Ref<ChatRoom> = ref(chatRoomStore().selected)
@@ -76,7 +78,6 @@ const content = ref("")
 const user = authenticationStore().user!
 
 const dialog = ref<InstanceType<typeof InvitationLinkDialog> | null>(null)
-const scroll = ref<InstanceType<typeof VVirtualScroll> | null>(null)
 
 function createMessage(): SentMessage {
   return {
@@ -115,9 +116,19 @@ function pressEnterHandler(event: KeyboardEvent) {
   sendMessageAndTextResetIfContentNotEmpty()
 }
 
-// watch(messages, (current, prev) => {
-//   scroll.value?.scrollToIndex(current.length-6)
-// })
+
+const goTo = useGoTo()
+const scrollOptions = {
+  container: '#virtual-scroll',
+  duration: 300,
+  easing: 'easeInOutCubic',
+  offset: 0,
+}
+
+
+watch(messages, (current, prev) => {
+  goTo(10000,scrollOptions)
+})
 
 </script>
 <style scoped>
