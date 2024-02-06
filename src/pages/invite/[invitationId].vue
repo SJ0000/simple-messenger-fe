@@ -1,6 +1,17 @@
 <template>
-  <h2>{{invitation.inviterName}} invites you to the {{invitation.chatRoomName}} chat room</h2>
-  <v-btn @click="onJoinButtonClick">Join</v-btn>
+  <div class="d-flex justify-center align-center h-100">
+    <v-card min-width="350">
+      <v-card-item>
+        <div class="text-overline">invitation</div>
+      </v-card-item>
+      <v-card-title>{{invitation.inviterName}}</v-card-title>
+      <v-card-subtitle class="mb-1">{{invitation.inviterName}} invites you to join</v-card-subtitle>
+      <v-divider></v-divider>
+      <v-card-actions>
+        <v-btn class="w-100" @click="onJoinButtonClick">Join</v-btn>
+      </v-card-actions>
+    </v-card>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -11,11 +22,8 @@ import router from "@/router";
 import {useRoute} from "vue-router";
 
 
-
-// Case 1: 비로그인 접근
 const route = useRoute()
-
-console.log(`invitation ${route.params.invitationId} component loaded`)
+// Case 1: 비로그인 접근
 
 if (!authenticationStore().isLoggedIn)
   router.push("/")
@@ -41,4 +49,8 @@ async function onJoinButtonClick(){
 
 <style scoped>
 
+.mwh-500{
+  max-width: 500px;
+  max-height: 500px;
+}
 </style>

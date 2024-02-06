@@ -14,6 +14,7 @@
         :items="messages"
         height="600"
         item-height="50"
+        ref="scroll"
       >
         <template v-slot:default="{ item }">
           <v-list-item
@@ -60,12 +61,13 @@
 <script setup lang="ts">
 import {mdiMessage} from "@mdi/js"
 import {ChatRoom, ReceivedMessage, SentMessage} from "@/modules/chat/interface";
-import {reactive, Ref, ref} from "vue";
+import {reactive, Ref, ref, watch} from "vue";
 import {MessageClient} from "@/modules/chat/message-client";
 import {authenticationStore} from "@/store/authentication";
 import {chatRoomStore} from "@/store/chatroom";
 import {ApiClient} from "@/modules/common/api-client";
 import InvitationLinkDialog from "@/components/dialog/InvitationLinkDialog.vue";
+import {VVirtualScroll} from "vuetify/components";
 
 
 const chatRoom: Ref<ChatRoom> = ref(chatRoomStore().selected)
@@ -74,6 +76,7 @@ const content = ref("")
 const user = authenticationStore().user!
 
 const dialog = ref<InstanceType<typeof InvitationLinkDialog> | null>(null)
+const scroll = ref<InstanceType<typeof VVirtualScroll> | null>(null)
 
 function createMessage(): SentMessage {
   return {
@@ -99,7 +102,7 @@ function sendMessageAndTextResetIfContentNotEmpty() {
 async function onInvitationLinkClick() {
   const chatRoomId = chatRoom.value.id
   const invitation = await ApiClient.getInstance().createInvitation(chatRoomId)
-  dialog.value?.open(`https://localhost:3000/invite/${invitation.id}`)
+  dialog.value?.open(`http://localhost:3000/invite/${invitation.id}`)
 }
 
 function onSendButtonClick() {
@@ -111,6 +114,10 @@ function pressEnterHandler(event: KeyboardEvent) {
     return;
   sendMessageAndTextResetIfContentNotEmpty()
 }
+
+// watch(messages, (current, prev) => {
+//   scroll.value?.scrollToIndex(current.length-6)
+// })
 
 </script>
 <style scoped>
