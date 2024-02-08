@@ -21,11 +21,16 @@
 // log in
 import { authenticationStore } from "@/store/authentication";
 import router from "@/router";
+import { MessageClient } from "@/modules/chat/message-client";
 
 const isLoggedIn = authenticationStore().isLoggedIn
 
 if (isLoggedIn) {
   router.push("/messenger")
+}
+
+if (!isLoggedIn) {
+  MessageClient.getInstance().stop()
 }
 
 function routeLogin() {

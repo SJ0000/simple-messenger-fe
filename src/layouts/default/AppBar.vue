@@ -1,10 +1,7 @@
 <template>
   <v-app-bar rounded>
-    <v-app-bar-nav-icon/>
-    <v-app-bar-title
-      @click="onTitleClicked"
-      style="cursor: pointer"
-    >Simple Messenger</v-app-bar-title>
+    <v-app-bar-nav-icon />
+    <v-app-bar-title @click="onTitleClicked" style="cursor: pointer">Simple Messenger</v-app-bar-title>
     <v-spacer></v-spacer>
     <!--    popover user info? setting?-->
     <v-menu location="bottom">
@@ -15,16 +12,13 @@
       </template>
       <v-card min-width="250">
         <v-list v-if="auth.isLoggedIn">
-          <v-list-item
-            :prepend-avatar="auth.user?.avatarUrl"
-            :title="auth.user?.name"
-          />
-          <v-list-item>
+          <v-list-item :prepend-avatar="auth.user?.avatarUrl" :title="auth.user?.name" />
+          <!-- <v-list-item>
             <v-btn color="primary">
               <v-icon start :icon="mdiCog"></v-icon>
               Settings
             </v-btn>
-          </v-list-item>
+          </v-list-item> -->
           <v-list-item>
             <v-btn color="primary" @click="logout">
               Logout
@@ -45,14 +39,15 @@
 
 <script lang="ts" setup>
 // user
-import {mdiAccountCircle, mdiCog} from '@mdi/js'
-import {authenticationStore} from "@/store/authentication";
+import { mdiAccountCircle, mdiCog } from '@mdi/js'
+import { authenticationStore } from "@/store/authentication";
 import router from "@/router";
 
 const auth = authenticationStore();
 
 function logout() {
   authenticationStore().logout()
+  router.push("/")
 }
 
 function onTitleClicked() {

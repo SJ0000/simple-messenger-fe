@@ -42,6 +42,10 @@ export class MessageClient {
     this.client.activate()
   }
 
+  stop() : void {
+    this.client.deactivate()
+  }
+
   send(message: SentMessage) {
     this.client.publish(
       {
