@@ -25,6 +25,11 @@ export const authenticationStore = defineStore('authentication', {
       this.isLoggedIn = false
       this.user = null
       this.accessToken = null
+    },
+    getAccessToken(): string{
+      if(this.accessToken == null)
+        throw Error("accessToken is null")
+      return this.accessToken
     }
   },
   persist: true

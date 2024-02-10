@@ -11,7 +11,7 @@ export class MessageClient {
 
   private constructor() {
     this.client = new Client({
-      brokerURL: 'ws://localhost:8080/message-broker',
+      brokerURL: 'ws://localhost:8080/message-broker'
     })
   }
 
@@ -21,7 +21,14 @@ export class MessageClient {
     return this.instance
   }
 
-  start(): void {
+  start(authorization: string): void {
+    this.client.configure({
+      brokerURL: 'ws://localhost:8080/message-broker',
+      connectHeaders: {
+        Authorization: authorization
+      }
+    })
+
     this.client.onConnect = (frame) => {
       console.log(`WS Connected. ${frame}`)
       this.client.subscribe('/topic/chat', message => {
