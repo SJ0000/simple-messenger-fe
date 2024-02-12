@@ -10,9 +10,7 @@ export class MessageClient {
   private client: Client;
 
   private constructor() {
-    this.client = new Client({
-      brokerURL: 'ws://localhost:8080/message-broker'
-    })
+    this.client = new Client()
   }
 
   public static getInstance(): MessageClient {
@@ -23,7 +21,7 @@ export class MessageClient {
 
   start(authorization: string): void {
     this.client.configure({
-      brokerURL: 'ws://localhost:8080/message-broker',
+      brokerURL: `${process.env.VUE_APP_WS_URL}/message-broker`,
       connectHeaders: {
         Authorization: authorization
       }
