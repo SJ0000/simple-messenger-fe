@@ -10,18 +10,17 @@
           <v-icon size="x-large" v-bind="props" :icon="mdiAccountCircle"></v-icon>
         </v-btn>
       </template>
-      <v-card min-width="250">
+      <v-card min-width="200">
         <v-list v-if="auth.isLoggedIn">
           <v-list-item :prepend-avatar="auth.user?.avatarUrl" :title="auth.user?.name" />
-          <!-- <v-list-item>
-            <v-btn color="primary">
-              <v-icon start :icon="mdiCog"></v-icon>
-              Settings
-            </v-btn>
-          </v-list-item> -->
           <v-list-item>
-            <v-btn color="primary" @click="logout">
-              Logout
+            <v-btn class="w-100" @click="router.push('account')">
+              <div>내 정보</div>
+            </v-btn>
+          </v-list-item>
+          <v-list-item>
+            <v-btn class="w-100" @click="logout">
+              로그아웃
             </v-btn>
           </v-list-item>
         </v-list>

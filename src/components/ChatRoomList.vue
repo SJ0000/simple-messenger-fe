@@ -1,30 +1,26 @@
 <template>
-  <div class="d-flex justify-end mb-1">
-    <v-btn color="primary" @click="onAddChatRoomClick"> add chat room</v-btn>
-    <CreateChatRoomDialog ref="dialog"/>
+  <div class="d-flex justify-end mb-2">
+    <v-btn @click="onAddChatRoomClick"> add chat room</v-btn>
+    <CreateChatRoomDialog ref="dialog" />
   </div>
   <v-list item-props lines="three" style="height: 600px">
-    <v-list-subheader title="Chat rooms"/>
+    <v-list-subheader title="CHAT ROOMS" />
     <template v-for="[chatRoomId, chatRoom] in chatRooms" :key="chatRoomId">
-      <v-list-item
-        :prepend-avatar="chatRoom.avatarUrl"
-        :title="chatRoom.name"
-        :active="selected.id === chatRoomId"
-        @click="onChatRoomSelected(chatRoomId)"
-      >
+      <v-list-item :prepend-avatar="chatRoom.avatarUrl" :title="chatRoom.name" :active="selected.id === chatRoomId"
+        @click="onChatRoomSelected(chatRoomId)">
         <span class="mr-1 text-blue text-subtitle-2"> {{ getLastMessageSender(chatRoom) }} </span>
         <span class="text-subtitle-2"> {{ getLastMessageContent(chatRoom) }} </span>
       </v-list-item>
-      <v-divider/>
+      <v-divider />
     </template>
   </v-list>
 </template>
 <script setup lang="ts">
 
-import {chatRoomStore} from "@/store/chatroom";
-import {reactive, ref} from "vue";
+import { chatRoomStore } from "@/store/chatroom";
+import { reactive, ref } from "vue";
 import CreateChatRoomDialog from "@/components/dialog/CreateChatRoomDialog.vue";
-import {ChatRoom} from "@/modules/chat/interface";
+import { ChatRoom } from "@/modules/chat/interface";
 
 const chatRooms = ref(chatRoomStore().chatRooms)
 const selected = reactive(chatRoomStore().selected)
@@ -40,21 +36,20 @@ function onAddChatRoomClick() {
 }
 
 
-function getLastMessageSender(chatRoom: ChatRoom) : string{
-  if(chatRoom.messages.length === 0)
+function getLastMessageSender(chatRoom: ChatRoom): string {
+  if (chatRoom.messages.length === 0)
     return ""
   const lastMessage = chatRoom.messages[chatRoom.messages.length - 1]
   const sender = chatRoom.users.find(user => user.id === lastMessage.senderId)
-  return sender? sender.name : "unknown"
+  return sender ? sender.name : "unknown"
 }
 
-function getLastMessageContent(chatRoom: ChatRoom) : string{
-  if(chatRoom.messages.length === 0)
+function getLastMessageContent(chatRoom: ChatRoom): string {
+  if (chatRoom.messages.length === 0)
     return ""
   return chatRoom.messages[chatRoom.messages.length - 1].content
 }
 
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

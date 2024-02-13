@@ -4,7 +4,7 @@
       <v-col cols="4">
         <ChatRoomList />
       </v-col>
-      <v-divider vertical="true"></v-divider>
+      <v-divider vertical></v-divider>
       <v-col cols="8">
         <Chat />
       </v-col>
