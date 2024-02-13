@@ -12,7 +12,8 @@
       </template>
       <v-card min-width="200">
         <v-list v-if="auth.isLoggedIn">
-          <v-list-item :prepend-avatar="auth.user?.avatarUrl" :title="auth.user?.name" />
+          <v-list-item :prepend-avatar="auth.user?.avatarUrl" :title="auth.user?.name"
+            :subtitle="auth.user?.statusMessage" />
           <v-list-item>
             <v-btn class="w-100" @click="router.push('account')">
               <div>내 정보</div>
@@ -38,7 +39,7 @@
 
 <script lang="ts" setup>
 // user
-import { mdiAccountCircle, mdiCog } from '@mdi/js'
+import { mdiAccountCircle } from '@mdi/js'
 import { authenticationStore } from "@/store/authentication";
 import router from "@/router";
 

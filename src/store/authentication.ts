@@ -13,15 +13,8 @@ export const authenticationStore = defineStore("authentication", {
   actions: {
     login(accessToken: string, user: User) {
       this.isLoggedIn = true;
-      this.user = {
-        id: user.id,
-        name: user.name,
-        avatarUrl:
-          user.avatarUrl.length !== 0
-            ? user.avatarUrl
-            : "https://www.gravatar.com/avatar/3b3be63a4c2a439b013787725dfce802?d=identicon",
-      };
       this.accessToken = accessToken;
+      this.updateUser(user);
     },
     logout() {
       this.isLoggedIn = false;
@@ -41,6 +34,7 @@ export const authenticationStore = defineStore("authentication", {
         id: user.id,
         name: user.name,
         avatarUrl: user.avatarUrl,
+        statusMessage: user.statusMessage,
       };
     },
   },

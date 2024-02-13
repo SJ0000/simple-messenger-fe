@@ -11,9 +11,11 @@ export class UserDto {
 export class UpdateUserDto {
   name: string;
   avatarUrl: string;
+  statusMessage: string;
 
-  constructor(name: string, avatarUrl: string) {
+  constructor(name: string, avatarUrl: string, statusMessage: string) {
     this.name = name;
     this.avatarUrl = avatarUrl;
+    this.statusMessage = statusMessage;
   }
 }

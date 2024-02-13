@@ -1,11 +1,14 @@
 <template>
-  <v-container class="fill-height">
+  <v-container fluid class="fill-height">
     <v-row>
-      <v-col cols="4">
+      <v-col cols="2">
+        <Friends />
+      </v-col>
+      <v-col cols="3">
         <ChatRoomList />
       </v-col>
       <v-divider vertical></v-divider>
-      <v-col cols="8">
+      <v-col cols="6">
         <Chat />
       </v-col>
     </v-row>
@@ -13,8 +16,9 @@
 </template>
 
 <script setup lang="ts">
-import ChatRoomList from "@/components/ChatRoomList.vue";
-import Chat from "@/components/Chat.vue";
+import ChatRoomList from "@/components/messenger/ChatRoomList.vue";
+import Chat from "@/components/messenger/Chat.vue";
+import Friends from "@/components/messenger/Friends.vue";
 import { MessageClient } from "@/modules/chat/message-client";
 import { ApiClient } from "@/modules/common/api-client";
 import { chatRoomStore } from "@/store/chatroom";

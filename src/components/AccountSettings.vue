@@ -3,6 +3,7 @@
     <v-divider class="mt-3 mb-3"></v-divider>
     <v-form ref="signUpForm">
         <v-text-field label="Name" v-model="model.name" :rules="[notEmpty]"></v-text-field>
+        <v-text-field label="Status Message" v-model="model.statusMessage"></v-text-field>
         <v-text-field label="Avatar URL" v-model="model.avatarUrl" :rules="[notEmpty]"></v-text-field>
     </v-form>
     <div class="d-flex justify-end">
@@ -23,7 +24,6 @@ import { ApiClient } from "@/modules/common/api-client";
 
 const user = authenticationStore().getUser()
 const model = ref(new UpdateUserModel(user))
-model.value.name = user.name
 
 
 async function onUpdateButtonClick() {
