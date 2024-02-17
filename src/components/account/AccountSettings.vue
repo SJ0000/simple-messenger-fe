@@ -21,7 +21,7 @@ import { UpdateUserModel } from '@/modules/auth/model';
 import { authenticationStore } from '@/store/authentication';
 import { ref } from 'vue';
 import { UpdateUserDto } from "@/modules/user/dto";
-import { ApiClient } from "@/modules/common/api-client";
+import { ApiClient } from "@/modules/api/api-client";
 
 const user = authenticationStore().getUser()
 const model = ref(new UpdateUserModel(user))
@@ -33,4 +33,4 @@ async function onUpdateButtonClick() {
     authenticationStore().updateUser(updatedUser)
 }
 
-</script>
+</script>@/modules/api/api-client

@@ -31,7 +31,7 @@ import { SignUpModel } from "@/modules/auth/model";
 
 import { VForm } from "vuetify/components";
 import router from "@/router";
-import { ApiClient } from "@/modules/common/api-client";
+import { ApiClient } from "@/modules/api/api-client";
 import { authenticationStore } from "@/store/authentication";
 
 if (authenticationStore().isLoggedIn)
@@ -64,3 +64,4 @@ async function onClick() {
   max-width: 500px;
 }
 </style>
+@/modules/api/api-client

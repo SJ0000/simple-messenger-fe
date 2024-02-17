@@ -19,8 +19,8 @@
 import ChatRoomList from "@/components/messenger/ChatRoomList.vue";
 import Chat from "@/components/messenger/Chat.vue";
 import Friends from "@/components/messenger/Friends.vue";
-import { MessageClient } from "@/modules/chat/message-client";
-import { ApiClient } from "@/modules/common/api-client";
+import { MessageClient } from "@/modules/api/message-client";
+import { ApiClient } from "@/modules/api/api-client";
 import { chatRoomStore } from "@/store/chatroom";
 import { authenticationStore } from "@/store/authentication";
 import router from "@/router";
@@ -41,3 +41,4 @@ MessageClient.getInstance().start(authoritzation)
 
 </script>
 <style scoped></style>
+@/modules/api/message-client@/modules/api/api-client

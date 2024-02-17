@@ -28,7 +28,7 @@
 <script setup lang="ts">
 
 import { email, notEmpty, password } from "@/modules/validation/rules"
-import { ApiClient } from "@/modules/common/api-client";
+import { ApiClient } from "@/modules/api/api-client";
 import { Ref, ref } from "vue";
 import { LoginModel } from "@/modules/auth/model";
 import { VForm } from "vuetify/components";
@@ -67,3 +67,4 @@ async function onClick() {
   max-width: 500px;
 }
 </style>
+@/modules/api/api-client

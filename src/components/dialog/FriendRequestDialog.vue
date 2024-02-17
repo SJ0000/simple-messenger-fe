@@ -22,7 +22,7 @@
   
 <script setup lang="ts">
 import { ref } from "vue";
-import { ApiClient } from "@/modules/common/api-client";
+import { ApiClient } from "@/modules/api/api-client";
 import { FriendRequestModel } from "@/modules/friend/model"
 
 const opened = ref(false)
@@ -52,4 +52,4 @@ defineExpose({
 </script>
   
 <style scoped></style>
-  
+  @/modules/api/api-client

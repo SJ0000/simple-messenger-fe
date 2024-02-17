@@ -1,7 +1,6 @@
 <template>
   <div class="d-flex justify-end mb-2">
     <v-btn :icon="mdiChatPlus" @click="onAddChatRoomClick" />
-    <CreateChatRoomDialog ref="dialog" />
   </div>
   <v-list item-props lines="three" style="height: 600px">
     <v-list-subheader title="CHAT ROOMS" />
@@ -14,6 +13,8 @@
       <v-divider />
     </template>
   </v-list>
+  <CreateChatRoomDialog ref="dialog" />
+  <v-snackbar> snackbar </v-snackbar>
 </template>
 <script setup lang="ts">
 
@@ -26,7 +27,9 @@ import { ChatRoom } from "@/modules/chat/interface";
 const chatRooms = ref(chatRoomStore().chatRooms)
 const selected = reactive(chatRoomStore().selected)
 
-const dialog = ref<InstanceType<typeof CreateChatRoomDialog> | null>(null)
+const dialog = ref<InstanceType<typeof CreateChatRoomDialog> | null>(null);
+const snackbar = ref()
+
 
 function onChatRoomSelected(chatRoomId: number) {
   chatRoomStore().select(chatRoomId)

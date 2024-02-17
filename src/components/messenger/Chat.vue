@@ -43,10 +43,10 @@
 import { mdiMessage } from "@mdi/js"
 import { ChatRoom, SentMessage } from "@/modules/chat/interface";
 import { reactive, Ref, ref, watch } from "vue";
-import { MessageClient } from "@/modules/chat/message-client";
+import { MessageClient } from "@/modules/api/message-client";
 import { authenticationStore } from "@/store/authentication";
 import { chatRoomStore } from "@/store/chatroom";
-import { ApiClient } from "@/modules/common/api-client";
+import { ApiClient } from "@/modules/api/api-client";
 import InvitationLinkDialog from "@/components/dialog/InvitationLinkDialog.vue";
 import { VVirtualScroll } from "vuetify/components";
 import { useGoTo } from "vuetify";
@@ -130,3 +130,4 @@ function add0IfLessThan10(num: number): string {
 
 </script>
 <style scoped></style>
+@/modules/api/message-client@/modules/api/api-client

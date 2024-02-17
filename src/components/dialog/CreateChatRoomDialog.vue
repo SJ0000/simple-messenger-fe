@@ -20,27 +20,27 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from "vue";
-import {ChatRoomCreateModel} from "@/modules/chat/model";
-import {ApiClient} from "@/modules/common/api-client";
-import {chatRoomStore} from "@/store/chatroom";
+import { ref } from "vue";
+import { ChatRoomCreateModel } from "@/modules/chat/model";
+import { ApiClient } from "@/modules/api/api-client";
+import { chatRoomStore } from "@/store/chatroom";
 
 const opened = ref(false)
 const model = ref(new ChatRoomCreateModel())
 
-async function onSaveClick(){
+async function onSaveClick() {
   const chatRoom = await ApiClient.getInstance().createChatRoom(model.value.toDto())
   const joinedChatRoom = await ApiClient.getInstance().joinChatRoom(chatRoom.id);
   chatRoomStore().join(joinedChatRoom)
   opened.value = false
 }
 
-function onCloseClick(){
+function onCloseClick() {
   model.value.clear()
   opened.value = false
 }
 
-function open(){
+function open() {
   opened.value = true
 }
 
@@ -49,6 +49,5 @@ defineExpose({
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
+@/modules/api/api-client

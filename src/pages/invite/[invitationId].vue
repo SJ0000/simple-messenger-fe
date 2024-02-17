@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { ApiClient } from "@/modules/common/api-client";
+import { ApiClient } from "@/modules/api/api-client";
 import { chatRoomStore } from "@/store/chatroom";
 import { authenticationStore } from "@/store/authentication";
 import router from "@/router";
@@ -53,3 +53,4 @@ async function onJoinButtonClick() {
   max-height: 500px;
 }
 </style>
+@/modules/api/api-client

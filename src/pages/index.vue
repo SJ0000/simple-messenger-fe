@@ -47,4 +47,4 @@ function routeSignup() {
 .w-300 {
   width: 400px;
 }
-</style>
+</style>@/modules/api/message-client
