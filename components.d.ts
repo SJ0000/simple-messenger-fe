@@ -7,12 +7,14 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AccountInfo: typeof import('./src/components/account/AccountInfo.vue')['default']
     AccountSetting: typeof import('./src/components/AccountSetting.vue')['default']
-    AccountSettings: typeof import('./src/components/AccountSettings.vue')['default']
+    AccountSettings: typeof import('./src/components/account/AccountSettings.vue')['default']
     Chat: typeof import('./src/components/messenger/Chat.vue')['default']
     ChatRoomList: typeof import('./src/components/messenger/ChatRoomList.vue')['default']
     ComponentFinder: typeof import('./src/components/ComponentFinder.vue')['default']
     CreateChatRoomDialog: typeof import('./src/components/dialog/CreateChatRoomDialog.vue')['default']
+    FriendRequestDialog: typeof import('./src/components/dialog/FriendRequestDialog.vue')['default']
     Friends: typeof import('./src/components/messenger/Friends.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     InvitationLinkDialog: typeof import('./src/components/dialog/InvitationLinkDialog.vue')['default']

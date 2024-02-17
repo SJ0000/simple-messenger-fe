@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex justify-end mb-2">
-    <v-btn @click="onAddChatRoomClick"> add chat room</v-btn>
+    <v-btn :icon="mdiChatPlus" @click="onAddChatRoomClick" />
     <CreateChatRoomDialog ref="dialog" />
   </div>
   <v-list item-props lines="three" style="height: 600px">
@@ -17,6 +17,7 @@
 </template>
 <script setup lang="ts">
 
+import { mdiChatPlus } from "@mdi/js";
 import { chatRoomStore } from "@/store/chatroom";
 import { reactive, ref } from "vue";
 import CreateChatRoomDialog from "@/components/dialog/CreateChatRoomDialog.vue";

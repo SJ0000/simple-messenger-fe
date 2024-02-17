@@ -23,17 +23,24 @@ export class LoginModel {
 }
 
 export class UpdateUserModel {
-  name: string = "";
-  avatarUrl: string = "";
+  name: string;
+  avatarUrl: string;
   statusMessage: string;
+  publicIdentifier: string;
 
   constructor(user: User) {
     this.name = user.name;
     this.avatarUrl = user.avatarUrl;
     this.statusMessage = user.statusMessage;
+    this.publicIdentifier = user.publicIdentifier;
   }
 
   toDto(): UpdateUserDto {
-    return new UpdateUserDto(this.name, this.avatarUrl, this.statusMessage);
+    return new UpdateUserDto(
+      this.name,
+      this.avatarUrl,
+      this.statusMessage,
+      this.publicIdentifier
+    );
   }
 }

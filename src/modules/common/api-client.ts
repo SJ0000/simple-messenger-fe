@@ -5,6 +5,7 @@ import { ChatRoom, Invitation } from "@/modules/chat/interface";
 import { ChatRoomCreateDto } from "@/modules/chat/dto";
 import { UpdateUserDto } from "../user/dto";
 import { User } from "../user/interface";
+import { FriendRequestDto } from "../friend/dto";
 
 // Singleton
 export class ApiClient {
@@ -95,8 +96,11 @@ export class ApiClient {
   }
 
   async patchUser(userId: number, dto: UpdateUserDto): Promise<User> {
-    console.log(`userid = ${userId}, dto = ${JSON.stringify(dto)}`);
     const response = await this.client.patch(`/api/users/${userId}`, dto);
     return response.data;
+  }
+
+  async requestFriend(dto: FriendRequestDto): Promise<AxiosResponse> {
+    return await this.client.post(`/api/friends`, dto);
   }
 }

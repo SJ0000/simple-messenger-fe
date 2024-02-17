@@ -1,10 +1,11 @@
 <template>
-    <div class="text-h4">Account Settings</div>
+    <div class="text-h4">Account</div>
     <v-divider class="mt-3 mb-3"></v-divider>
     <v-form ref="signUpForm">
         <v-text-field label="Name" v-model="model.name" :rules="[notEmpty]"></v-text-field>
         <v-text-field label="Status Message" v-model="model.statusMessage"></v-text-field>
         <v-text-field label="Avatar URL" v-model="model.avatarUrl" :rules="[notEmpty]"></v-text-field>
+        <v-text-field label="Public Identifier" v-model="model.publicIdentifier" :rules="[notEmpty]"></v-text-field>
     </v-form>
     <div class="d-flex justify-end">
         <v-btn @click="onUpdateButtonClick">UPDATE</v-btn>

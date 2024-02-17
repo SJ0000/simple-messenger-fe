@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import AccountSettings from "@/components/AccountSettings.vue"
+import AccountSettings from "@/components/account/AccountSettings.vue"
 import { mdiCog, mdiBell } from '@mdi/js';
 import router from '@/router';
 import { authenticationStore } from '@/store/authentication';
