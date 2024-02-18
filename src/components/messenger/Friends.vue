@@ -1,6 +1,6 @@
 <template>
     <div class="d-flex justify-space-between">
-        <div class="text-h6 ml-2">FRIENDS</div>
+        <div class="text-h6 ml-2">친구</div>
         <div class="mr-1">
             <v-btn class="mr-1" @click="onFriendRequestClick" :icon="mdiAccountBox" size="small" />
             <v-btn @click="onAddFriendClick" :icon="mdiAccountPlus" size="small" />
@@ -25,20 +25,14 @@
 <script setup lang=ts>
 import { mdiChat, mdiAccountPlus, mdiAccountBox } from '@mdi/js';
 import { User } from '@/modules/user/interface';
-import { authenticationStore } from '@/store/authentication';
 import FriendRequestDialog from '@/components/dialog/FriendRequestDialog.vue'
 import AddFriendDialog from '@/components/dialog/AddFriendDialog.vue'
 import { ref } from 'vue';
-
-const user = authenticationStore().getUser()
-
-const item: Array<User> = []
-for (let i = 0; i < 100; i++) {
-    item.push(user)
-}
-
+import { ApiClient } from '@/modules/api/api-client';
 
 const addFriendDialog = ref<InstanceType<typeof AddFriendDialog> | null>(null);
+
+const item: Array<User> = await ApiClient.getInstance().getMyFriends()
 
 function onAddFriendClick() {
     addFriendDialog.value?.open()

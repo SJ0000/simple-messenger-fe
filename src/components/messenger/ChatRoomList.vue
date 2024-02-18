@@ -3,7 +3,7 @@
     <v-btn :icon="mdiChatPlus" @click="onAddChatRoomClick" />
   </div>
   <v-list item-props lines="three" style="height: 600px">
-    <v-list-subheader title="CHAT ROOMS" />
+    <v-list-subheader title="대화방 목록" />
     <template v-for="[chatRoomId, chatRoom] in chatRooms" :key="chatRoomId">
       <v-list-item :prepend-avatar="chatRoom.avatarUrl" :title="chatRoom.name" :active="selected.id === chatRoomId"
         @click="onChatRoomSelected(chatRoomId)">

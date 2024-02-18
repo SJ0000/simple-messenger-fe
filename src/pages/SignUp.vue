@@ -4,22 +4,22 @@
       <v-img height="300" src="@/assets/logo.svg" />
     </v-row>
     <v-row class="justify-center mb-1">
-      <h2>Sign Up</h2>
+      <div class="text-h4">회원 가입</div>
     </v-row>
     <v-row>
       <v-col>
         <v-form ref="signUpForm">
-          <v-text-field label="Name" v-model="model.name" :rules="[notEmpty]"></v-text-field>
-          <v-text-field label="Email" type="email" v-model="model.email" :rules="[notEmpty, email]"></v-text-field>
-          <v-text-field label="Password" type="password" v-model="model.password"
+          <v-text-field label="이름" v-model="model.name" :rules="[notEmpty]"></v-text-field>
+          <v-text-field label="이메일" type="email" v-model="model.email" :rules="[notEmpty, email]"></v-text-field>
+          <v-text-field label="비밀번호" type="password" v-model="model.password"
             :rules="[notEmpty, password]"></v-text-field>
-          <v-text-field label="Confirm Password" type="password" v-model="model.confirmPassword"
+          <v-text-field label="비밀번호 확인" type="password" v-model="model.confirmPassword"
             :rules="[notEmpty, passwordMatch]"></v-text-field>
         </v-form>
       </v-col>
     </v-row>
     <v-row>
-      <v-btn width="100%" @click="onClick">Sign Up</v-btn>
+      <v-btn width="100%" @click="onClick">회원 가입</v-btn>
     </v-row>
   </v-container>
 </template>
@@ -41,7 +41,7 @@ const signUpForm: Ref<VForm> = ref<any>()
 const model = ref(new SignUpModel())
 
 const passwordMatch = (value: any) => {
-  return value === model.value.password || 'password does not match'
+  return value === model.value.password || '비밀번호와 일치하지 않습니다.'
 }
 
 async function onClick() {

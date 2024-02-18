@@ -8,10 +8,10 @@
       <v-card-subtitle>simple messenger</v-card-subtitle>
       <v-divider class="mt-5"></v-divider>
       <v-card-item>
-        <v-btn class="w-100" @click="routeLogin">login</v-btn>
+        <v-btn class="w-100" @click="routeLogin">로그인</v-btn>
       </v-card-item>
       <v-card-item>
-        <v-btn class="w-100" @click="routeSignup">sign up</v-btn>
+        <v-btn class="w-100" @click="routeSignup">회원가입</v-btn>
       </v-card-item>
     </v-card>
   </div>

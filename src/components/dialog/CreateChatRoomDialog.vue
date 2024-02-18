@@ -1,14 +1,14 @@
 <template>
   <v-dialog v-model="opened" persistent width="400">
     <v-card>
-      <v-card-title>Create ChatRoom</v-card-title>
+      <v-card-title>대화방 생성</v-card-title>
       <v-card-item>
-        <v-text-field label="name" v-model="model.name" required></v-text-field>
+        <v-text-field label="이름" v-model="model.name" required></v-text-field>
       </v-card-item>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn @click="onCloseClick"> Close </v-btn>
-        <v-btn @click="onSaveClick"> Save </v-btn>
+        <v-btn @click="onCloseClick"> 닫기 </v-btn>
+        <v-btn @click="onSaveClick"> 생성 </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -32,10 +32,10 @@ async function onSaveClick() {
     const joinedChatRoom = await ApiClient.getInstance().joinChatRoom(chatRoom.id);
     chatRoomStore().join(joinedChatRoom)
     opened.value = false
-    snackbar.text = `ChatRoom '${chatRoom.name}' created.`
+    snackbar.text = `대화방 '${chatRoom.name}' 이 생성되었습니다.`
     snackbar.open = true
   } catch (e) {
-    snackbar.text = `ChatRoom creation failed.`
+    snackbar.text = `대화방 생성에 실패하였습니다`
     snackbar.open = true
   }
 }

@@ -1,12 +1,12 @@
 <template>
   <div class="d-flex flex-column w-100 h-100">
     <div class="align-self-center" v-if="chatRoom.id === 0">
-      <h2>Please choose a chat room</h2>
+      <div class="text-h6">대화방을 선택해주세요.</div>
     </div>
     <div v-show="chatRoom.id !== 0">
       <header class="d-flex justify-space-between">
         <span class="text-h4">{{ chatRoom.name }}</span>
-        <v-btn @click="onInvitationLinkClick">invitation link</v-btn>
+        <v-btn @click="onInvitationLinkClick">초대 링크</v-btn>
         <InvitationLinkDialog ref="dialog" />
       </header>
       <v-virtual-scroll id="virtual-scroll" class="ma-1" :items="messages" height="600" item-height="50">
@@ -30,10 +30,10 @@
       </v-virtual-scroll>
       <div class="d-flex">
         <v-icon :icon="mdiMessage" size="45" class="mr-2 mt-2"></v-icon>
-        <v-textarea variant="outlined" rows="1" row-height="15" label="message" v-model="content"
+        <v-textarea variant="outlined" rows="1" row-height="15" label="메시지" v-model="content"
           @keydown.enter.exact.prevent="pressEnterHandler" />
         <v-btn class="ml-2 mt-3" @click="onSendButtonClick">
-          Send
+          보내기
         </v-btn>
       </div>
     </div>

@@ -27,8 +27,8 @@
         </v-list>
         <v-list v-else>
           <v-list-item>
-            <v-btn color="primary" @click="router.push('/login')">
-              Login
+            <v-btn class="w-100" @click="router.push('/login')">
+              로그인
             </v-btn>
           </v-list-item>
         </v-list>

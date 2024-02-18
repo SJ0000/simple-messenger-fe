@@ -4,23 +4,23 @@
       <v-img height="300" src="@/assets/logo.svg" />
     </v-row>
     <v-row class="justify-center mb-1">
-      <h2>Sign in to your account</h2>
+      <h2>로그인</h2>
     </v-row>
     <v-row>
       <v-col>
         <v-form ref="loginForm">
-          <v-text-field label="Email" v-model="model.email" :rules="[notEmpty, email]"></v-text-field>
-          <v-text-field label="Password" v-model="model.password" type="password"
+          <v-text-field label="이메일" v-model="model.email" :rules="[notEmpty, email]"></v-text-field>
+          <v-text-field label="비밀번호" v-model="model.password" type="password"
             :rules="[notEmpty, password]"></v-text-field>
         </v-form>
       </v-col>
     </v-row>
     <v-row>
-      <v-btn width="100%" @click=onClick>Sign in</v-btn>
+      <v-btn width="100%" @click=onClick>로그인</v-btn>
     </v-row>
     <v-row class="mt-5 justify-end">
-      <p class="mr-2">Don't have an account?</p>
-      <RouterLink to="/signup">Sign Up</RouterLink>
+      <p class="mr-2">계정이 없으신가요?</p>
+      <RouterLink to="/signup">회원가입</RouterLink>
     </v-row>
   </v-container>
 </template>

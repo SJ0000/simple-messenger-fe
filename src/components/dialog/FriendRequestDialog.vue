@@ -1,7 +1,7 @@
 <template>
     <v-dialog v-model="opened" persistent width="400">
         <v-card>
-            <v-card-title>Received Friends Request</v-card-title>
+            <v-card-title>받은 친구 요청</v-card-title>
             <v-card-item>
                 <v-list height="200">
                     <v-list-item v-for="(friend, i) in friends" :key="i" :title="friend.fromUser.name">
@@ -9,15 +9,14 @@
                             <v-avatar :image="friend.fromUser.avatarUrl"></v-avatar>
                         </template>
                         <template v-slot:append>
-                            <v-btn @click="onAddFriendButtonClick(friend.id)" :icon="mdiPlus" size="x-small"
-                                variant="tonal" />
+                            <v-btn @click="onAddFriendButtonClick(friend)" :icon="mdiPlus" size="x-small" variant="tonal" />
                         </template>
                     </v-list-item>
                 </v-list>
             </v-card-item>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn @click="onCloseClick"> Close </v-btn>
+                <v-btn @click="onCloseClick"> 닫기 </v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -39,13 +38,13 @@ defineExpose({
 const snackbar = reactive(new SnackbarModel())
 
 const friends: Array<Friend> = await ApiClient.getInstance().getReceivedFriendRequest()
-async function onAddFriendButtonClick(id: number) {
+async function onAddFriendButtonClick(friend: Friend) {
     try {
-        await ApiClient.getInstance().approveFriendRequest(id)
-        snackbar.text = `친구 추가 성공`
+        await ApiClient.getInstance().approveFriendRequest(friend.id)
+        snackbar.text = `${friend.fromUser.name}님과 친구가 되었습니다.`
         snackbar.open = true
     } catch (e) {
-        snackbar.text = `친구 추가 실패`
+        snackbar.text = `친구 추가에 실패하였습니다.`
         snackbar.open = true
     }
 }
