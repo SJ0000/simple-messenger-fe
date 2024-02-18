@@ -14,7 +14,6 @@
     </template>
   </v-list>
   <CreateChatRoomDialog ref="dialog" />
-  <v-snackbar> snackbar </v-snackbar>
 </template>
 <script setup lang="ts">
 
@@ -22,13 +21,12 @@ import { mdiChatPlus } from "@mdi/js";
 import { chatRoomStore } from "@/store/chatroom";
 import { reactive, ref } from "vue";
 import CreateChatRoomDialog from "@/components/dialog/CreateChatRoomDialog.vue";
-import { ChatRoom } from "@/modules/chat/interface";
+import { ChatRoom } from "@/modules/chat/interface"
 
 const chatRooms = ref(chatRoomStore().chatRooms)
 const selected = reactive(chatRoomStore().selected)
 
 const dialog = ref<InstanceType<typeof CreateChatRoomDialog> | null>(null);
-const snackbar = ref()
 
 
 function onChatRoomSelected(chatRoomId: number) {

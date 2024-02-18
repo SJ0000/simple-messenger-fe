@@ -21,7 +21,7 @@
 // log in
 import { authenticationStore } from "@/store/authentication";
 import router from "@/router";
-import { MessageClient } from "@/modules/chat/message-client";
+import { MessageClient } from "@/modules/api/message-client";
 
 const isLoggedIn = authenticationStore().isLoggedIn
 

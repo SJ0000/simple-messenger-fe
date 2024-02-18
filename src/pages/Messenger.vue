@@ -41,4 +41,3 @@ MessageClient.getInstance().start(authoritzation)
 
 </script>
 <style scoped></style>
-@/modules/api/message-client@/modules/api/api-client

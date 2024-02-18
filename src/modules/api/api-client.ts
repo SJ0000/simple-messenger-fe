@@ -6,6 +6,7 @@ import { ChatRoomCreateDto } from "@/modules/chat/dto";
 import { UpdateUserDto } from "../user/dto";
 import { User } from "../user/interface";
 import { FriendRequestDto } from "../friend/dto";
+import { Friend } from "../friend/interface";
 
 // Singleton
 export class ApiClient {
@@ -83,6 +84,16 @@ export class ApiClient {
     }
   }
 
+  async getMyFriends(): Promise<User[]> {
+    try {
+      const response = await this.client.get<User[]>("/api/friends");
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return [];
+    }
+  }
+
   async getInvitation(invitationId: string): Promise<Invitation> {
     const response = await this.client.get(`/api/chat/invites/${invitationId}`);
     return response.data;
@@ -102,5 +113,14 @@ export class ApiClient {
 
   async requestFriend(dto: FriendRequestDto): Promise<AxiosResponse> {
     return await this.client.post(`/api/friends`, dto);
+  }
+
+  async getReceivedFriendRequest(): Promise<Friend[]> {
+    const response = await this.client.get(`/api/friends/request`);
+    return response.data;
+  }
+
+  async approveFriendRequest(id: number): Promise<AxiosResponse> {
+    return await this.client.patch(`/api/friends/${id}/approve`);
   }
 }
