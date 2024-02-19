@@ -116,7 +116,7 @@ export class ApiClient {
   }
 
   async getReceivedFriendRequest(): Promise<Friend[]> {
-    const response = await this.client.get(`/api/friends/request`);
+    const response = await this.client.get(`/api/friends/requests`);
     return response.data;
   }
 

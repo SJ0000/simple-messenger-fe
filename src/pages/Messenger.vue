@@ -36,7 +36,7 @@ if (chatRooms.length > 0) {
 }
 
 const authoritzation = authenticationStore().getAccessToken()
-MessageClient.getInstance().start(authoritzation)
+MessageClient.getInstance().start(authoritzation, chatRooms)
 
 
 </script>

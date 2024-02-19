@@ -29,7 +29,7 @@
 
 <script setup lang="ts">
 import AccountSettings from "@/components/account/AccountSettings.vue"
-import { mdiCog, mdiBell } from '@mdi/js';
+import { mdiAccountCog, mdiBell } from '@mdi/js';
 import router from '@/router';
 import { authenticationStore } from '@/store/authentication';
 
@@ -40,8 +40,8 @@ const user = authenticationStore().getUser();
 
 
 const menus = [
-    { name: "Account Settings", icon: mdiCog },
-    { name: "Notification", icon: mdiBell }
+    { name: "계정 설정", icon: mdiAccountCog },
+    { name: "알림 설정", icon: mdiBell }
 ]
 
 

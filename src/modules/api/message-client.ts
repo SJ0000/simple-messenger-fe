@@ -1,6 +1,11 @@
 // Singleton
 import { Client } from "@stomp/stompjs";
-import { ReceivedMessage, SentMessage } from "@/modules/chat/interface";
+import {
+  ChatRoom,
+  ReceivedDirectMessage,
+  ReceivedMessage,
+  SentMessage,
+} from "@/modules/chat/interface";
 import { chatRoomStore } from "@/store/chatroom";
 
 export class MessageClient {
@@ -18,7 +23,7 @@ export class MessageClient {
     return this.instance;
   }
 
-  start(authorization: string): void {
+  start(authorization: string, chatRooms: ChatRoom[]): void {
     this.client.configure({
       brokerURL: `${import.meta.env.VITE_APP_WS_URL}/message-broker`,
       connectHeaders: {
@@ -28,10 +33,10 @@ export class MessageClient {
 
     this.client.onConnect = (frame) => {
       console.log(`WS Connected. ${frame}`);
-      this.client.subscribe("/topic/chat", (message) => {
-        const received: ReceivedMessage = JSON.parse(message.body);
-        chatRoomStore().addMessage(received.chatRoomId, received);
+      chatRooms.forEach((chatRoom) => {
+        this.subscribeChat(chatRoom);
       });
+      this.subscribeDirectChat();
     };
 
     this.client.onWebSocketError = (error) => {
@@ -54,6 +59,21 @@ export class MessageClient {
     this.client.publish({
       destination: "/app/chat-message",
       body: JSON.stringify(message),
+    });
+  }
+
+  subscribeChat(chatRoom: ChatRoom) {
+    this.client.subscribe(`/topic/chat/${chatRoom.id}`, (message) => {
+      const received: ReceivedMessage = JSON.parse(message.body);
+      chatRoomStore().addMessage(chatRoom.id, received);
+    });
+  }
+
+  private subscribeDirectChat() {
+    this.client.subscribe("/topic/direct-chat", (message) => {
+      const received: ReceivedDirectMessage = JSON.parse(message.body);
+      // TODO : directChatStore() ...
+      console.log(received);
     });
   }
 }
