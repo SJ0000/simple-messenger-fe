@@ -16,14 +16,6 @@ export interface ReceivedMessage {
   receivedAt: Date;
 }
 
-export interface ReceivedDirectMessage {
-  id: string;
-  directChatId: number;
-  senderId: number;
-  content: string;
-  receivedAt: Date;
-}
-
 export interface SentMessage {
   chatRoomId: number;
   senderId: number;

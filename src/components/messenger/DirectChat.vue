@@ -1,9 +1,10 @@
 <template>
   <div class="d-flex flex-column w-100 h-100">
     <div class="align-self-center" v-if="chatRoom.id === 0">
-      <div class="text-h6">대화방을 선택해주세요.</div>
+      <div class="text-h6">DIRECT CHAT</div>
     </div>
     <div v-show="chatRoom.id !== 0">
+      <h2>DIRECT CHAT</h2>
       <header class="d-flex justify-space-between">
         <span class="text-h4">{{ chatRoom.name }}</span>
         <v-btn @click="onInvitationLinkClick">초대 링크</v-btn>

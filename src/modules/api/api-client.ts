@@ -7,6 +7,7 @@ import { UpdateUserDto } from "../user/dto";
 import { User } from "../user/interface";
 import { FriendRequestDto } from "../friend/dto";
 import { Friend } from "../friend/interface";
+import { DirectChat } from "../directchat/interface";
 
 // Singleton
 export class ApiClient {
@@ -122,5 +123,10 @@ export class ApiClient {
 
   async approveFriendRequest(id: number): Promise<AxiosResponse> {
     return await this.client.patch(`/api/friends/${id}/approve`);
+  }
+
+  async getDirectChats(): Promise<DirectChat[]> {
+    const response = await this.client.get(`/api/chats/direct/me`);
+    return response.data;
   }
 }

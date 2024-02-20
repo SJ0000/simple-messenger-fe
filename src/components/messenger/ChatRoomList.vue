@@ -54,4 +54,4 @@ function getLastMessageContent(chatRoom: ChatRoom): string {
 
 </script>
 
-<style scoped></style>
+<style scoped></style>@/store/chatRoom

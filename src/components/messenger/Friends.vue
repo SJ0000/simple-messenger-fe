@@ -13,7 +13,7 @@
                     <v-avatar :image="item.avatarUrl"></v-avatar>
                 </template>
                 <template v-slot:append>
-                    <v-btn :icon="mdiChat" size="x-small" variant="tonal" />
+                    <v-btn :icon="mdiChat" size="x-small" variant="tonal" @click="onFriendDirectChatClick(item.id)" />
                 </template>
             </v-list-item>
         </template>
@@ -24,15 +24,16 @@
 
 <script setup lang=ts>
 import { mdiChat, mdiAccountPlus, mdiAccountBox } from '@mdi/js';
-import { User } from '@/modules/user/interface';
 import FriendRequestDialog from '@/components/dialog/FriendRequestDialog.vue'
 import AddFriendDialog from '@/components/dialog/AddFriendDialog.vue'
 import { ref } from 'vue';
-import { ApiClient } from '@/modules/api/api-client';
+import { directChatStore } from '@/store/directChat';
+import { messengerStore } from '@/store/messenger';
+import { friendStore } from '@/store/friendStore';
 
 const addFriendDialog = ref<InstanceType<typeof AddFriendDialog> | null>(null);
 
-const item: Array<User> = await ApiClient.getInstance().getMyFriends()
+const item = friendStore().getFriends()
 
 function onAddFriendClick() {
     addFriendDialog.value?.open()
@@ -42,6 +43,12 @@ const friendRequestDialog = ref<InstanceType<typeof FriendRequestDialog> | null>
 function onFriendRequestClick() {
     friendRequestDialog.value?.open()
 }
+
+function onFriendDirectChatClick(otherUserId: number) {
+    directChatStore().select(otherUserId)
+    messengerStore().activateDirectChat()
+}
+
 </script>
 
 <style scoped></style>

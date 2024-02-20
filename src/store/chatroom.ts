@@ -54,7 +54,6 @@ export const chatRoomStore = defineStore("chatRoom", {
       this.selected.name = chatRoom.name;
       this.selected.avatarUrl = chatRoom.avatarUrl;
       this.selected.users = chatRoom.users;
-
       this.selected.messages.splice(0);
       chatRoom.messages.forEach((message) => {
         this.selected.messages.push(message);

@@ -2,10 +2,13 @@
 import { Client } from "@stomp/stompjs";
 import {
   ChatRoom,
-  ReceivedDirectMessage,
   ReceivedMessage,
   SentMessage,
 } from "@/modules/chat/interface";
+
+import { ReceivedDirectMessage } from "../directchat/interface";
+import { directChatStore } from "@/store/directChat";
+import { friendStore } from "@/store/friendStore";
 import { chatRoomStore } from "@/store/chatroom";
 
 export class MessageClient {
@@ -72,8 +75,25 @@ export class MessageClient {
   private subscribeDirectChat() {
     this.client.subscribe("/topic/direct-chat", (message) => {
       const received: ReceivedDirectMessage = JSON.parse(message.body);
-      // TODO : directChatStore() ...
-      console.log(received);
+      switch (received.messageType) {
+        case "MESSAGE": {
+          directChatStore().addMessage(received.senderId, received);
+          break;
+        }
+        case "CHAT_START": {
+          const otherUser = friendStore().find(received.senderId);
+          directChatStore().join({
+            id: received.directChatId,
+            otherUser: otherUser,
+            messages: [],
+          });
+          directChatStore().addMessage(received.senderId, received);
+          break;
+        }
+        default: {
+          break;
+        }
+      }
     });
   }
 }
