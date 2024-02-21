@@ -28,7 +28,7 @@ import Friends from "@/components/messenger/Friends.vue";
 import { MessageClient } from "@/modules/api/message-client";
 import { ApiClient } from "@/modules/api/api-client";
 import { chatRoomStore } from "@/store/chatRoom";
-import { authenticationStore } from "@/store/authentication";
+import { useAuthenticationStore } from "@/store/authentication";
 import router from "@/router";
 import { directChatStore } from "@/store/directChat";
 import { messengerStore } from "@/store/messenger";
@@ -36,7 +36,9 @@ import { User } from "@/modules/user/interface";
 import { friendStore } from "@/store/friendStore";
 import { storeToRefs } from "pinia";
 
-if (!authenticationStore().isLoggedIn)
+const authentication = useAuthenticationStore()
+
+if (!authentication.isLoggedIn)
   router.push("/")
 
 const friends: Array<User> = await ApiClient.getInstance().getMyFriends()
@@ -51,8 +53,8 @@ if (chatRooms.length > 0) {
 const directChats = await ApiClient.getInstance().getDirectChats();
 directChatStore().initialize(directChats)
 
-const authoritzation = authenticationStore().getAccessToken()
-const user = authenticationStore().getUser()
+const authoritzation = authentication.getAccessToken()
+const user = authentication.getUser()
 MessageClient.getInstance().start(authoritzation, user, chatRooms)
 
 const { mode } = storeToRefs(messengerStore())

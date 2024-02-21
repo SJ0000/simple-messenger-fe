@@ -3,7 +3,7 @@ import {
   DirectChat,
   ReceivedDirectMessage,
 } from "@/modules/directchat/interface";
-import { authenticationStore } from "./authentication";
+import { useAuthenticationStore } from "./authentication";
 
 interface directChatState {
   selected: DirectChat;
@@ -67,7 +67,7 @@ export const directChatStore = defineStore("directChat", {
 
     addMessage(message: ReceivedDirectMessage) {
       // 보낸 메시지
-      if (message.senderId === authenticationStore().user?.id) {
+      if (message.senderId === useAuthenticationStore().user?.id) {
         const directChat = this.find(message.receiverId);
         directChat.messages.push(message);
         this.selected.messages.push(message);

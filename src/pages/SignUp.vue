@@ -32,9 +32,11 @@ import { SignUpModel } from "@/modules/auth/model";
 import { VForm } from "vuetify/components";
 import router from "@/router";
 import { ApiClient } from "@/modules/api/api-client";
-import { authenticationStore } from "@/store/authentication";
+import { useAuthenticationStore } from "@/store/authentication";
 
-if (authenticationStore().isLoggedIn)
+const authentication = useAuthenticationStore()
+
+if (authentication.isLoggedIn)
   router.push("/messenger")
 
 const signUpForm: Ref<VForm> = ref<any>()

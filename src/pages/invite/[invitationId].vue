@@ -17,15 +17,16 @@
 <script setup lang="ts">
 import { ApiClient } from "@/modules/api/api-client";
 import { chatRoomStore } from "@/store/chatroom";
-import { authenticationStore } from "@/store/authentication";
+import { useAuthenticationStore } from "@/store/authentication";
 import router from "@/router";
 import { useRoute } from "vue-router";
 
+const authentication = useAuthenticationStore()
 
 const route = useRoute()
-// Case 1: 비로그인 접근
 
-if (!authenticationStore().isLoggedIn)
+// Case 1: 비로그인 접근
+if (!authentication.isLoggedIn)
   router.push("/")
 
 if (typeof route.params.invitationId !== 'string')

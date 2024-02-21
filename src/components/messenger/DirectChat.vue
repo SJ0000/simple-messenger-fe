@@ -39,18 +39,18 @@
 import { mdiMessage } from "@mdi/js"
 import { reactive, ref } from "vue";
 import { MessageClient } from "@/modules/api/message-client";
-import { authenticationStore } from "@/store/authentication";
+import { useAuthenticationStore } from "@/store/authentication";
 import { VVirtualScroll } from "vuetify/components";
 import { User } from "@/modules/user/interface";
 import { DirectChat, SentDirectMessage } from "@/modules/directchat/interface";
 import { directChatStore } from "@/store/directChat";
-import { chatRoomStore } from "@/store/chatroom";
 
+const authentication = useAuthenticationStore()
 
 const directChat: DirectChat = directChatStore().selected
 const messages = reactive(directChatStore().selected.messages)
 const content = ref("")
-const user = authenticationStore().user!
+const user = authentication.getUser()
 
 function createMessage(): SentDirectMessage {
   return {

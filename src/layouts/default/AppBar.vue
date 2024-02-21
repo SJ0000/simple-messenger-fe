@@ -40,13 +40,13 @@
 <script lang="ts" setup>
 // user
 import { mdiAccountCircle } from '@mdi/js'
-import { authenticationStore } from "@/store/authentication";
+import { useAuthenticationStore } from "@/store/authentication";
 import router from "@/router";
 
-const auth = authenticationStore();
+const authentication = useAuthenticationStore();
 
 function logout() {
-  authenticationStore().logout()
+  authentication.logout()
   router.push("/")
 }
 

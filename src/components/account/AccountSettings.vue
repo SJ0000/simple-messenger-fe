@@ -18,19 +18,20 @@
 
 import { notEmpty } from "@/modules/validation/rules"
 import { UpdateUserModel } from '@/modules/auth/model';
-import { authenticationStore } from '@/store/authentication';
+import { useAuthenticationStore } from '@/store/authentication';
 import { ref } from 'vue';
 import { UpdateUserDto } from "@/modules/user/dto";
 import { ApiClient } from "@/modules/api/api-client";
 
-const user = authenticationStore().getUser()
+const authentication = useAuthenticationStore()
+const user = authentication.getUser()
 const model = ref(new UpdateUserModel(user))
 
 
 async function onUpdateButtonClick() {
     const dto: UpdateUserDto = model.value.toDto()
     const updatedUser = await ApiClient.getInstance().patchUser(user.id, dto)
-    authenticationStore().updateUser(updatedUser)
+    useAuthenticationStore().updateUser(updatedUser)
 }
 
 </script>@/modules/api/api-client

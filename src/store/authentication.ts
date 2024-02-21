@@ -1,44 +1,57 @@
 import { defineStore } from "pinia";
-import { Authentication } from "@/modules/auth/interface";
 import { User } from "@/modules/user/interface";
+import { Ref, ref } from "vue";
 
-export const authenticationStore = defineStore("authentication", {
-  state: (): Authentication => {
+export const useAuthenticationStore = defineStore(
+  "authentication",
+  () => {
+    const isLoggedIn: Ref<boolean> = ref(false);
+    const user: Ref<User | null> = ref(null);
+    const accessToken: Ref<string | null> = ref(null);
+
+    function login(jwt: string, user: User) {
+      isLoggedIn.value = true;
+      accessToken.value = jwt;
+      updateUser(user);
+    }
+
+    function logout() {
+      isLoggedIn.value = false;
+      user.value = null;
+      accessToken.value = null;
+    }
+
+    function getAccessToken(): string {
+      if (accessToken.value === null) throw Error("accessToken is null");
+      return accessToken.value;
+    }
+
+    function getUser(): User {
+      if (user.value === null) throw Error("User is null");
+      return user.value;
+    }
+
+    function updateUser(data: User) {
+      user.value = {
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        avatarUrl: data.avatarUrl,
+        statusMessage: data.statusMessage,
+        publicIdentifier: data.publicIdentifier,
+      };
+    }
+
     return {
-      isLoggedIn: false,
-      user: null,
-      accessToken: null,
+      isLoggedIn,
+      accessToken,
+      user,
+      login,
+      logout,
+      getAccessToken,
+      getUser,
+      updateUser,
     };
   },
-  actions: {
-    login(accessToken: string, user: User) {
-      this.isLoggedIn = true;
-      this.accessToken = accessToken;
-      this.updateUser(user);
-    },
-    logout() {
-      this.isLoggedIn = false;
-      this.user = null;
-      this.accessToken = null;
-    },
-    getAccessToken(): string {
-      if (this.accessToken === null) throw Error("accessToken is null");
-      return this.accessToken;
-    },
-    getUser(): User {
-      if (this.user === null) throw Error("User is null");
-      return this.user;
-    },
-    updateUser(user: User) {
-      this.user = {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        avatarUrl: user.avatarUrl,
-        statusMessage: user.statusMessage,
-        publicIdentifier: user.publicIdentifier,
-      };
-    },
-  },
-  persist: true,
-});
+  { persist: true }
+);

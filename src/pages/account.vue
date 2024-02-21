@@ -31,13 +31,14 @@
 import AccountSettings from "@/components/account/AccountSettings.vue"
 import { mdiAccountCog, mdiBell } from '@mdi/js';
 import router from '@/router';
-import { authenticationStore } from '@/store/authentication';
+import { useAuthenticationStore } from '@/store/authentication';
 
-if (!authenticationStore().isLoggedIn)
+const authentication = useAuthenticationStore()
+
+if (!authentication.isLoggedIn)
     router.push("/")
 
-const user = authenticationStore().getUser();
-
+const user = authentication.getUser();
 
 const menus = [
     { name: "계정 설정", icon: mdiAccountCog },

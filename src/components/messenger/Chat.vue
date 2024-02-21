@@ -44,18 +44,19 @@ import { mdiMessage } from "@mdi/js"
 import { ChatRoom, SentMessage } from "@/modules/chat/interface";
 import { reactive, Ref, ref } from "vue";
 import { MessageClient } from "@/modules/api/message-client";
-import { authenticationStore } from "@/store/authentication";
+import { useAuthenticationStore } from "@/store/authentication";
 import { chatRoomStore } from "@/store/chatRoom";
 import { ApiClient } from "@/modules/api/api-client";
 import InvitationLinkDialog from "@/components/dialog/InvitationLinkDialog.vue";
 import { VVirtualScroll } from "vuetify/components";
 import { User } from "@/modules/user/interface";
 
+const authentication = useAuthenticationStore()
 
 const chatRoom: Ref<ChatRoom> = ref(chatRoomStore().selected)
 const messages = reactive(chatRoomStore().selected.messages)
 const content = ref("")
-const user = authenticationStore().user!
+const user = authentication.getUser()
 
 const dialog = ref<InstanceType<typeof InvitationLinkDialog> | null>(null)
 

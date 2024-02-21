@@ -32,12 +32,13 @@ import { ApiClient } from "@/modules/api/api-client";
 import { Ref, ref } from "vue";
 import { LoginModel } from "@/modules/auth/model";
 import { VForm } from "vuetify/components";
-import { authenticationStore } from "@/store/authentication";
+import { useAuthenticationStore } from "@/store/authentication";
 import router from "@/router";
 
-if (authenticationStore().isLoggedIn)
-  router.push("/messenger")
+const authentication = useAuthenticationStore()
 
+if (authentication.isLoggedIn)
+  router.push("/messenger")
 
 const loginForm: Ref<VForm> = ref<any>();
 const model = ref(new LoginModel());
@@ -48,7 +49,6 @@ async function onClick() {
     const apiClient = ApiClient.getInstance();
     await apiClient.login(model.value.toDto())
       .then(result => {
-        const authentication = authenticationStore();
         authentication.login(result.data.token, result.data.user);
         router.push("/messenger")
       }
@@ -67,4 +67,3 @@ async function onClick() {
   max-width: 500px;
 }
 </style>
-@/modules/api/api-client

@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 import { LoginDto, SignUpDto } from "@/modules/auth/dto";
-import { authenticationStore } from "@/store/authentication";
+import { useAuthenticationStore } from "@/store/authentication";
 import { ChatRoom, Invitation } from "@/modules/chat/interface";
 import { ChatRoomCreateDto } from "@/modules/chat/dto";
 import { UpdateUserDto } from "../user/dto";
@@ -27,7 +27,7 @@ export class ApiClient {
     });
 
     axiosInstance.interceptors.request.use(function (config) {
-      const accessToken = authenticationStore().accessToken;
+      const accessToken = useAuthenticationStore().accessToken;
       if (accessToken !== null) {
         config.headers.Authorization = `Bearer ${accessToken}`;
       }
@@ -40,7 +40,7 @@ export class ApiClient {
       },
       (error) => {
         if (error.response.status === 401) {
-          authenticationStore().logout();
+          useAuthenticationStore().logout();
         }
         return Promise.reject(error);
       }
