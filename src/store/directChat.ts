@@ -4,80 +4,76 @@ import {
   ReceivedDirectMessage,
 } from "@/modules/directchat/interface";
 import { useAuthenticationStore } from "./authentication";
+import { Ref, ref } from "vue";
 
-interface directChatState {
-  selected: DirectChat;
-  directChats: Map<number, DirectChat>;
-}
-
-export const directChatStore = defineStore("directChat", {
-  state: (): directChatState => {
-    return {
-      selected: {
-        id: 0,
-        otherUser: {
-          id: 0,
-          name: "",
-          email: "",
-          avatarUrl: "",
-          statusMessage: "",
-          publicIdentifier: "",
-        },
-        messages: [],
-      },
-      directChats: new Map<number, DirectChat>(),
-    };
+const dummyDirectChat: DirectChat = {
+  id: 0,
+  otherUser: {
+    id: 0,
+    name: "",
+    email: "",
+    avatarUrl: "",
+    statusMessage: "",
+    publicIdentifier: "",
   },
+  messages: [],
+};
 
-  actions: {
-    initialize(directChats: Array<DirectChat>) {
-      directChats.forEach((directChat) => {
+export const directChatStore = defineStore(
+  "directChat",
+  () => {
+    const selected: Ref<DirectChat> = ref(dummyDirectChat);
+    const directChats: Map<number, DirectChat> = new Map<number, DirectChat>();
+
+    function initialize(directChatArr: Array<DirectChat>) {
+      directChatArr.forEach((directChat) => {
         directChat.messages = [];
-        this.directChats.set(directChat.otherUser.id, directChat);
+        directChats.set(directChat.otherUser.id, directChat);
       });
-    },
+    }
 
-    join(directChat: DirectChat) {
+    function join(directChat: DirectChat) {
       directChat.messages = [];
-      this.directChats.set(directChat.otherUser.id, directChat);
-    },
+      directChats.set(directChat.otherUser.id, directChat);
+    }
 
-    find(otherUserId: number): DirectChat {
-      const directChat = this.directChats.get(otherUserId);
+    function find(otherUserId: number): DirectChat {
+      const directChat = directChats.get(otherUserId);
       if (directChat === undefined)
         throw Error(`DirectChat(otherUserId = ${otherUserId}) not found`);
-
       return directChat;
-    },
+    }
 
-    select(otherUserId: number) {
-      const directChat = this.find(otherUserId);
-      this.selected.id = directChat.id;
-      this.selected.otherUser = directChat.otherUser;
-      this.selected.messages.splice(0);
+    function select(otherUserId: number) {
+      const directChat = find(otherUserId);
+      selected.value.id = directChat.id;
+      selected.value.otherUser = directChat.otherUser;
+      selected.value.messages.splice(0);
 
       directChat.messages.forEach((message) => {
-        this.selected.messages.push(message);
+        selected.value.messages.push(message);
       });
-    },
+    }
 
-    exists(otherUserId: number): boolean {
-      return this.directChats.get(otherUserId) !== undefined;
-    },
+    function exists(otherUserId: number): boolean {
+      return directChats.get(otherUserId) !== undefined;
+    }
 
-    addMessage(message: ReceivedDirectMessage) {
+    function addMessage(message: ReceivedDirectMessage) {
       // 보낸 메시지
-      if (message.senderId === useAuthenticationStore().user?.id) {
-        const directChat = this.find(message.receiverId);
+      const authentication = useAuthenticationStore();
+      if (message.senderId === authentication.getUser().id) {
+        const directChat = find(message.receiverId);
         directChat.messages.push(message);
-        this.selected.messages.push(message);
+        selected.value.messages.push(message);
       } else {
         // 받은 메시지
-        const directChat = this.find(message.senderId);
+        const directChat = find(message.senderId);
         directChat.messages.push(message);
-        this.selected.messages.push(message);
+        selected.value.messages.push(message);
       }
-    },
+    }
+    return { selected, initialize, join, select, exists, addMessage };
   },
-  persist: false,
-});
+  { persist: false }
+);
