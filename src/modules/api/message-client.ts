@@ -6,10 +6,15 @@ import {
   SentMessage,
 } from "@/modules/chat/interface";
 
-import { ReceivedDirectMessage } from "../directchat/interface";
+import {
+  ReceivedDirectMessage,
+  SentDirectMessage,
+} from "../directchat/interface";
 import { directChatStore } from "@/store/directChat";
 import { friendStore } from "@/store/friendStore";
-import { chatRoomStore } from "@/store/chatroom";
+import { chatRoomStore } from "@/store/chatRoom";
+import { User } from "../user/interface";
+import { ApiClient } from "./api-client";
 
 export class MessageClient {
   private static instance: MessageClient;
@@ -26,7 +31,7 @@ export class MessageClient {
     return this.instance;
   }
 
-  start(authorization: string, chatRooms: ChatRoom[]): void {
+  start(authorization: string, user: User, chatRooms: ChatRoom[]): void {
     this.client.configure({
       brokerURL: `${import.meta.env.VITE_APP_WS_URL}/message-broker`,
       connectHeaders: {
@@ -39,7 +44,7 @@ export class MessageClient {
       chatRooms.forEach((chatRoom) => {
         this.subscribeChat(chatRoom);
       });
-      this.subscribeDirectChat();
+      this.subscribeDirectChat(user.id);
     };
 
     this.client.onWebSocketError = (error) => {
@@ -65,6 +70,13 @@ export class MessageClient {
     });
   }
 
+  sendDirect(to: number, message: SentDirectMessage) {
+    this.client.publish({
+      destination: `/app/direct-message`,
+      body: JSON.stringify(message),
+    });
+  }
+
   subscribeChat(chatRoom: ChatRoom) {
     this.client.subscribe(`/topic/chat/${chatRoom.id}`, (message) => {
       const received: ReceivedMessage = JSON.parse(message.body);
@@ -72,22 +84,19 @@ export class MessageClient {
     });
   }
 
-  private subscribeDirectChat() {
-    this.client.subscribe("/topic/direct-chat", (message) => {
+  private subscribeDirectChat(userId: number) {
+    this.client.subscribe(`/topic/direct-chat/${userId}`, async (message) => {
       const received: ReceivedDirectMessage = JSON.parse(message.body);
+      console.log(received);
       switch (received.messageType) {
         case "MESSAGE": {
-          directChatStore().addMessage(received.senderId, received);
-          break;
-        }
-        case "CHAT_START": {
-          const otherUser = friendStore().find(received.senderId);
-          directChatStore().join({
-            id: received.directChatId,
-            otherUser: otherUser,
-            messages: [],
-          });
-          directChatStore().addMessage(received.senderId, received);
+          if (!directChatStore().exists(received.senderId)) {
+            const directChat = await ApiClient.getInstance().getDirectChat(
+              received.directChatId
+            );
+            directChatStore().join(directChat);
+          }
+          directChatStore().addMessage(received);
           break;
         }
         default: {

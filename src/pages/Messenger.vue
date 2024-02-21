@@ -9,7 +9,6 @@
       </v-col>
       <v-divider vertical></v-divider>
       <v-col cols="6">
-        <div>{{ mode }}</div>
         <div v-show="mode === `CHATROOM`">
           <Chat />
         </div>
@@ -33,7 +32,6 @@ import { authenticationStore } from "@/store/authentication";
 import router from "@/router";
 import { directChatStore } from "@/store/directChat";
 import { messengerStore } from "@/store/messenger";
-import { ref } from "vue";
 import { User } from "@/modules/user/interface";
 import { friendStore } from "@/store/friendStore";
 import { storeToRefs } from "pinia";
@@ -54,7 +52,8 @@ const directChats = await ApiClient.getInstance().getDirectChats();
 directChatStore().initialize(directChats)
 
 const authoritzation = authenticationStore().getAccessToken()
-MessageClient.getInstance().start(authoritzation, chatRooms)
+const user = authenticationStore().getUser()
+MessageClient.getInstance().start(authoritzation, user, chatRooms)
 
 const { mode } = storeToRefs(messengerStore())
 

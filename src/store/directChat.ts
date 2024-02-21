@@ -3,6 +3,7 @@ import {
   DirectChat,
   ReceivedDirectMessage,
 } from "@/modules/directchat/interface";
+import { authenticationStore } from "./authentication";
 
 interface directChatState {
   selected: DirectChat;
@@ -37,6 +38,7 @@ export const directChatStore = defineStore("directChat", {
     },
 
     join(directChat: DirectChat) {
+      directChat.messages = [];
       this.directChats.set(directChat.otherUser.id, directChat);
     },
 
@@ -63,10 +65,18 @@ export const directChatStore = defineStore("directChat", {
       return this.directChats.get(otherUserId) !== undefined;
     },
 
-    addMessage(otherUserId: number, message: ReceivedDirectMessage) {
-      const directChat = this.find(otherUserId);
-      directChat.messages.push(message);
-      this.selected.messages.push(message);
+    addMessage(message: ReceivedDirectMessage) {
+      // 보낸 메시지
+      if (message.senderId === authenticationStore().user?.id) {
+        const directChat = this.find(message.receiverId);
+        directChat.messages.push(message);
+        this.selected.messages.push(message);
+      } else {
+        // 받은 메시지
+        const directChat = this.find(message.senderId);
+        directChat.messages.push(message);
+        this.selected.messages.push(message);
+      }
     },
   },
   persist: false,

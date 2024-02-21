@@ -125,6 +125,11 @@ export class ApiClient {
     return await this.client.patch(`/api/friends/${id}/approve`);
   }
 
+  async getDirectChat(id: number): Promise<DirectChat> {
+    const response = await this.client.get(`/api/chats/direct/${id}`);
+    return response.data;
+  }
+
   async getDirectChats(): Promise<DirectChat[]> {
     const response = await this.client.get(`/api/chats/direct/me`);
     return response.data;
