@@ -55,4 +55,3 @@ async function onJoinButtonClick() {
   max-height: 500px;
 }
 </style>
-@/modules/api/api-client@/store/chatRoom

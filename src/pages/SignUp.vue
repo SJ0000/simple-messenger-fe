@@ -66,4 +66,3 @@ async function onClick() {
   max-width: 500px;
 }
 </style>
-@/modules/api/api-client

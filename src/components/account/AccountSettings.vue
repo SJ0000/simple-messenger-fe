@@ -31,7 +31,7 @@ const model = ref(new UpdateUserModel(user))
 async function onUpdateButtonClick() {
     const dto: UpdateUserDto = model.value.toDto()
     const updatedUser = await ApiClient.getInstance().patchUser(user.id, dto)
-    useAuthenticationStore().updateUser(updatedUser)
+    authentication.updateUser(updatedUser)
 }
 
-</script>@/modules/api/api-client
+</script>

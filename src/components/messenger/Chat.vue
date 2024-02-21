@@ -118,4 +118,4 @@ function add0IfLessThan10(num: number): string {
 }
 
 </script>
-<style scoped></style>@/store/chatRoom
+<style scoped></style>

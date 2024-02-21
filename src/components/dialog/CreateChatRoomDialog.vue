@@ -60,4 +60,4 @@ defineExpose({
 
 </script>
 
-<style scoped></style>@/store/chatRoom
+<style scoped></style>
