@@ -9,6 +9,7 @@
       </v-col>
       <v-divider vertical></v-divider>
       <v-col cols="6">
+        <div>{{ mode }}</div>
         <div v-show="mode === `CHATROOM`">
           <Chat />
         </div>
@@ -35,6 +36,7 @@ import { messengerStore } from "@/store/messenger";
 import { ref } from "vue";
 import { User } from "@/modules/user/interface";
 import { friendStore } from "@/store/friendStore";
+import { storeToRefs } from "pinia";
 
 if (!authenticationStore().isLoggedIn)
   router.push("/")
@@ -54,11 +56,8 @@ directChatStore().initialize(directChats)
 const authoritzation = authenticationStore().getAccessToken()
 MessageClient.getInstance().start(authoritzation, chatRooms)
 
-
-const mode = ref(messengerStore().mode)
-
-
+const { mode } = storeToRefs(messengerStore())
 
 
 </script>
-<style scoped></style>@/store/chatRoom
+<style scoped></style>

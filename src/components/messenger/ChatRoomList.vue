@@ -22,6 +22,7 @@ import { chatRoomStore } from "@/store/chatroom";
 import { reactive, ref } from "vue";
 import CreateChatRoomDialog from "@/components/dialog/CreateChatRoomDialog.vue";
 import { ChatRoom } from "@/modules/chat/interface"
+import { messengerStore } from "@/store/messenger";
 
 const chatRooms = ref(chatRoomStore().chatRooms)
 const selected = reactive(chatRoomStore().selected)
@@ -31,12 +32,12 @@ const dialog = ref<InstanceType<typeof CreateChatRoomDialog> | null>(null);
 
 function onChatRoomSelected(chatRoomId: number) {
   chatRoomStore().select(chatRoomId)
+  messengerStore().activateChatRoom()
 }
 
 function onAddChatRoomClick() {
   dialog.value?.open()
 }
-
 
 function getLastMessageSender(chatRoom: ChatRoom): string {
   if (chatRoom.messages.length === 0)
@@ -54,4 +55,4 @@ function getLastMessageContent(chatRoom: ChatRoom): string {
 
 </script>
 
-<style scoped></style>@/store/chatRoom
+<style scoped></style>

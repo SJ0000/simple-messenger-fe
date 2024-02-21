@@ -31,6 +31,7 @@ export const directChatStore = defineStore("directChat", {
   actions: {
     initialize(directChats: Array<DirectChat>) {
       directChats.forEach((directChat) => {
+        directChat.messages = [];
         this.directChats.set(directChat.otherUser.id, directChat);
       });
     },
@@ -51,11 +52,15 @@ export const directChatStore = defineStore("directChat", {
       const directChat = this.find(otherUserId);
       this.selected.id = directChat.id;
       this.selected.otherUser = directChat.otherUser;
-
       this.selected.messages.splice(0);
+
       directChat.messages.forEach((message) => {
         this.selected.messages.push(message);
       });
+    },
+
+    exists(otherUserId: number): boolean {
+      return this.directChats.get(otherUserId) !== undefined;
     },
 
     addMessage(otherUserId: number, message: ReceivedDirectMessage) {

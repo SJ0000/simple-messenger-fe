@@ -1,22 +1,17 @@
 import { defineStore } from "pinia";
+import { ref } from "vue";
 
-interface MessengerState {
-  mode: string; // CHATROOM, DIRECTCHAT
-}
+export const messengerStore = defineStore("messenger", () => {
+  const mode = ref("CHATROOM");
 
-export const messengerStore = defineStore("messenger", {
-  state: (): MessengerState => {
-    return {
-      mode: "CHATROOM",
-    };
-  },
-  actions: {
-    activateChatRoom() {
-      this.mode = "CHATROOM";
-    },
-    activateDirectChat() {
-      this.mode = "DIRECTCHAT";
-    },
-  },
-  persist: true,
+  function activateChatRoom() {
+    mode.value = "CHATROOM";
+  }
+
+  function activateDirectChat() {
+    mode.value = "DIRECTCHAT";
+  }
+
+  return { mode, activateChatRoom, activateDirectChat };
 });
+// persist off 방법 찾기

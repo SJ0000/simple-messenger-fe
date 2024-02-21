@@ -30,6 +30,7 @@ import { ref } from 'vue';
 import { directChatStore } from '@/store/directChat';
 import { messengerStore } from '@/store/messenger';
 import { friendStore } from '@/store/friendStore';
+import { ApiClient } from '@/modules/api/api-client';
 
 const addFriendDialog = ref<InstanceType<typeof AddFriendDialog> | null>(null);
 
@@ -44,7 +45,15 @@ function onFriendRequestClick() {
     friendRequestDialog.value?.open()
 }
 
-function onFriendDirectChatClick(otherUserId: number) {
+async function onFriendDirectChatClick(otherUserId: number) {
+    if (!directChatStore().exists(otherUserId)) {
+        const directChatId = await ApiClient.getInstance().createDirectChats(otherUserId)
+        directChatStore().join({
+            id: directChatId,
+            otherUser: friendStore().find(otherUserId),
+            messages: []
+        })
+    }
     directChatStore().select(otherUserId)
     messengerStore().activateDirectChat()
 }

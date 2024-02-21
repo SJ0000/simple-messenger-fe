@@ -6,8 +6,7 @@
     <div v-show="chatRoom.id !== 0">
       <h2>DIRECT CHAT</h2>
       <header class="d-flex justify-space-between">
-        <span class="text-h4">{{ chatRoom.name }}</span>
-        <v-btn @click="onInvitationLinkClick">초대 링크</v-btn>
+        <span class="text-h4"> DIRECT CHAT</span>
         <InvitationLinkDialog ref="dialog" />
       </header>
       <v-virtual-scroll id="virtual-scroll" class="ma-1" :items="messages" height="600" item-height="50">

@@ -129,4 +129,11 @@ export class ApiClient {
     const response = await this.client.get(`/api/chats/direct/me`);
     return response.data;
   }
+
+  async createDirectChats(otherUserId: number): Promise<number> {
+    const response = await this.client.post(
+      `/api/chats/direct?to=${otherUserId}`
+    );
+    return response.data;
+  }
 }
