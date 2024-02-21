@@ -12,7 +12,7 @@ import {
 } from "../directchat/interface";
 import { directChatStore } from "@/store/directChat";
 import { friendStore } from "@/store/friendStore";
-import { chatRoomStore } from "@/store/chatRoom";
+import { useChatRoomStore } from "@/store/chatRoom";
 import { User } from "../user/interface";
 import { ApiClient } from "./api-client";
 
@@ -80,7 +80,7 @@ export class MessageClient {
   subscribeChat(chatRoom: ChatRoom) {
     this.client.subscribe(`/topic/chat/${chatRoom.id}`, (message) => {
       const received: ReceivedMessage = JSON.parse(message.body);
-      chatRoomStore().addMessage(chatRoom.id, received);
+      useChatRoomStore().addMessage(chatRoom.id, received);
     });
   }
 

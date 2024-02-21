@@ -45,16 +45,17 @@ import { ChatRoom, SentMessage } from "@/modules/chat/interface";
 import { reactive, Ref, ref } from "vue";
 import { MessageClient } from "@/modules/api/message-client";
 import { useAuthenticationStore } from "@/store/authentication";
-import { chatRoomStore } from "@/store/chatRoom";
+import { useChatRoomStore } from "@/store/chatRoom";
 import { ApiClient } from "@/modules/api/api-client";
 import InvitationLinkDialog from "@/components/dialog/InvitationLinkDialog.vue";
 import { VVirtualScroll } from "vuetify/components";
 import { User } from "@/modules/user/interface";
 
 const authentication = useAuthenticationStore()
+const chatRoomStore = useChatRoomStore()
 
-const chatRoom: Ref<ChatRoom> = ref(chatRoomStore().selected)
-const messages = reactive(chatRoomStore().selected.messages)
+const chatRoom: Ref<ChatRoom> = ref(chatRoomStore.selected)
+const messages = reactive(chatRoomStore.selected.messages)
 const content = ref("")
 const user = authentication.getUser()
 
@@ -70,7 +71,7 @@ function createMessage(): SentMessage {
 }
 
 function findUser(userId: number): User {
-  const users = chatRoomStore().selected.users
+  const users = chatRoomStore.selected.users
   return users.find(user => user.id === userId) ?? { id: -1, name: "Unknown", email: "", avatarUrl: "", statusMessage: "", publicIdentifier: "" }
 }
 

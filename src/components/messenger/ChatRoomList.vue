@@ -18,20 +18,22 @@
 <script setup lang="ts">
 
 import { mdiChatPlus } from "@mdi/js";
-import { chatRoomStore } from "@/store/chatroom";
+import { useChatRoomStore } from "@/store/chatroom";
 import { reactive, ref } from "vue";
 import CreateChatRoomDialog from "@/components/dialog/CreateChatRoomDialog.vue";
 import { ChatRoom } from "@/modules/chat/interface"
 import { messengerStore } from "@/store/messenger";
 
-const chatRooms = ref(chatRoomStore().chatRooms)
-const selected = reactive(chatRoomStore().selected)
+const chatRoomStore = useChatRoomStore()
+
+const chatRooms = ref(chatRoomStore.chatRooms)
+const selected = reactive(chatRoomStore.selected)
 
 const dialog = ref<InstanceType<typeof CreateChatRoomDialog> | null>(null);
 
 
 function onChatRoomSelected(chatRoomId: number) {
-  chatRoomStore().select(chatRoomId)
+  chatRoomStore.select(chatRoomId)
   messengerStore().activateChatRoom()
 }
 

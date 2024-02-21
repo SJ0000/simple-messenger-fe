@@ -1,70 +1,68 @@
 import { defineStore } from "pinia";
 import { ChatRoom, ReceivedMessage } from "@/modules/chat/interface";
+import { Ref, ref } from "vue";
 
-interface chatRoomState {
-  selected: ChatRoom;
-  chatRooms: Map<number, ChatRoom>;
-}
+const dummyChatRoom = {
+  id: 0,
+  name: "",
+  avatarUrl: "",
+  users: [],
+  messages: [],
+};
 
-export const chatRoomStore = defineStore("chatRoom", {
-  state: (): chatRoomState => {
-    return {
-      selected: {
-        id: 0,
-        name: "",
-        avatarUrl: "",
-        users: [],
-        messages: [],
-      },
-      chatRooms: new Map<number, ChatRoom>(),
-    };
-  },
+export const useChatRoomStore = defineStore(
+  "chatRoom",
+  () => {
+    const selected: Ref<ChatRoom> = ref(dummyChatRoom);
+    const chatRooms: Ref<Map<number, ChatRoom>> = ref(
+      new Map<number, ChatRoom>()
+    );
 
-  actions: {
-    initialize(chatRooms: Array<ChatRoom>) {
-      chatRooms.forEach((chatRoom) => {
+    function initialize(chatRoomArray: Array<ChatRoom>) {
+      chatRoomArray.forEach((chatRoom) => {
         if (chatRoom.avatarUrl.length === 0) {
           chatRoom.avatarUrl = "/src/assets/default-avatar.jpg";
         }
-
         chatRoom.messages = [];
-        this.chatRooms.set(chatRoom.id, chatRoom);
+        chatRooms.value.set(chatRoom.id, chatRoom);
       });
-    },
+    }
 
-    join(chatRoom: ChatRoom) {
+    function join(chatRoom: ChatRoom) {
       chatRoom.messages = [];
       if (chatRoom.avatarUrl.length === 0) {
         chatRoom.avatarUrl = "/src/assets/default-avatar.jpg";
       }
-      this.chatRooms.set(chatRoom.id, chatRoom);
-    },
+      chatRooms.value.set(chatRoom.id, chatRoom);
+    }
 
-    find(chatRoomId: number): ChatRoom {
-      const findChatRoom = this.chatRooms.get(chatRoomId);
+    function find(chatRoomId: number): ChatRoom {
+      const findChatRoom = chatRooms.value.get(chatRoomId);
       if (findChatRoom === undefined)
         throw Error(`Chat Room id ${chatRoomId} not found`);
 
       return findChatRoom;
-    },
+    }
 
-    select(chatRoomId: number) {
-      const chatRoom = this.find(chatRoomId);
-      this.selected.id = chatRoom.id;
-      this.selected.name = chatRoom.name;
-      this.selected.avatarUrl = chatRoom.avatarUrl;
-      this.selected.users = chatRoom.users;
-      this.selected.messages.splice(0);
+    function select(chatRoomId: number) {
+      const chatRoom = find(chatRoomId);
+      selected.value.id = chatRoom.id;
+      selected.value.name = chatRoom.name;
+      selected.value.avatarUrl = chatRoom.avatarUrl;
+      selected.value.users = chatRoom.users;
+      selected.value.messages.splice(0);
       chatRoom.messages.forEach((message) => {
-        this.selected.messages.push(message);
+        selected.value.messages.push(message);
       });
-    },
+    }
 
-    addMessage(chatRoomId: number, message: ReceivedMessage) {
-      const findChatRoom = this.find(chatRoomId);
+    function addMessage(chatRoomId: number, message: ReceivedMessage) {
+      const findChatRoom = find(chatRoomId);
       findChatRoom.messages.push(message);
-      this.selected.messages.push(message);
-    },
+      selected.value.messages.push(message);
+    }
+
+    return { selected, chatRooms, initialize, join, find, select, addMessage };
   },
-  persist: false,
-});
+  { persist: false }
+);

@@ -5,6 +5,7 @@
     "useDefineForClassFields": true,
     "module": "ESNext",
     "moduleResolution": "Node",
+    "forceConsistentCasingInFileNames": false,
     "strict": true,
     "jsx": "preserve",
     "resolveJsonModule": true,
@@ -14,10 +15,8 @@
     "skipLibCheck": true,
     "noEmit": true,
     "paths": {
-      "@/*": [
-       "src/*"
-      ]
-     }
+      "@/*": ["src/*"]
+    }
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
   "references": [{ "path": "./tsconfig.node.json" }],

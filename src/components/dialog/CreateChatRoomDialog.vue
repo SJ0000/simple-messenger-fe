@@ -19,19 +19,22 @@
 import { reactive, ref } from "vue";
 import { ChatRoomCreateModel } from "@/modules/chat/model";
 import { ApiClient } from "@/modules/api/api-client";
-import { chatRoomStore } from "@/store/chatroom";
+import { useChatRoomStore } from "@/store/chatroom";
 import { SnackbarModel } from "@/modules/common/model";
 import { MessageClient } from "@/modules/api/message-client";
+
+const chatRoomStore = useChatRoomStore()
 
 const opened = ref(false)
 const model = ref(new ChatRoomCreateModel())
 const snackbar = reactive(new SnackbarModel())
 
+
 async function onSaveClick() {
   try {
     const chatRoom = await ApiClient.getInstance().createChatRoom(model.value.toDto())
     const joinedChatRoom = await ApiClient.getInstance().joinChatRoom(chatRoom.id);
-    chatRoomStore().join(joinedChatRoom)
+    chatRoomStore.join(joinedChatRoom)
     MessageClient.getInstance().subscribeChat(joinedChatRoom)
     opened.value = false
     snackbar.text = `대화방 '${chatRoom.name}' 이 생성되었습니다.`

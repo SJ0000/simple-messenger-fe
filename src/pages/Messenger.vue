@@ -27,7 +27,7 @@ import DirectChat from "@/components/messenger/DirectChat.vue";
 import Friends from "@/components/messenger/Friends.vue";
 import { MessageClient } from "@/modules/api/message-client";
 import { ApiClient } from "@/modules/api/api-client";
-import { chatRoomStore } from "@/store/chatRoom";
+import { useChatRoomStore } from "@/store/chatRoom";
 import { useAuthenticationStore } from "@/store/authentication";
 import router from "@/router";
 import { directChatStore } from "@/store/directChat";
@@ -37,6 +37,7 @@ import { friendStore } from "@/store/friendStore";
 import { storeToRefs } from "pinia";
 
 const authentication = useAuthenticationStore()
+const chatRoomStore = useChatRoomStore()
 
 if (!authentication.isLoggedIn)
   router.push("/")
@@ -46,8 +47,8 @@ friendStore().initialize(friends)
 
 const chatRooms = await ApiClient.getInstance().getMyChatRooms();
 if (chatRooms.length > 0) {
-  chatRoomStore().initialize(chatRooms)
-  chatRoomStore().select(chatRooms[0].id)
+  chatRoomStore.initialize(chatRooms)
+  chatRoomStore.select(chatRooms[0].id)
 }
 
 const directChats = await ApiClient.getInstance().getDirectChats();
