@@ -11,9 +11,9 @@
         </v-btn>
       </template>
       <v-card min-width="200">
-        <v-list v-if="auth.isLoggedIn">
-          <v-list-item :prepend-avatar="auth.user?.avatarUrl" :title="auth.user?.name"
-            :subtitle="auth.user?.publicIdentifier" />
+        <v-list v-if="authentication.isLoggedIn">
+          <v-list-item :prepend-avatar="authentication.getUser().avatarUrl" :title="authentication.getUser().name"
+            :subtitle="authentication.getUser().publicIdentifier" />
           <v-list-item>
             <v-btn class="w-100" @click="router.push('account')">
               <div>내 정보</div>

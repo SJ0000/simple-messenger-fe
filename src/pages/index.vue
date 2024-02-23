@@ -2,7 +2,7 @@
   <div class="d-flex justify-center align-center h-100" v-if="!isLoggedIn">
     <v-card class="w-300">
       <v-card-item>
-        <v-img height="300" src="@/assets/logo.svg" />
+        <v-img src="@/assets/logo.png" />
       </v-card-item>
       <v-card-title>Simple Messenger</v-card-title>
       <v-card-subtitle>simple messenger</v-card-subtitle>

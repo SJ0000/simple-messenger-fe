@@ -1,7 +1,7 @@
 <template>
   <v-container class="mw-500">
     <v-row>
-      <v-img height="300" src="@/assets/logo.svg" />
+      <v-img height="300" src="@/assets/logo.png" />
     </v-row>
     <v-row class="justify-center mb-1">
       <h2>로그인</h2>
