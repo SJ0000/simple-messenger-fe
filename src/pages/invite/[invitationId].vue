@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
 import { ApiClient } from "@/modules/api/api-client";
-import { useChatRoomStore } from "@/store/chatroom";
+import { useChatRoomStore } from "@/store/chatRoom";
 import { useAuthenticationStore } from "@/store/authentication";
 import router from "@/router";
 import { useRoute } from "vue-router";

@@ -19,7 +19,7 @@
 import { reactive, ref } from "vue";
 import { ChatRoomCreateModel } from "@/modules/chat/model";
 import { ApiClient } from "@/modules/api/api-client";
-import { useChatRoomStore } from "@/store/chatroom";
+import { useChatRoomStore } from "@/store/chatRoom";
 import { SnackbarModel } from "@/modules/common/model";
 import { MessageClient } from "@/modules/api/message-client";
 

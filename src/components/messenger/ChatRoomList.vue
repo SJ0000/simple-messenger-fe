@@ -18,7 +18,7 @@
 <script setup lang="ts">
 
 import { mdiChatPlus } from "@mdi/js";
-import { useChatRoomStore } from "@/store/chatroom";
+import { useChatRoomStore } from "@/store/chatRoom";
 import { reactive, ref } from "vue";
 import CreateChatRoomDialog from "@/components/dialog/CreateChatRoomDialog.vue";
 import { ChatRoom } from "@/modules/chat/interface"
