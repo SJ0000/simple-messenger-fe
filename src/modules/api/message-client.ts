@@ -11,7 +11,6 @@ import {
   SentDirectMessage,
 } from "../directchat/interface";
 import { directChatStore } from "@/store/directChat";
-import { friendStore } from "@/store/friendStore";
 import { useChatRoomStore } from "@/store/chatRoom";
 import { User } from "../user/interface";
 import { ApiClient } from "./api-client";
