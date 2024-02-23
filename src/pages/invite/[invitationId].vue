@@ -30,10 +30,7 @@ const route = useRoute()
 if (!authentication.isLoggedIn)
   router.push("/")
 
-if (typeof route.params.invitationId !== 'string')
-  router.push("/")
-
-const invitationId = route.params.invitationId as string
+const { invitationId } = route.params as { invitationId: string; }
 const invitation = await ApiClient.getInstance().getInvitation(invitationId)
 
 // Case 2: 이미 대화방에 참여한 경우
