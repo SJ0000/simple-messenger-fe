@@ -86,7 +86,7 @@ function sendMessageAndTextResetIfContentNotEmpty() {
 async function onInvitationLinkClick() {
   const chatRoomId = chatRoom.value.id
   const invitation = await ApiClient.getInstance().createInvitation(chatRoomId)
-  dialog.value?.open(`${import.meta.env.VITE_API_URL}/invite/${invitation.id}`)
+  dialog.value?.open(`${import.meta.env.API_URL}/invite/${invitation.id}`)
 }
 
 function onSendButtonClick() {

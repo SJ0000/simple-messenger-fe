@@ -33,7 +33,7 @@ export class MessageClient {
 
   start(authorization: string, user: User, chatRooms: ChatRoom[]): void {
     this.client.configure({
-      brokerURL: `${import.meta.env.VITE_APP_WS_URL}/message-broker`,
+      brokerURL: `${import.meta.env.VITE_WS_URL}/message-broker`,
       connectHeaders: {
         Authorization: authorization,
       },
