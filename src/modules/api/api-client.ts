@@ -64,20 +64,22 @@ export class ApiClient {
   }
 
   async createChatRoom(dto: ChatRoomCreateDto): Promise<ChatRoom> {
-    const response = await this.client.post<ChatRoom>("/api/chatrooms", dto);
+    const response = await this.client.post<ChatRoom>("/api/chats/groups", dto);
     return response.data;
   }
 
   async joinChatRoom(chatRoomId: number): Promise<ChatRoom> {
     const response = await this.client.post<ChatRoom>(
-      `/api/chatrooms/${chatRoomId}/join`
+      `/api/chats/groups/${chatRoomId}/join`
     );
     return response.data;
   }
 
   async getMyChatRooms(): Promise<ChatRoom[]> {
     try {
-      const response = await this.client.get<ChatRoom[]>("/api/chatrooms/me");
+      const response = await this.client.get<ChatRoom[]>(
+        "/api/chats/groups/me"
+      );
       return response.data;
     } catch (error) {
       console.log(error);
@@ -96,13 +98,15 @@ export class ApiClient {
   }
 
   async getInvitation(invitationId: string): Promise<Invitation> {
-    const response = await this.client.get(`/api/chat/invites/${invitationId}`);
+    const response = await this.client.get(
+      `/api/chats/groups/invites/${invitationId}`
+    );
     return response.data;
   }
 
   async createInvitation(chatRoomId: number): Promise<Invitation> {
     const response = await this.client.post(
-      `/api/chatrooms/${chatRoomId}/invites`
+      `/api/chats/groups/${chatRoomId}/invites`
     );
     return response.data;
   }
@@ -126,18 +130,18 @@ export class ApiClient {
   }
 
   async getDirectChat(id: number): Promise<DirectChat> {
-    const response = await this.client.get(`/api/chats/direct/${id}`);
+    const response = await this.client.get(`/api/chats/directs/${id}`);
     return response.data;
   }
 
   async getDirectChats(): Promise<DirectChat[]> {
-    const response = await this.client.get(`/api/chats/direct/me`);
+    const response = await this.client.get(`/api/chats/directs/me`);
     return response.data;
   }
 
   async createDirectChats(otherUserId: number): Promise<number> {
     const response = await this.client.post(
-      `/api/chats/direct?to=${otherUserId}`
+      `/api/chats/directs?to=${otherUserId}`
     );
     return response.data;
   }
