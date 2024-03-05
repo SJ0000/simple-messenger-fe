@@ -46,6 +46,11 @@ const friends: Array<User> = await ApiClient.getInstance().getMyFriends()
 friendStore().initialize(friends)
 
 const chatRooms = await ApiClient.getInstance().getMyChatRooms();
+chatRooms.forEach(async chatRoom => {
+  const chatRoomWithUsers = await ApiClient.getInstance().getChatRoom(chatRoom.id)
+  chatRoom.users = chatRoomWithUsers.users
+})
+
 if (chatRooms.length > 0) {
   chatRoomStore.initialize(chatRooms)
   chatRoomStore.select(chatRooms[0].id)
@@ -62,4 +67,5 @@ const { mode } = storeToRefs(messengerStore())
 
 
 </script>
+
 <style scoped></style>

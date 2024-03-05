@@ -87,6 +87,18 @@ export class ApiClient {
     }
   }
 
+  async getChatRoom(chatRoomId: number): Promise<ChatRoom> {
+    try {
+      const response = await this.client.get<ChatRoom>(
+        `/api/chats/groups/${chatRoomId}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return [];
+    }
+  }
+
   async getMyFriends(): Promise<User[]> {
     try {
       const response = await this.client.get<User[]>("/api/friends");
