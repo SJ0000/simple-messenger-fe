@@ -1,7 +1,7 @@
 export class FriendRequestDto {
-  recipient: string;
+  publicIdentifier: string;
 
-  constructor(receiverPublicIdentifierame: string) {
-    this.recipient = receiverPublicIdentifierame;
+  constructor(receiverPublicIdentifier: string) {
+    this.publicIdentifier = receiverPublicIdentifier;
   }
 }
