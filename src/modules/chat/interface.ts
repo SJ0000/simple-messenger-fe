@@ -10,14 +10,14 @@ export interface ChatRoom {
 
 export interface ReceivedMessage {
   id: string;
-  chatRoomId: number;
+  groupChatId: number;
   senderId: number;
   content: string;
   receivedAt: Date;
 }
 
 export interface SentMessage {
-  chatRoomId: number;
+  groupChatId: number;
   senderId: number;
   content: string;
   sentAt: Date;

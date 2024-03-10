@@ -133,7 +133,7 @@ export class ApiClient {
   }
 
   async approveFriendRequest(id: number): Promise<AxiosResponse> {
-    return await this.client.patch(`/api/friends/${id}/approve`);
+    return await this.client.patch(`/api/friends/requests/${id}/approve`);
   }
 
   async getDirectChat(id: number): Promise<DirectChat> {

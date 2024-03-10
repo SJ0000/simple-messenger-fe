@@ -64,7 +64,7 @@ export class MessageClient {
 
   send(message: SentMessage) {
     this.client.publish({
-      destination: "/app/chat-message",
+      destination: "/app/group-message",
       body: JSON.stringify(message),
     });
   }
@@ -77,7 +77,7 @@ export class MessageClient {
   }
 
   subscribeChat(chatRoom: ChatRoom) {
-    this.client.subscribe(`/topic/chat/${chatRoom.id}`, (message) => {
+    this.client.subscribe(`/topic/group-chat/${chatRoom.id}`, (message) => {
       const received: ReceivedMessage = JSON.parse(message.body);
       useChatRoomStore().addMessage(chatRoom.id, received);
     });
