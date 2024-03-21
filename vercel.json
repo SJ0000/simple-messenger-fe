@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://api.sj-sideproj-messenger/:path*"
+      "destination": "https://api.sj-sideproj-messenger.xyz/:path*"
     }
   ]
 }
