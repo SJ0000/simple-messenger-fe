@@ -63,7 +63,7 @@ const dialog = ref<InstanceType<typeof InvitationLinkDialog> | null>(null)
 
 function createMessage(): SentMessage {
   return {
-    chatRoomId: chatRoom.value.id,
+    groupChatId: chatRoom.value.id,
     senderId: user.id,
     content: content.value,
     sentAt: new Date()
