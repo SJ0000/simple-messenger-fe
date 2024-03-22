@@ -74,7 +74,6 @@ function sendMessageAndTextResetIfContentNotEmpty() {
     return
   const message = createMessage()
   MessageClient.getInstance().sendDirect(directChat.otherUser.id, message)
-
   content.value = ""
 }
 
