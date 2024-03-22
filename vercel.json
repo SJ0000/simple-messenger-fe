@@ -3,6 +3,7 @@
     {
       "source": "/api/:path*",
       "destination": "https://api.sj-sideproj-messenger.xyz/:path*"
-    }
+    },
+    { "source": "/(.*)", "destination": "/" }
   ]
 }
