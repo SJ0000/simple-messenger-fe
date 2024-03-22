@@ -99,8 +99,6 @@ function pressEnterHandler(event: KeyboardEvent) {
   sendMessageAndTextResetIfContentNotEmpty()
 }
 
-
-
 function getFormattedDate(date: Date): string {
   const d = new Date(date)
   const year = d.getFullYear()

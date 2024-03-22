@@ -54,6 +54,7 @@ chatRooms.forEach(async chatRoom => {
 if (chatRooms.length > 0) {
   chatRoomStore.initialize(chatRooms)
   chatRoomStore.select(chatRooms[0].id)
+  messengerStore().activateChatRoom()
 }
 
 const directChats = await ApiClient.getInstance().getDirectChats();
