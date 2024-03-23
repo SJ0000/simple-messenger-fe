@@ -34,12 +34,12 @@ const { invitationId } = route.params as { invitationId: string; }
 const invitation = await ApiClient.getInstance().getInvitation(invitationId)
 
 // Case 2: 이미 대화방에 참여한 경우
-if (chatRoomStore.chatRooms.has(invitation.chatRoomId)) {
+if (chatRoomStore.chatRooms.has(invitation.groupChatId)) {
   router.push("/messenger")
 }
 
 async function onJoinButtonClick() {
-  const joinedChatRoom = await ApiClient.getInstance().joinChatRoom(invitation.chatRoomId)
+  const joinedChatRoom = await ApiClient.getInstance().joinChatRoom(invitation.groupChatId)
   chatRoomStore.join(joinedChatRoom)
   await router.push("/messenger")
 }
