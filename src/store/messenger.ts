@@ -4,17 +4,17 @@ import { ref } from "vue";
 export const messengerStore = defineStore(
   "messenger",
   () => {
-    const mode = ref("CHATROOM");
+    const mode = ref("GROUPCHAT");
 
-    function activateChatRoom() {
-      mode.value = "CHATROOM";
+    function activateGroupChat() {
+      mode.value = "GROUPCHAT";
     }
 
     function activateDirectChat() {
       mode.value = "DIRECTCHAT";
     }
 
-    return { mode, activateChatRoom, activateDirectChat };
+    return { mode, activateGroupChat, activateDirectChat };
   },
   { persist: false }
 );

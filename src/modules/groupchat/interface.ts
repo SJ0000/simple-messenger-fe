@@ -1,6 +1,6 @@
 import { User } from "@/modules/user/interface";
 
-export interface ChatRoom {
+export interface GroupChat {
   id: number;
   name: string;
   avatarUrl: string;

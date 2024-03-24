@@ -1,8 +1,8 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 import { LoginDto, SignUpDto } from "@/modules/auth/dto";
 import { useAuthenticationStore } from "@/store/authentication";
-import { ChatRoom, Invitation } from "@/modules/chat/interface";
-import { ChatRoomCreateDto } from "@/modules/chat/dto";
+import { GroupChat, Invitation } from "@/modules/groupchat/interface";
+import { GroupChatCreateDto } from "@/modules/groupchat/dto";
 import { UpdateUserDto } from "../user/dto";
 import { User } from "../user/interface";
 import { FriendRequestDto } from "../friend/dto";
@@ -63,21 +63,24 @@ export class ApiClient {
     return await this.client.post("/api/login", JSON.stringify(dto));
   }
 
-  async createChatRoom(dto: ChatRoomCreateDto): Promise<ChatRoom> {
-    const response = await this.client.post<ChatRoom>("/api/chats/groups", dto);
-    return response.data;
-  }
-
-  async joinChatRoom(chatRoomId: number): Promise<ChatRoom> {
-    const response = await this.client.post<ChatRoom>(
-      `/api/chats/groups/${chatRoomId}/join`
+  async createGroupChat(dto: GroupChatCreateDto): Promise<GroupChat> {
+    const response = await this.client.post<GroupChat>(
+      "/api/chats/groups",
+      dto
     );
     return response.data;
   }
 
-  async getMyChatRooms(): Promise<ChatRoom[]> {
+  async joinGroupChat(groupChatId: number): Promise<GroupChat> {
+    const response = await this.client.post<GroupChat>(
+      `/api/chats/groups/${groupChatId}/join`
+    );
+    return response.data;
+  }
+
+  async getMyGroupChats(): Promise<GroupChat[]> {
     try {
-      const response = await this.client.get<ChatRoom[]>(
+      const response = await this.client.get<GroupChat[]>(
         "/api/chats/groups/me"
       );
       return response.data;
@@ -87,9 +90,9 @@ export class ApiClient {
     }
   }
 
-  async getChatRoom(chatRoomId: number): Promise<ChatRoom> {
-    const response = await this.client.get<ChatRoom>(
-      `/api/chats/groups/${chatRoomId}`
+  async getGroupChat(groupChatId: number): Promise<GroupChat> {
+    const response = await this.client.get<GroupChat>(
+      `/api/chats/groups/${groupChatId}`
     );
     return response.data;
   }
@@ -111,9 +114,9 @@ export class ApiClient {
     return response.data;
   }
 
-  async createInvitation(chatRoomId: number): Promise<Invitation> {
+  async createInvitation(groupChatId: number): Promise<Invitation> {
     const response = await this.client.post(
-      `/api/chats/groups/${chatRoomId}/invites`
+      `/api/chats/groups/${groupChatId}/invites`
     );
     return response.data;
   }

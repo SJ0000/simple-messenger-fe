@@ -17,27 +17,27 @@
 
 <script setup lang="ts">
 import { reactive, ref } from "vue";
-import { ChatRoomCreateModel } from "@/modules/chat/model";
+import { GroupChatCreateModel } from "@/modules/groupchat/model";
 import { ApiClient } from "@/modules/api/api-client";
-import { useChatRoomStore } from "@/store/chatRoom";
+import { useGroupChatStore } from "@/store/groupChat";
 import { SnackbarModel } from "@/modules/common/model";
 import { MessageClient } from "@/modules/api/message-client";
 
-const chatRoomStore = useChatRoomStore()
+const groupChatStore = useGroupChatStore()
 
 const opened = ref(false)
-const model = ref(new ChatRoomCreateModel())
+const model = ref(new GroupChatCreateModel())
 const snackbar = reactive(new SnackbarModel())
 
 
 async function onSaveClick() {
   try {
-    const chatRoom = await ApiClient.getInstance().createChatRoom(model.value.toDto())
-    const joinedChatRoom = await ApiClient.getInstance().joinChatRoom(chatRoom.id);
-    chatRoomStore.join(joinedChatRoom)
-    MessageClient.getInstance().subscribeChat(joinedChatRoom)
+    const groupChat = await ApiClient.getInstance().createGroupChat(model.value.toDto())
+    const joinedGroupChat = await ApiClient.getInstance().joinGroupChat(groupChat.id);
+    groupChatStore.join(joinedGroupChat)
+    MessageClient.getInstance().subscribeChat(joinedGroupChat)
     opened.value = false
-    snackbar.text = `대화방 '${chatRoom.name}' 이 생성되었습니다.`
+    snackbar.text = `대화방 '${groupChat.name}' 이 생성되었습니다.`
     snackbar.open = true
   } catch (e) {
     snackbar.text = `대화방 생성에 실패하였습니다`
@@ -60,4 +60,4 @@ defineExpose({
 
 </script>
 
-<style scoped></style>
+<style scoped></style>@/modules/groupchat/model@/store/groupChat

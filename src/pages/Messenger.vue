@@ -5,12 +5,12 @@
         <Friends />
       </v-col>
       <v-col cols="3">
-        <ChatRoomList />
+        <GroupChatList />
       </v-col>
       <v-divider vertical></v-divider>
       <v-col cols="6">
-        <div v-show="mode === `CHATROOM`">
-          <Chat />
+        <div v-show="mode === `GROUPCHAT`">
+          <GroupChat />
         </div>
         <div v-show="mode === `DIRECTCHAT`">
           <DirectChat />
@@ -21,13 +21,13 @@
 </template>
 
 <script setup lang="ts">
-import ChatRoomList from "@/components/messenger/ChatRoomList.vue";
-import Chat from "@/components/messenger/Chat.vue";
+import GroupChatList from "@/components/messenger/GroupChatList.vue";
+import GroupChat from "@/components/messenger/GroupChat.vue";
 import DirectChat from "@/components/messenger/DirectChat.vue";
 import Friends from "@/components/messenger/Friends.vue";
 import { MessageClient } from "@/modules/api/message-client";
 import { ApiClient } from "@/modules/api/api-client";
-import { useChatRoomStore } from "@/store/chatRoom";
+import { useGroupChatStore } from "@/store/groupChat";
 import { useAuthenticationStore } from "@/store/authentication";
 import router from "@/router";
 import { directChatStore } from "@/store/directChat";
@@ -37,7 +37,7 @@ import { friendStore } from "@/store/friendStore";
 import { storeToRefs } from "pinia";
 
 const authentication = useAuthenticationStore()
-const chatRoomStore = useChatRoomStore()
+const groupChatStore = useGroupChatStore()
 
 if (!authentication.isLoggedIn)
   router.push("/")
@@ -45,16 +45,16 @@ if (!authentication.isLoggedIn)
 const friends: Array<User> = await ApiClient.getInstance().getMyFriends()
 friendStore().initialize(friends)
 
-const chatRooms = await ApiClient.getInstance().getMyChatRooms();
-chatRooms.forEach(async chatRoom => {
-  const chatRoomWithUsers = await ApiClient.getInstance().getChatRoom(chatRoom.id)
-  chatRoom.users = chatRoomWithUsers.users
+const groupChats = await ApiClient.getInstance().getMyGroupChats();
+groupChats.forEach(async groupChat => {
+  const groupChatWithUsers = await ApiClient.getInstance().getGroupChat(groupChat.id)
+  groupChat.users = groupChatWithUsers.users
 })
 
-if (chatRooms.length > 0) {
-  chatRoomStore.initialize(chatRooms)
-  chatRoomStore.select(chatRooms[0].id)
-  messengerStore().activateChatRoom()
+if (groupChats.length > 0) {
+  groupChatStore.initialize(groupChats)
+  groupChatStore.select(groupChats[0].id)
+  messengerStore().activateGroupChat()
 }
 
 const directChats = await ApiClient.getInstance().getDirectChats();
@@ -62,11 +62,11 @@ directChatStore().initialize(directChats)
 
 const authoritzation = authentication.getAccessToken()
 const user = authentication.getUser()
-MessageClient.getInstance().start(authoritzation, user, chatRooms)
+MessageClient.getInstance().start(authoritzation, user, groupChats)
 
 const { mode } = storeToRefs(messengerStore())
 
 
 </script>
 
-<style scoped></style>
+<style scoped></style>@/store/groupChat

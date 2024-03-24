@@ -16,13 +16,13 @@
 
 <script setup lang="ts">
 import { ApiClient } from "@/modules/api/api-client";
-import { useChatRoomStore } from "@/store/chatRoom";
+import { useGroupChatStore } from "@/store/groupChat";
 import { useAuthenticationStore } from "@/store/authentication";
 import router from "@/router";
 import { useRoute } from "vue-router";
 
 const authentication = useAuthenticationStore()
-const chatRoomStore = useChatRoomStore()
+const groupChatStore = useGroupChatStore()
 
 const route = useRoute()
 
@@ -34,13 +34,13 @@ const { invitationId } = route.params as { invitationId: string; }
 const invitation = await ApiClient.getInstance().getInvitation(invitationId)
 
 // Case 2: 이미 대화방에 참여한 경우
-if (chatRoomStore.chatRooms.has(invitation.groupChatId)) {
+if (groupChatStore.groupChats.has(invitation.groupChatId)) {
   router.push("/messenger")
 }
 
 async function onJoinButtonClick() {
-  const joinedChatRoom = await ApiClient.getInstance().joinChatRoom(invitation.groupChatId)
-  chatRoomStore.join(joinedChatRoom)
+  const joinedGroupChat = await ApiClient.getInstance().joinGroupChat(invitation.groupChatId)
+  groupChatStore.join(joinedGroupChat)
   await router.push("/messenger")
 }
 
@@ -51,4 +51,4 @@ async function onJoinButtonClick() {
   max-width: 500px;
   max-height: 500px;
 }
-</style>
+</style>@/store/groupChat

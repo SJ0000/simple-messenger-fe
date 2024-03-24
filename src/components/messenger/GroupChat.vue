@@ -1,11 +1,11 @@
 <template>
   <div class="d-flex flex-column w-100 h-100">
-    <div class="align-self-center" v-if="chatRoom.id === 0">
+    <div class="align-self-center" v-if="groupChat.id === 0">
       <div class="text-h6">대화방을 선택해주세요.</div>
     </div>
-    <div v-show="chatRoom.id !== 0">
+    <div v-show="groupChat.id !== 0">
       <header class="d-flex justify-space-between">
-        <span class="text-h4">{{ chatRoom.name }}</span>
+        <span class="text-h4">{{ groupChat.name }}</span>
         <v-btn @click="onInvitationLinkClick">초대 링크</v-btn>
         <InvitationLinkDialog ref="dialog" />
       </header>
@@ -41,21 +41,21 @@
 </template>
 <script setup lang="ts">
 import { mdiMessage } from "@mdi/js"
-import { ChatRoom, SentMessage } from "@/modules/chat/interface";
+import { GroupChat, SentMessage } from "@/modules/groupchat/interface";
 import { reactive, Ref, ref } from "vue";
 import { MessageClient } from "@/modules/api/message-client";
 import { useAuthenticationStore } from "@/store/authentication";
-import { useChatRoomStore } from "@/store/chatRoom";
+import { useGroupChatStore } from "@/store/groupChat";
 import { ApiClient } from "@/modules/api/api-client";
 import InvitationLinkDialog from "@/components/dialog/InvitationLinkDialog.vue";
 import { VVirtualScroll } from "vuetify/components";
 import { User } from "@/modules/user/interface";
 
 const authentication = useAuthenticationStore()
-const chatRoomStore = useChatRoomStore()
+const groupChatStore = useGroupChatStore()
 
-const chatRoom: Ref<ChatRoom> = ref(chatRoomStore.selected)
-const messages = reactive(chatRoomStore.selected.messages)
+const groupChat: Ref<GroupChat> = ref(groupChatStore.selected)
+const messages = reactive(groupChatStore.selected.messages)
 const content = ref("")
 const user = authentication.getUser()
 
@@ -63,7 +63,7 @@ const dialog = ref<InstanceType<typeof InvitationLinkDialog> | null>(null)
 
 function createMessage(): SentMessage {
   return {
-    groupChatId: chatRoom.value.id,
+    groupChatId: groupChat.value.id,
     senderId: user.id,
     content: content.value,
     sentAt: new Date()
@@ -71,7 +71,7 @@ function createMessage(): SentMessage {
 }
 
 function findUser(userId: number): User {
-  const users = chatRoomStore.selected.users
+  const users = groupChatStore.selected.users
   return users.find(user => user.id === userId) ?? { id: -1, name: "Unknown", email: "", avatarUrl: "", statusMessage: "", publicIdentifier: "" }
 }
 
@@ -84,8 +84,8 @@ function sendMessageAndTextResetIfContentNotEmpty() {
 }
 
 async function onInvitationLinkClick() {
-  const chatRoomId = chatRoom.value.id
-  const invitation = await ApiClient.getInstance().createInvitation(chatRoomId)
+  const groupChatId = groupChat.value.id
+  const invitation = await ApiClient.getInstance().createInvitation(groupChatId)
   dialog.value?.open(`${import.meta.env.API_URL}/invite/${invitation.id}`)
 }
 
@@ -116,4 +116,4 @@ function add0IfLessThan10(num: number): string {
 }
 
 </script>
-<style scoped></style>
+<style scoped></style>@/modules/groupchat/interface@/store/groupChat

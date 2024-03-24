@@ -1,17 +1,17 @@
 // Singleton
 import { Client } from "@stomp/stompjs";
 import {
-  ChatRoom,
+  GroupChat,
   ReceivedMessage,
   SentMessage,
-} from "@/modules/chat/interface";
+} from "@/modules/groupchat/interface";
 
 import {
   ReceivedDirectMessage,
   SentDirectMessage,
 } from "../directchat/interface";
 import { directChatStore } from "@/store/directChat";
-import { useChatRoomStore } from "@/store/chatRoom";
+import { useGroupChatStore } from "@/store/groupChat";
 import { User } from "../user/interface";
 import { ApiClient } from "./api-client";
 
@@ -30,7 +30,7 @@ export class MessageClient {
     return this.instance;
   }
 
-  start(authorization: string, user: User, chatRooms: ChatRoom[]): void {
+  start(authorization: string, user: User, groupChats: GroupChat[]): void {
     this.client.configure({
       brokerURL: `${import.meta.env.VITE_WS_URL}/message-broker`,
       connectHeaders: {
@@ -40,8 +40,8 @@ export class MessageClient {
 
     this.client.onConnect = (frame) => {
       console.log(`WS Connected. ${frame}`);
-      chatRooms.forEach((chatRoom) => {
-        this.subscribeChat(chatRoom);
+      groupChats.forEach((groupChat) => {
+        this.subscribeChat(groupChat);
       });
       this.subscribeDirectChat(user.id);
     };
@@ -76,10 +76,10 @@ export class MessageClient {
     });
   }
 
-  subscribeChat(chatRoom: ChatRoom) {
-    this.client.subscribe(`/topic/group-chat/${chatRoom.id}`, (message) => {
+  subscribeChat(groupChat: GroupChat) {
+    this.client.subscribe(`/topic/group-chat/${groupChat.id}`, (message) => {
       const received: ReceivedMessage = JSON.parse(message.body);
-      useChatRoomStore().addMessage(chatRoom.id, received);
+      useGroupChatStore().addMessage(groupChat.id, received);
     });
   }
 
