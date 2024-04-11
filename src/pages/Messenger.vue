@@ -46,10 +46,10 @@ const friends: Array<User> = await ApiClient.getInstance().getMyFriends()
 friendStore().initialize(friends)
 
 const groupChats = await ApiClient.getInstance().getMyGroupChats();
-groupChats.forEach(async groupChat => {
+for (let groupChat of groupChats) {
   const groupChatWithUsers = await ApiClient.getInstance().getGroupChat(groupChat.id)
   groupChat.users = groupChatWithUsers.users
-})
+}
 
 if (groupChats.length > 0) {
   groupChatStore.initialize(groupChats)
