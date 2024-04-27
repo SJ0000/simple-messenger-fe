@@ -9,7 +9,6 @@ export interface GroupChat {
 }
 
 export interface ReceivedMessage {
-  id: string;
   groupChatId: number;
   senderId: number;
   content: string;

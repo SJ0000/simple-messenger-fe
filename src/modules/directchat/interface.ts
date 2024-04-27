@@ -7,7 +7,6 @@ export interface DirectChat {
 }
 
 export interface ReceivedDirectMessage {
-  id: string;
   directChatId: number;
   messageType: string;
   senderId: number;
