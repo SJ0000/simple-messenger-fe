@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "node --no-warnings ./node_modules/.bin/vite",
-    "build": "vue-tsc --noEmit && vite build",
+    "build": "vue-tsc --noEmit && NODE_ENV=development vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint . --fix --ignore-path .gitignore"
   },
@@ -15,8 +15,10 @@
     "core-js": "^3.34.0",
     "pinia-plugin-persistedstate": "^3.2.1",
     "roboto-fontface": "*",
+    "update": "^0.7.4",
     "vue": "^3.3.0",
-    "vuetify": "^3.5.2"
+    "vuetify": "^3.5.2",
+    "@aws-sdk/client-s3": "3.569.0"
   },
   "devDependencies": {
     "@babel/types": "^7.23.0",

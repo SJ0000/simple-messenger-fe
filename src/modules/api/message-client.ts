@@ -14,25 +14,32 @@ import { directChatStore } from "@/store/directChat";
 import { useGroupChatStore } from "@/store/groupChat";
 import { User } from "../user/interface";
 import { ApiClient } from "./api-client";
+import { MessageClientConfig } from "./config";
 
 export class MessageClient {
   private static instance: MessageClient;
 
   private client: Client;
+  private connectionUrl: string;
 
-  private constructor() {
+  private constructor(config: MessageClientConfig) {
     this.client = new Client();
+    this.connectionUrl = config.url;
+  }
+
+  public static initialize(config: MessageClientConfig) {
+    this.instance = new MessageClient(config);
   }
 
   public static getInstance(): MessageClient {
     if (this.instance === null || this.instance === undefined)
-      this.instance = new MessageClient();
+      throw Error("MessageClient not initialized");
     return this.instance;
   }
 
   start(authorization: string, user: User, groupChats: GroupChat[]): void {
     this.client.configure({
-      brokerURL: `${import.meta.env.VITE_WS_URL}/message-broker`,
+      brokerURL: `${this.connectionUrl}/message-broker`,
       connectHeaders: {
         Authorization: authorization,
       },

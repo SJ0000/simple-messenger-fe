@@ -11,7 +11,6 @@
       </header>
       <v-virtual-scroll id="virtual-scroll" class="ma-1" :items="messages" height="600" item-height="50">
         <template v-slot:default="{ item }">
-          <!-- <v-list-item v-if="item.senderId === user.id" :id="item.id" :append-avatar="findUser(item.senderId).avatarUrl" -->
           <v-list-item v-if="item.senderId === user.id" :append-avatar="findUser(item.senderId).avatarUrl" class="ma-2">
             <div class="text-right">
               <div class="text-subtitle-2 font-weight-bold">{{ findUser(item.senderId).name }}</div>
@@ -19,7 +18,6 @@
               <div class="text-caption font-italic">{{ getFormattedDate(item.receivedAt) }}</div>
             </div>
           </v-list-item>
-          <!-- <v-list-item v-else :id="item.id" :prepend-avatar="findUser(item.senderId).avatarUrl" class="ma-2"> -->
           <v-list-item v-else :prepend-avatar="findUser(item.senderId).avatarUrl" class="ma-2">
             <div>
               <div class="text-subtitle-2 font-weight-bold">{{ findUser(item.senderId).name }}</div>

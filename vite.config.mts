@@ -40,7 +40,17 @@ export default defineConfig(({ command, mode }) => {
         },
       }),
     ],
-    define: { "process.env": {} },
+    define: {
+      "process.env": {
+        WS_URL: env.WS_URL,
+        OBJECT_STORAGE_REGION: env.OBJECT_STORAGE_REGION,
+        OBJECT_STORAGE_ENDPOINT: env.OBJECT_STORAGE_ENDPOINT,
+        OBJECT_STORAGE_KEY_ID: env.OBJECT_STORAGE_KEY_ID,
+        OBJECT_STORAGE_KEY_SECRET: env.OBJECT_STORAGE_KEY_SECRET,
+        OBJECT_STORAGE_BUCKET_NAME: env.OBJECT_STORAGE_BUCKET_NAME,
+      },
+      global: {},
+    },
     resolve: {
       alias: {
         "@": fileURLToPath(new URL("./src", import.meta.url)),
@@ -51,7 +61,7 @@ export default defineConfig(({ command, mode }) => {
       port: 3000,
       proxy: {
         "/api": {
-          target: env.VITE_API_URL,
+          target: env.API_URL,
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, ""),
         },
