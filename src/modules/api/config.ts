@@ -4,6 +4,7 @@ export class ObjectStorageConfig {
   public accessKeyId: string;
   public secretAccessKey: string;
   public bucketName: string;
+  public publicUrlPrefix: string;
 
   constructor(env: any) {
     this.region = env.OBJECT_STORAGE_REGION;
@@ -11,6 +12,7 @@ export class ObjectStorageConfig {
     this.accessKeyId = env.OBJECT_STORAGE_KEY_ID;
     this.secretAccessKey = env.OBJECT_STORAGE_KEY_SECRET;
     this.bucketName = env.OBJECT_STORAGE_BUCKET_NAME;
+    this.publicUrlPrefix = env.OBJECT_STORAGE_PUBLIC_URL_PREFIX;
   }
 }
 

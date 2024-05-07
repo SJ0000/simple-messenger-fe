@@ -48,6 +48,7 @@ export default defineConfig(({ command, mode }) => {
         OBJECT_STORAGE_KEY_ID: env.OBJECT_STORAGE_KEY_ID,
         OBJECT_STORAGE_KEY_SECRET: env.OBJECT_STORAGE_KEY_SECRET,
         OBJECT_STORAGE_BUCKET_NAME: env.OBJECT_STORAGE_BUCKET_NAME,
+        OBJECT_STORAGE_PUBLIC_URL_PREFIX: env.OBJECT_STORAGE_PUBLIC_URL_PREFIX,
       },
       global: {},
     },

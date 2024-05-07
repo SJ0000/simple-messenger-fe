@@ -1,13 +1,13 @@
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { ObjectStorageConfig } from "./config";
-
-// TODO : Policy 부분 정독후 적용 후 테스트
+import { User } from "../user/interface";
 
 export class ObjectStorageClient {
   private static instance: ObjectStorageClient;
 
   private s3Client: S3Client;
   private bucketName: string;
+  private publicUrlPrefix: string;
 
   private constructor(config: ObjectStorageConfig) {
     process.env.OBJECT_STORAGE_REGION;
@@ -20,6 +20,7 @@ export class ObjectStorageClient {
       },
       forcePathStyle: true,
     });
+    this.publicUrlPrefix = config.publicUrlPrefix;
     this.bucketName = config.bucketName;
   }
 
@@ -34,19 +35,23 @@ export class ObjectStorageClient {
     return this.instance;
   }
 
-  async saveUseS3Client(name: string, content: string) {
-    console.log("saveUseS3Client called");
-
+  async saveProfileImage(user: User, image: File): Promise<string> {
+    const ext = image.name.split(".").pop();
+    const savePath = `profile-images/${user.id}.${ext}`;
     const command = new PutObjectCommand({
       Bucket: this.bucketName,
-      Key: name,
-      Body: content,
+      Key: savePath,
+      Body: image,
+      ContentType: `image/${ext}`,
     });
+
     try {
       const result = await this.s3Client.send(command);
       console.log(result);
     } catch (err) {
       console.error(err);
     }
+
+    return `${this.publicUrlPrefix}/${savePath}`;
   }
 }
