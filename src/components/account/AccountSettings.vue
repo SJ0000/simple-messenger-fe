@@ -38,7 +38,7 @@ const user = authentication.getUser()
 const model = ref(new UpdateUserModel(user))
 
 const osClient = ObjectStorageClient.getInstance();
-const profileImage = ref<File | null>(null)
+const profileImage = ref<File | undefined>(undefined)
 const profileImagePreviewUrl = ref<string>("")
 
 // TODO : 테스트하기
