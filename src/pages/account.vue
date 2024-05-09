@@ -30,14 +30,9 @@
 <script setup lang="ts">
 import AccountSettings from "@/components/account/AccountSettings.vue"
 import { mdiAccountCog, mdiBell } from '@mdi/js';
-import router from '@/router';
 import { useAuthenticationStore } from '@/store/authentication';
 
 const authentication = useAuthenticationStore()
-
-if (!authentication.isLoggedIn)
-    router.push("/")
-
 const user = authentication.getUser();
 
 const menus = [

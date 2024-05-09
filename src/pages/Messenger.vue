@@ -29,7 +29,6 @@ import { MessageClient } from "@/modules/api/message-client";
 import { ApiClient } from "@/modules/api/api-client";
 import { useGroupChatStore } from "@/store/groupChat";
 import { useAuthenticationStore } from "@/store/authentication";
-import router from "@/router";
 import { directChatStore } from "@/store/directChat";
 import { messengerStore } from "@/store/messenger";
 import { User } from "@/modules/user/interface";
@@ -38,9 +37,6 @@ import { storeToRefs } from "pinia";
 
 const authentication = useAuthenticationStore()
 const groupChatStore = useGroupChatStore()
-
-if (!authentication.isLoggedIn)
-  router.push("/")
 
 const friends: Array<User> = await ApiClient.getInstance().getMyFriends()
 friendStore().initialize(friends)
