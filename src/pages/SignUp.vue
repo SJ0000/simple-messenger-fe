@@ -25,14 +25,14 @@
 </template>
 
 <script setup lang="ts">
-import { email, notEmpty, password } from "@/modules/validation/rules"
-import { Ref, ref } from "vue";
-import { SignUpModel } from "@/modules/auth/model";
+import {email, notEmpty, password} from "@/modules/validation/rules"
+import {Ref, ref} from "vue";
+import {SignUpModel} from "@/modules/auth/model";
 
-import { VForm } from "vuetify/components";
+import {VForm} from "vuetify/components";
 import router from "@/router";
-import { ApiClient } from "@/modules/api/api-client";
-import { useAuthenticationStore } from "@/store/authentication";
+import {ApiClient} from "@/modules/api/ApiClient";
+import {useAuthenticationStore} from "@/store/AuthenticationStore";
 
 const authentication = useAuthenticationStore()
 

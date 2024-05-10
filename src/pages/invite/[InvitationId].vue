@@ -15,11 +15,11 @@
 </template>
 
 <script setup lang="ts">
-import { ApiClient } from "@/modules/api/api-client";
-import { useGroupChatStore } from "@/store/groupChat";
-import { useAuthenticationStore } from "@/store/authentication";
+import {ApiClient} from "@/modules/api/ApiClient";
+import {useGroupChatStore} from "@/store/GroupChatStore";
+import {useAuthenticationStore} from "@/store/AuthenticationStore";
 import router from "@/router";
-import { useRoute } from "vue-router";
+import {useRoute} from "vue-router";
 
 const authentication = useAuthenticationStore()
 const groupChatStore = useGroupChatStore()

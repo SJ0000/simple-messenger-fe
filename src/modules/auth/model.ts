@@ -1,6 +1,6 @@
-import { LoginDto, SignUpDto } from "@/modules/auth/dto";
-import { User } from "../user/interface";
-import { UpdateUserDto } from "../user/dto";
+import {LoginDto, SignUpDto} from "@/modules/auth/dto";
+import {User} from "../user/interface";
+import {UpdateUserDto} from "../user/dto";
 
 export class SignUpModel {
   name: string = "";

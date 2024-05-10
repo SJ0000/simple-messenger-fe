@@ -1,4 +1,4 @@
-import { GroupChatCreateDto } from "@/modules/groupchat/dto";
+import {GroupChatCreateDto} from "@/modules/groupchat/dto";
 
 export class GroupChatCreateModel {
   name: string = "";

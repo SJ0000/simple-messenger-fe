@@ -39,8 +39,8 @@
 
 <script lang="ts" setup>
 // user
-import { mdiAccountCircle } from '@mdi/js'
-import { useAuthenticationStore } from "@/store/authentication";
+import {mdiAccountCircle} from '@mdi/js'
+import {useAuthenticationStore} from "@/store/AuthenticationStore";
 import router from "@/router";
 
 const authentication = useAuthenticationStore();

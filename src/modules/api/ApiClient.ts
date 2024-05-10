@@ -1,13 +1,13 @@
-import axios, { AxiosInstance, AxiosResponse } from "axios";
-import { LoginDto, SignUpDto } from "@/modules/auth/dto";
-import { useAuthenticationStore } from "@/store/authentication";
-import { GroupChat, Invitation } from "@/modules/groupchat/interface";
-import { GroupChatCreateDto } from "@/modules/groupchat/dto";
-import { UpdateUserDto } from "../user/dto";
-import { User } from "../user/interface";
-import { FriendRequestDto } from "../friend/dto";
-import { Friend } from "../friend/interface";
-import { DirectChat } from "../directchat/interface";
+import axios, {AxiosInstance, AxiosResponse} from "axios";
+import {LoginDto, SignUpDto} from "@/modules/auth/dto";
+import {useAuthenticationStore} from "@/store/AuthenticationStore";
+import {GroupChat, Invitation} from "@/modules/groupchat/interface";
+import {GroupChatCreateDto} from "@/modules/groupchat/dto";
+import {UpdateUserDto} from "../user/dto";
+import {User} from "../user/interface";
+import {FriendRequestDto} from "../friend/dto";
+import {Friend} from "../friend/interface";
+import {DirectChat} from "../directchat/interface";
 
 // Singleton
 export class ApiClient {

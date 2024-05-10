@@ -35,14 +35,14 @@
   </div>
 </template>
 <script setup lang="ts">
-import { mdiMessage } from "@mdi/js"
-import { reactive, ref } from "vue";
-import { MessageClient } from "@/modules/api/message-client";
-import { useAuthenticationStore } from "@/store/authentication";
-import { VVirtualScroll } from "vuetify/components";
-import { User } from "@/modules/user/interface";
-import { DirectChat, SentDirectMessage } from "@/modules/directchat/interface";
-import { directChatStore } from "@/store/directChat";
+import {mdiMessage} from "@mdi/js"
+import {reactive, ref} from "vue";
+import {MessageClient} from "@/modules/api/MessageClient";
+import {useAuthenticationStore} from "@/store/AuthenticationStore";
+import {VVirtualScroll} from "vuetify/components";
+import {User} from "@/modules/user/interface";
+import {DirectChat, SentDirectMessage} from "@/modules/directchat/interface";
+import {directChatStore} from "@/store/DirectChatStore";
 
 const authentication = useAuthenticationStore()
 

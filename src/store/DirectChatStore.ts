@@ -1,10 +1,7 @@
-import { defineStore } from "pinia";
-import {
-  DirectChat,
-  ReceivedDirectMessage,
-} from "@/modules/directchat/interface";
-import { useAuthenticationStore } from "./authentication";
-import { Ref, ref } from "vue";
+import {defineStore} from "pinia";
+import {DirectChat, ReceivedDirectMessage,} from "@/modules/directchat/interface";
+import {useAuthenticationStore} from "./AuthenticationStore";
+import {Ref, ref} from "vue";
 
 const dummyDirectChat: DirectChat = {
   id: 0,

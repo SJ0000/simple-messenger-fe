@@ -16,12 +16,12 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue";
-import { GroupChatCreateModel } from "@/modules/groupchat/model";
-import { ApiClient } from "@/modules/api/api-client";
-import { useGroupChatStore } from "@/store/groupChat";
-import { SnackbarModel } from "@/modules/common/model";
-import { MessageClient } from "@/modules/api/message-client";
+import {reactive, ref} from "vue";
+import {GroupChatCreateModel} from "@/modules/groupchat/model";
+import {ApiClient} from "@/modules/api/ApiClient";
+import {useGroupChatStore} from "@/store/GroupChatStore";
+import {SnackbarModel} from "@/common/Models";
+import {MessageClient} from "@/modules/api/MessageClient";
 
 const groupChatStore = useGroupChatStore()
 

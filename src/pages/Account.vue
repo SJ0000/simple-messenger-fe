@@ -29,8 +29,8 @@
 
 <script setup lang="ts">
 import AccountSettings from "@/components/account/AccountSettings.vue"
-import { mdiAccountCog, mdiBell } from '@mdi/js';
-import { useAuthenticationStore } from '@/store/authentication';
+import {mdiAccountCog, mdiBell} from '@mdi/js';
+import {useAuthenticationStore} from '@/store/AuthenticationStore';
 
 const authentication = useAuthenticationStore()
 const user = authentication.getUser();

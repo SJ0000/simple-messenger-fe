@@ -23,14 +23,14 @@
 </template>
 
 <script setup lang=ts>
-import { mdiChat, mdiAccountPlus, mdiAccountBox } from '@mdi/js';
+import {mdiAccountBox, mdiAccountPlus, mdiChat} from '@mdi/js';
 import FriendRequestDialog from '@/components/dialog/FriendRequestDialog.vue'
 import AddFriendDialog from '@/components/dialog/AddFriendDialog.vue'
-import { ref } from 'vue';
-import { directChatStore } from '@/store/directChat';
-import { messengerStore } from '@/store/messenger';
-import { friendStore } from '@/store/friendStore';
-import { ApiClient } from '@/modules/api/api-client';
+import {ref} from 'vue';
+import {directChatStore} from '@/store/DirectChatStore';
+import {messengerStore} from '@/store/messenger';
+import {friendStore} from '@/store/FriendStore';
+import {ApiClient} from '@/modules/api/ApiClient';
 
 const addFriendDialog = ref<InstanceType<typeof AddFriendDialog> | null>(null);
 

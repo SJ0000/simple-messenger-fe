@@ -1,6 +1,6 @@
-import { createRouter, createWebHistory } from "vue-router/auto";
-import { setupLayouts } from "virtual:generated-layouts";
-import { authenticationGuard } from "./NavigationGuard";
+import {createRouter, createWebHistory} from "vue-router/auto";
+import {setupLayouts} from "virtual:generated-layouts";
+import {authenticationGuard} from "./NavigationGuard";
 
 const router = createRouter({
   history: createWebHistory(),

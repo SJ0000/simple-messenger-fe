@@ -39,16 +39,16 @@
   </div>
 </template>
 <script setup lang="ts">
-import { mdiMessage } from "@mdi/js"
-import { GroupChat, SentMessage } from "@/modules/groupchat/interface";
-import { reactive, Ref, ref } from "vue";
-import { MessageClient } from "@/modules/api/message-client";
-import { useAuthenticationStore } from "@/store/authentication";
-import { useGroupChatStore } from "@/store/groupChat";
-import { ApiClient } from "@/modules/api/api-client";
+import {mdiMessage} from "@mdi/js"
+import {GroupChat, SentMessage} from "@/modules/groupchat/interface";
+import {reactive, Ref, ref} from "vue";
+import {MessageClient} from "@/modules/api/MessageClient";
+import {useAuthenticationStore} from "@/store/AuthenticationStore";
+import {useGroupChatStore} from "@/store/GroupChatStore";
+import {ApiClient} from "@/modules/api/ApiClient";
 import InvitationLinkDialog from "@/components/dialog/InvitationLinkDialog.vue";
-import { VVirtualScroll } from "vuetify/components";
-import { User } from "@/modules/user/interface";
+import {VVirtualScroll} from "vuetify/components";
+import {User} from "@/modules/user/interface";
 
 const authentication = useAuthenticationStore()
 const groupChatStore = useGroupChatStore()

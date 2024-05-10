@@ -22,14 +22,13 @@
     </v-dialog>
     <v-snackbar v-model="snackbar.open" :timeout="snackbar.timeout"> {{ snackbar.text }} </v-snackbar>
 </template>
-  
+
 <script setup lang="ts">
-import { mdiPlus } from "@mdi/js";
-import { ref } from "vue";
-import { ApiClient } from "@/modules/api/api-client";
-import { Friend } from "@/modules/friend/interface";
-import { reactive } from "vue";
-import { SnackbarModel } from "@/modules/common/model";
+import {mdiPlus} from "@mdi/js";
+import {reactive, ref} from "vue";
+import {ApiClient} from "@/modules/api/ApiClient";
+import {Friend} from "@/modules/friend/interface";
+import {SnackbarModel} from "@/common/Models";
 
 const opened = ref(false)
 defineExpose({
@@ -60,5 +59,5 @@ function open() {
 
 
 </script>
-  
+
 <style scoped></style>

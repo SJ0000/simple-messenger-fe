@@ -13,11 +13,11 @@
         </v-card>
     </v-dialog>
 </template>
-  
+
 <script setup lang="ts">
-import { ref } from "vue";
-import { ApiClient } from "@/modules/api/api-client";
-import { FriendRequestModel } from "@/modules/friend/model"
+import {ref} from "vue";
+import {ApiClient} from "@/modules/api/ApiClient";
+import {FriendRequestModel} from "@/modules/friend/model"
 
 const opened = ref(false)
 const model = ref(new FriendRequestModel())
@@ -43,5 +43,5 @@ defineExpose({
 })
 
 </script>
-  
+
 <style scoped></style>

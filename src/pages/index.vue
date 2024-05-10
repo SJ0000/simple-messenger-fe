@@ -19,9 +19,9 @@
 
 <script lang="ts" setup>
 // log in
-import { useAuthenticationStore } from "@/store/authentication";
+import {useAuthenticationStore} from "@/store/AuthenticationStore";
 import router from "@/router";
-import { MessageClient } from "@/modules/api/message-client";
+import {MessageClient} from "@/modules/api/MessageClient";
 
 const authentication = useAuthenticationStore()
 const isLoggedIn = authentication.isLoggedIn

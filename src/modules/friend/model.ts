@@ -1,4 +1,4 @@
-import { FriendRequestDto } from "./dto";
+import {FriendRequestDto} from "./dto";
 
 export class FriendRequestModel {
   receiverPublicIdentifier: string = "";

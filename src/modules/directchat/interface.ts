@@ -1,4 +1,4 @@
-import { User } from "@/modules/user/interface";
+import {User} from "@/modules/user/interface";
 
 export interface DirectChat {
   id: number;

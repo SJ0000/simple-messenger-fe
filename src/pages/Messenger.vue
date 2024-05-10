@@ -25,15 +25,15 @@ import GroupChatList from "@/components/messenger/GroupChatList.vue";
 import GroupChat from "@/components/messenger/GroupChat.vue";
 import DirectChat from "@/components/messenger/DirectChat.vue";
 import Friends from "@/components/messenger/Friends.vue";
-import { MessageClient } from "@/modules/api/message-client";
-import { ApiClient } from "@/modules/api/api-client";
-import { useGroupChatStore } from "@/store/groupChat";
-import { useAuthenticationStore } from "@/store/authentication";
-import { directChatStore } from "@/store/directChat";
-import { messengerStore } from "@/store/messenger";
-import { User } from "@/modules/user/interface";
-import { friendStore } from "@/store/friendStore";
-import { storeToRefs } from "pinia";
+import {MessageClient} from "@/modules/api/MessageClient";
+import {ApiClient} from "@/modules/api/ApiClient";
+import {useGroupChatStore} from "@/store/GroupChatStore";
+import {useAuthenticationStore} from "@/store/AuthenticationStore";
+import {directChatStore} from "@/store/DirectChatStore";
+import {messengerStore} from "@/store/messenger";
+import {User} from "@/modules/user/interface";
+import {friendStore} from "@/store/FriendStore";
+import {storeToRefs} from "pinia";
 
 const authentication = useAuthenticationStore()
 const groupChatStore = useGroupChatStore()

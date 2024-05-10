@@ -1,6 +1,6 @@
-import { defineStore } from "pinia";
-import { User } from "@/modules/user/interface";
-import { Ref, ref } from "vue";
+import {defineStore} from "pinia";
+import {User} from "@/modules/user/interface";
+import {Ref, ref} from "vue";
 
 export const useAuthenticationStore = defineStore(
   "authentication",

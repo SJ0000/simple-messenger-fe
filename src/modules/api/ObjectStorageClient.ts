@@ -1,6 +1,6 @@
-import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
-import { ObjectStorageConfig } from "./config";
-import { User } from "../user/interface";
+import {PutObjectCommand, S3Client} from "@aws-sdk/client-s3";
+import {ObjectStorageConfig} from "./Configurations";
+import {User} from "../user/interface";
 
 export class ObjectStorageClient {
   private static instance: ObjectStorageClient;

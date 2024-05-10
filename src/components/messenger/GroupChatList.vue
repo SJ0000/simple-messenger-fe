@@ -17,12 +17,12 @@
 </template>
 <script setup lang="ts">
 
-import { mdiChatPlus } from "@mdi/js";
-import { useGroupChatStore } from "@/store/groupChat";
-import { reactive, ref } from "vue";
+import {mdiChatPlus} from "@mdi/js";
+import {useGroupChatStore} from "@/store/GroupChatStore";
+import {reactive, ref} from "vue";
 import CreateGroupChatDialog from "@/components/dialog/CreateGroupChatDialog.vue";
-import { GroupChat } from "@/modules/groupchat/interface"
-import { messengerStore } from "@/store/messenger";
+import {GroupChat} from "@/modules/groupchat/interface"
+import {messengerStore} from "@/store/messenger";
 
 const groupChatStore = useGroupChatStore()
 

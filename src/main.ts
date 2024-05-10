@@ -1,9 +1,9 @@
-import { registerPlugins } from "@/plugins";
+import {registerPlugins} from "@/plugins";
 import App from "./App.vue";
-import { createApp } from "vue";
-import { ObjectStorageClient } from "./modules/api/object-storage";
-import { MessageClientConfig, ObjectStorageConfig } from "./modules/api/config";
-import { MessageClient } from "./modules/api/message-client";
+import {createApp} from "vue";
+import {ObjectStorageClient} from "./modules/api/ObjectStorageClient";
+import {MessageClientConfig, ObjectStorageConfig} from "./modules/api/Configurations";
+import {MessageClient} from "./modules/api/MessageClient";
 
 const app = createApp(App);
 registerPlugins(app);

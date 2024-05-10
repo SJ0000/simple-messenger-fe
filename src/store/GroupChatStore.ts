@@ -1,6 +1,6 @@
-import { defineStore } from "pinia";
-import { GroupChat, ReceivedMessage } from "@/modules/groupchat/interface";
-import { Ref, ref } from "vue";
+import {defineStore} from "pinia";
+import {GroupChat, ReceivedMessage} from "@/modules/groupchat/interface";
+import {Ref, ref} from "vue";
 
 const dummyGroupChat = {
   id: 0,
