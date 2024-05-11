@@ -85,7 +85,8 @@ function sendMessageAndTextResetIfContentNotEmpty() {
 async function onInvitationLinkClick() {
   const groupChatId = groupChat.value.id
   const invitation = await ApiClient.getInstance().createInvitation(groupChatId)
-  dialog.value?.open(`${import.meta.env.API_URL}/invite/${invitation.id}`)
+  const host = `${window.location.protocol}//${window.location.host}`
+  dialog.value?.open(`${host}/invite/${invitation.id}`)
 }
 
 function onSendButtonClick() {

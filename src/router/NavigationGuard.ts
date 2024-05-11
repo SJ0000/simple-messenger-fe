@@ -34,6 +34,5 @@ function isExpiredAccessToken(token: string): boolean {
     throw Error("JWT Parse Error. exp undefined");
 
   const currentTimeSeconds = Math.floor(new Date().getTime() / 1000);
-  console.log(`exp = ${tokenExpiredAt}, now = ${currentTimeSeconds}`);
   return tokenExpiredAt < currentTimeSeconds;
 }
