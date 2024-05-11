@@ -27,14 +27,14 @@ import {mdiAccountBox, mdiAccountPlus, mdiChat} from '@mdi/js';
 import FriendRequestDialog from '@/components/dialog/FriendRequestDialog.vue'
 import AddFriendDialog from '@/components/dialog/AddFriendDialog.vue'
 import {ref} from 'vue';
-import {directChatStore} from '@/store/DirectChatStore';
+import {useDirectChatStore} from '@/store/DirectChatStore';
 import {messengerStore} from '@/store/messenger';
-import {friendStore} from '@/store/FriendStore';
+import {useFriendStore} from '@/store/FriendStore';
 import {ApiClient} from '@/modules/api/ApiClient';
 
 const addFriendDialog = ref<InstanceType<typeof AddFriendDialog> | null>(null);
 
-const item = friendStore().getFriends()
+const item = useFriendStore().getFriends()
 
 function onAddFriendClick() {
     addFriendDialog.value?.open()
@@ -46,15 +46,15 @@ function onFriendRequestClick() {
 }
 
 async function onFriendDirectChatClick(otherUserId: number) {
-    if (!directChatStore().exists(otherUserId)) {
+    if (!useDirectChatStore().exists(otherUserId)) {
         const directChatId = await ApiClient.getInstance().createDirectChats(otherUserId)
-        directChatStore().join({
+        useDirectChatStore().join({
             id: directChatId,
-            otherUser: friendStore().find(otherUserId),
+            otherUser: useFriendStore().find(otherUserId),
             messages: []
         })
     }
-    directChatStore().select(otherUserId)
+    useDirectChatStore().select(otherUserId)
     messengerStore().activateDirectChat()
 }
 

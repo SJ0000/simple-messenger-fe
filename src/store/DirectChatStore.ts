@@ -16,7 +16,7 @@ const dummyDirectChat: DirectChat = {
   messages: [],
 };
 
-export const directChatStore = defineStore(
+export const useDirectChatStore = defineStore(
   "directChat",
   () => {
     const selected: Ref<DirectChat> = ref(dummyDirectChat);

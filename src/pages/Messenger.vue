@@ -9,10 +9,10 @@
       </v-col>
       <v-divider vertical></v-divider>
       <v-col cols="6">
-        <div v-show="mode === `GROUPCHAT`">
+        <div v-show="mode === ChattingMode.GroupChat">
           <GroupChat />
         </div>
-        <div v-show="mode === `DIRECTCHAT`">
+        <div v-show="mode === ChattingMode.DirectChat">
           <DirectChat />
         </div>
       </v-col>
@@ -29,17 +29,17 @@ import {MessageClient} from "@/modules/api/MessageClient";
 import {ApiClient} from "@/modules/api/ApiClient";
 import {useGroupChatStore} from "@/store/GroupChatStore";
 import {useAuthenticationStore} from "@/store/AuthenticationStore";
-import {directChatStore} from "@/store/DirectChatStore";
-import {messengerStore} from "@/store/messenger";
+import {useDirectChatStore} from "@/store/DirectChatStore";
+import {messengerStore, ChattingMode} from "@/store/messenger";
 import {User} from "@/modules/user/interface";
-import {friendStore} from "@/store/FriendStore";
+import {useFriendStore} from "@/store/FriendStore";
 import {storeToRefs} from "pinia";
 
 const authentication = useAuthenticationStore()
 const groupChatStore = useGroupChatStore()
 
 const friends: Array<User> = await ApiClient.getInstance().getMyFriends()
-friendStore().initialize(friends)
+useFriendStore().initialize(friends)
 
 const groupChats = await ApiClient.getInstance().getMyGroupChats();
 for (let groupChat of groupChats) {
@@ -54,11 +54,11 @@ if (groupChats.length > 0) {
 }
 
 const directChats = await ApiClient.getInstance().getDirectChats();
-directChatStore().initialize(directChats)
+useDirectChatStore().initialize(directChats)
 
-const authoritzation = authentication.getAccessToken()
+const authorization = authentication.getAccessToken()
 const user = authentication.getUser()
-MessageClient.getInstance().start(authoritzation, user, groupChats)
+MessageClient.getInstance().start(authorization, user, groupChats)
 
 const { mode } = storeToRefs(messengerStore())
 

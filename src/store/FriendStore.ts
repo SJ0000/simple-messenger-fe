@@ -2,7 +2,7 @@ import {defineStore} from "pinia";
 import {User} from "@/modules/user/interface";
 import {Ref, ref} from "vue";
 
-export const friendStore = defineStore(
+export const useFriendStore = defineStore(
   "friend",
   () => {
     const friends: Ref<Map<number, User>> = ref(new Map<number, User>());

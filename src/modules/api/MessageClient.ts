@@ -3,7 +3,7 @@ import {Client} from "@stomp/stompjs";
 import {GroupChat, ReceivedMessage, SentMessage,} from "@/modules/groupchat/interface";
 
 import {ReceivedDirectMessage, SentDirectMessage,} from "../directchat/interface";
-import {directChatStore} from "@/store/DirectChatStore";
+import {useDirectChatStore} from "@/store/DirectChatStore";
 import {useGroupChatStore} from "@/store/GroupChatStore";
 import {User} from "../user/interface";
 import {ApiClient} from "./ApiClient";
@@ -89,13 +89,13 @@ export class MessageClient {
       console.log(received);
       switch (received.messageType) {
         case "MESSAGE": {
-          if (!directChatStore().exists(received.senderId)) {
+          if (!useDirectChatStore().exists(received.senderId)) {
             const directChat = await ApiClient.getInstance().getDirectChat(
               received.directChatId
             );
-            directChatStore().join(directChat);
+            useDirectChatStore().join(directChat);
           }
-          directChatStore().addMessage(received);
+          useDirectChatStore().addMessage(received);
           break;
         }
         default: {

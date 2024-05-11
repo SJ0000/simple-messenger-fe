@@ -42,12 +42,12 @@ import {useAuthenticationStore} from "@/store/AuthenticationStore";
 import {VVirtualScroll} from "vuetify/components";
 import {User} from "@/modules/user/interface";
 import {DirectChat, SentDirectMessage} from "@/modules/directchat/interface";
-import {directChatStore} from "@/store/DirectChatStore";
+import {useDirectChatStore} from "@/store/DirectChatStore";
 
 const authentication = useAuthenticationStore()
 
-const directChat: DirectChat = directChatStore().selected
-const messages = reactive(directChatStore().selected.messages)
+const directChat: DirectChat = useDirectChatStore().selected
+const messages = reactive(useDirectChatStore().selected.messages)
 const content = ref("")
 const user = authentication.getUser()
 

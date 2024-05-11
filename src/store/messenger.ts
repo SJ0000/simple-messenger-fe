@@ -1,20 +1,22 @@
 import {defineStore} from "pinia";
 import {ref} from "vue";
 
-/*
-  TODO : messengerStore를 사용하지 않고 깔끔하게 처리하도록 변경하기
- */
+export enum ChattingMode{
+  GroupChat  ,
+  DirectChat
+}
+
 export const messengerStore = defineStore(
   "messenger",
   () => {
-    const mode = ref("GROUPCHAT");
+    const mode = ref(ChattingMode.DirectChat);
 
     function activateGroupChat() {
-      mode.value = "GROUPCHAT";
+      mode.value = ChattingMode.GroupChat;
     }
 
     function activateDirectChat() {
-      mode.value = "DIRECTCHAT";
+      mode.value = ChattingMode.DirectChat;
     }
 
     return { mode, activateGroupChat, activateDirectChat };
