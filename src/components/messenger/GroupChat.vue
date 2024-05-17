@@ -31,7 +31,7 @@
         <v-icon :icon="mdiMessage" size="45" class="mr-2 mt-2"></v-icon>
         <v-textarea variant="outlined" rows="1" row-height="15" label="메시지" v-model="content"
           @keydown.enter.exact.prevent="pressEnterHandler" />
-        <v-btn class="ml-2 mt-3" @click="onSendButtonClick">
+        <v-btn class="ml-2 mt-3" @click="sendMessageAndTextResetIfContentNotEmpty">
           보내기
         </v-btn>
       </div>
@@ -58,8 +58,11 @@ const groupChat: Ref<GroupChat> = ref(groupChatStore.selected)
 const messages = reactive(groupChatStore.selected.messages)
 const content = ref("")
 const user = authentication.getUser()
-
 const dialog = ref<InstanceType<typeof InvitationLinkDialog> | null>(null)
+
+if(groupChatStore.selected.id !== 0 && messages.length === 0){
+  loadPreviousMessage()
+}
 
 function createMessage(): SentMessage {
   return {
@@ -90,16 +93,17 @@ async function onInvitationLinkClick() {
   dialog.value?.open(`${host}/invite/${invitation.id}`)
 }
 
-function onSendButtonClick() {
-  sendMessageAndTextResetIfContentNotEmpty()
-}
-
 function pressEnterHandler(event: KeyboardEvent) {
   if (event.isComposing)
     return;
   sendMessageAndTextResetIfContentNotEmpty()
 }
 
+async function loadPreviousMessage(){
+  const groupChat = groupChatStore.selected;
+  const previousMessages = await ApiClient.getInstance().getPreviousGroupMessages(groupChat.id);
+  groupChat.messages.unshift(...previousMessages)
+}
 
 </script>
 <style scoped></style>@/modules/groupchat/interface@/store/groupChat

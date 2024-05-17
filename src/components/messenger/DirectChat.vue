@@ -28,7 +28,7 @@
       <v-icon :icon="mdiMessage" size="45" class="mr-2 mt-2"></v-icon>
       <v-textarea variant="outlined" rows="1" row-height="15" label="메시지" v-model="content"
         @keydown.enter.exact.prevent="pressEnterHandler" />
-      <v-btn class="ml-2 mt-3" @click="onSendButtonClick">
+      <v-btn class="ml-2 mt-3" @click="sendMessageAndTextResetIfContentNotEmpty">
         보내기
       </v-btn>
     </div>
@@ -44,6 +44,7 @@ import {User} from "@/modules/user/interface";
 import {DirectChat, SentDirectMessage} from "@/modules/directchat/interface";
 import {useDirectChatStore} from "@/store/DirectChatStore";
 import Utility from "@/common/Utility";
+import {ApiClient} from "@/modules/api/ApiClient";
 
 const authentication = useAuthenticationStore()
 
@@ -51,6 +52,10 @@ const directChat: DirectChat = useDirectChatStore().selected
 const messages = reactive(useDirectChatStore().selected.messages)
 const content = ref("")
 const user = authentication.getUser()
+
+if(directChat.id !== 0 && messages.length === 0){
+  loadPreviousMessage()
+}
 
 function createMessage(): SentDirectMessage {
   return {
@@ -77,16 +82,16 @@ function sendMessageAndTextResetIfContentNotEmpty() {
   content.value = ""
 }
 
-function onSendButtonClick() {
-  sendMessageAndTextResetIfContentNotEmpty()
-}
-
 function pressEnterHandler(event: KeyboardEvent) {
   if (event.isComposing)
     return;
   sendMessageAndTextResetIfContentNotEmpty()
 }
 
+async function loadPreviousMessage(){
+  const previousMessages = await ApiClient.getInstance().getPreviousDirectMessages(directChat.id);
+  directChat.messages.unshift(...previousMessages)
+}
 
 </script>
 <style scoped></style>
