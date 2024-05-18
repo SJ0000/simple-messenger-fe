@@ -26,8 +26,8 @@ import {messengerStore} from "@/store/messenger";
 
 const groupChatStore = useGroupChatStore()
 
-const groupChats = ref(groupChatStore.groupChats)
-const selected = reactive(groupChatStore.selected)
+const groupChats = groupChatStore.getGroupChats()
+const selected = reactive(groupChatStore.getSelected())
 
 const dialog = ref<InstanceType<typeof CreateGroupChatDialog> | null>(null);
 

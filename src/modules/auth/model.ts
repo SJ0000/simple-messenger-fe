@@ -1,5 +1,5 @@
 import {LoginDto, SignUpDto} from "@/modules/auth/dto";
-import {User} from "../user/interface";
+import User from "@/modules/user/User";
 import {UpdateUserDto} from "../user/dto";
 
 export class SignUpModel {

@@ -14,9 +14,15 @@ export const useGroupChatStore = defineStore(
   "groupChat",
   () => {
     const selected: Ref<GroupChat> = ref(dummyGroupChat);
-    const groupChats: Ref<Map<number, GroupChat>> = ref(
-      new Map<number, GroupChat>()
-    );
+    const groupChats: Map<number, GroupChat> = new Map<number, GroupChat>();
+
+    function getSelected(): Ref<GroupChat> {
+      return selected;
+    }
+
+    function getGroupChats():Map<number, GroupChat>{
+      return groupChats
+    }
 
     function initialize(groupChatArray: Array<GroupChat>) {
       groupChatArray.forEach((groupChat) => {
@@ -24,7 +30,7 @@ export const useGroupChatStore = defineStore(
           groupChat.avatarUrl = "/src/assets/default-avatar.jpg";
         }
         groupChat.messages = [];
-        groupChats.value.set(groupChat.id, groupChat);
+        groupChats.set(groupChat.id, groupChat);
       });
     }
 
@@ -33,11 +39,11 @@ export const useGroupChatStore = defineStore(
       if (groupChat.avatarUrl.length === 0) {
         groupChat.avatarUrl = "/src/assets/default-avatar.jpg";
       }
-      groupChats.value.set(groupChat.id, groupChat);
+      groupChats.set(groupChat.id, groupChat);
     }
 
     function find(groupChatId: number): GroupChat {
-      const findGroupChat = groupChats.value.get(groupChatId);
+      const findGroupChat = groupChats.get(groupChatId);
       if (findGroupChat === undefined)
         throw Error(`Chat Room id ${groupChatId} not found`);
 
@@ -63,8 +69,8 @@ export const useGroupChatStore = defineStore(
     }
 
     return {
-      selected,
-      groupChats: groupChats,
+      getSelected,
+      getGroupChats,
       initialize,
       join,
       find,

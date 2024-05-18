@@ -1,4 +1,4 @@
-import {User} from "../user/interface";
+import User from "@/modules/user/User";
 
 export interface Friend {
   id: number;

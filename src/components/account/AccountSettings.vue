@@ -4,7 +4,6 @@
     <v-form ref="signUpForm">
         <v-text-field label="이름" v-model="model.name" :rules="[notEmpty]"></v-text-field>
         <v-text-field label="상태 메시지" v-model="model.statusMessage"></v-text-field>
-        <!-- <v-text-field label="프로필 사진 주소" v-model="model.avatarUrl" :rules="[notEmpty]"></v-text-field> -->
         <v-row>
             <v-col cols="3">
                 <v-img :src="profileImagePreviewUrl"></v-img>

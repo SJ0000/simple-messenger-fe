@@ -40,7 +40,7 @@ import {reactive, ref} from "vue";
 import {MessageClient} from "@/modules/api/MessageClient";
 import {useAuthenticationStore} from "@/store/AuthenticationStore";
 import {VVirtualScroll} from "vuetify/components";
-import {User} from "@/modules/user/interface";
+import User from "@/modules/user/User";
 import {DirectChat, SentDirectMessage} from "@/modules/directchat/interface";
 import {useDirectChatStore} from "@/store/DirectChatStore";
 import Utility from "@/common/Utility";
@@ -48,8 +48,8 @@ import {ApiClient} from "@/modules/api/ApiClient";
 
 const authentication = useAuthenticationStore()
 
-const directChat: DirectChat = useDirectChatStore().selected
-const messages = reactive(useDirectChatStore().selected.messages)
+const directChat : DirectChat = useDirectChatStore().getSelected()
+const messages = reactive(useDirectChatStore().getSelected().messages)
 const content = ref("")
 const user = authentication.getUser()
 

@@ -1,26 +1,24 @@
 import {defineStore} from "pinia";
 import {DirectChat, ReceivedDirectMessage,} from "@/modules/directchat/interface";
 import {useAuthenticationStore} from "./AuthenticationStore";
-import {Ref, ref} from "vue";
+import {Ref, ref, UnwrapRef} from "vue";
+import User from "@/modules/user/User";
 
 const dummyDirectChat: DirectChat = {
   id: 0,
-  otherUser: {
-    id: 0,
-    name: "",
-    email: "",
-    avatarUrl: "",
-    statusMessage: "",
-    publicIdentifier: "",
-  },
+  otherUser: new User(0,"","","","",""),
   messages: [],
 };
 
 export const useDirectChatStore = defineStore(
   "directChat",
   () => {
-    const selected: Ref<DirectChat> = ref(dummyDirectChat);
+    const selected : DirectChat  = dummyDirectChat;
     const directChats: Map<number, DirectChat> = new Map<number, DirectChat>();
+
+    function getSelected() : DirectChat{
+      return selected
+    }
 
     function initialize(directChatArr: Array<DirectChat>) {
       directChatArr.forEach((directChat) => {
@@ -43,12 +41,12 @@ export const useDirectChatStore = defineStore(
 
     function select(otherUserId: number) {
       const directChat = find(otherUserId);
-      selected.value.id = directChat.id;
-      selected.value.otherUser = directChat.otherUser;
-      selected.value.messages.splice(0);
+      selected.id = directChat.id;
+      selected.otherUser = directChat.otherUser;
+      selected.messages.splice(0);
 
       directChat.messages.forEach((message) => {
-        selected.value.messages.push(message);
+        selected.messages.push(message);
       });
     }
 
@@ -62,15 +60,15 @@ export const useDirectChatStore = defineStore(
       if (message.senderId === authentication.getUser().id) {
         const directChat = find(message.receiverId);
         directChat.messages.push(message);
-        selected.value.messages.push(message);
+        selected.messages.push(message);
       } else {
         // 받은 메시지
         const directChat = find(message.senderId);
         directChat.messages.push(message);
-        selected.value.messages.push(message);
+        selected.messages.push(message);
       }
     }
-    return { selected, initialize, join, select, exists, addMessage };
+    return { getSelected, initialize, join, select, exists, addMessage };
   },
   { persist: false }
 );

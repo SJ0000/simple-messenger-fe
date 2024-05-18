@@ -1,6 +1,8 @@
-import {defineStore} from "pinia";
-import {User} from "@/modules/user/interface";
+import {defineStore, StateTree} from "pinia";
+import User from "@/modules/user/User";
 import {Ref, ref} from "vue";
+import {instanceToPlain, plainToInstance} from "class-transformer";
+import 'reflect-metadata';
 
 export const useAuthenticationStore = defineStore(
   "authentication",
@@ -32,14 +34,7 @@ export const useAuthenticationStore = defineStore(
     }
 
     function updateUser(data: User) {
-      user.value = {
-        id: data.id,
-        name: data.name,
-        email: data.email,
-        avatarUrl: data.avatarUrl,
-        statusMessage: data.statusMessage,
-        publicIdentifier: data.publicIdentifier,
-      };
+      user.value = new User(data.id, data.name, data.email, data.avatarUrl, data.statusMessage, data.publicIdentifier);
     }
 
     return {
@@ -53,5 +48,22 @@ export const useAuthenticationStore = defineStore(
       updateUser,
     };
   },
-  { persist: true }
+  {
+    persist: {
+      serializer:{
+        serialize: (value) : string => {
+          return JSON.stringify({
+            isLoggedIn: value.isLoggedIn,
+            accessToken: value.accessToken,
+            user: instanceToPlain(value.user)
+          })
+        },
+        deserialize: (value): StateTree => {
+          const deserialized = JSON.parse(value)
+          deserialized.user = plainToInstance(User, deserialized.user)
+          return deserialized
+        }
+      }
+    }
+  }
 );

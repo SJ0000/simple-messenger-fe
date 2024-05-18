@@ -1,6 +1,6 @@
 import {PutObjectCommand, S3Client} from "@aws-sdk/client-s3";
 import {ObjectStorageConfig} from "./Configurations";
-import {User} from "../user/interface";
+import User from "@/modules/user/User";
 
 export class ObjectStorageClient {
   private static instance: ObjectStorageClient;
@@ -47,7 +47,6 @@ export class ObjectStorageClient {
 
     try {
       const result = await this.s3Client.send(command);
-      console.log(result);
     } catch (err) {
       console.error(err);
     }

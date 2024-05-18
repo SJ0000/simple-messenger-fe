@@ -34,7 +34,7 @@ const { invitationId } = route.params as { invitationId: string; }
 const invitation = await ApiClient.getInstance().getInvitation(invitationId)
 
 // Case 2: 이미 대화방에 참여한 경우
-if (groupChatStore.groupChats.has(invitation.groupChatId)) {
+if (groupChatStore.getGroupChats().has(invitation.groupChatId)) {
   router.push("/messenger")
 }
 

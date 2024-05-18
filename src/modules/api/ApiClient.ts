@@ -4,7 +4,7 @@ import {useAuthenticationStore} from "@/store/AuthenticationStore";
 import {GroupChat, Invitation, ReceivedMessage} from "@/modules/groupchat/interface";
 import {GroupChatCreateDto} from "@/modules/groupchat/dto";
 import {UpdateUserDto} from "../user/dto";
-import {User} from "../user/interface";
+import User from "@/modules/user/User";
 import {FriendRequestDto} from "../friend/dto";
 import {Friend} from "../friend/interface";
 import {DirectChat, ReceivedDirectMessage} from "../directchat/interface";
@@ -85,7 +85,7 @@ export class ApiClient {
       );
       return response.data;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return [];
     }
   }
@@ -102,7 +102,7 @@ export class ApiClient {
       const response = await this.client.get<User[]>("/api/friends");
       return response.data;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return [];
     }
   }

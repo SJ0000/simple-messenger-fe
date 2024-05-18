@@ -31,7 +31,7 @@ import {useGroupChatStore} from "@/store/GroupChatStore";
 import {useAuthenticationStore} from "@/store/AuthenticationStore";
 import {useDirectChatStore} from "@/store/DirectChatStore";
 import {messengerStore, ChattingMode} from "@/store/messenger";
-import {User} from "@/modules/user/interface";
+import User from "@/modules/user/User";
 import {useFriendStore} from "@/store/FriendStore";
 import {storeToRefs} from "pinia";
 

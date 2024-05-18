@@ -5,7 +5,7 @@ import {GroupChat, ReceivedMessage, SentMessage,} from "@/modules/groupchat/inte
 import {ReceivedDirectMessage, SentDirectMessage,} from "../directchat/interface";
 import {useDirectChatStore} from "@/store/DirectChatStore";
 import {useGroupChatStore} from "@/store/GroupChatStore";
-import {User} from "../user/interface";
+import User from "@/modules/user/User";
 import {ApiClient} from "./ApiClient";
 import {MessageClientConfig} from "./Configurations";
 
@@ -86,7 +86,6 @@ export class MessageClient {
   private subscribeDirectChat(userId: number) {
     this.client.subscribe(`/topic/direct-chat/${userId}`, async (message) => {
       const received: ReceivedDirectMessage = JSON.parse(message.body);
-      console.log(received);
       switch (received.messageType) {
         case "MESSAGE": {
           if (!useDirectChatStore().exists(received.senderId)) {

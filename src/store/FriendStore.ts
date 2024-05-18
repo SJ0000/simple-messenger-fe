@@ -1,20 +1,19 @@
 import {defineStore} from "pinia";
-import {User} from "@/modules/user/interface";
-import {Ref, ref} from "vue";
+import User from "@/modules/user/User";
 
 export const useFriendStore = defineStore(
   "friend",
   () => {
-    const friends: Ref<Map<number, User>> = ref(new Map<number, User>());
+    const friends: Map<number, User> = new Map<number, User>();
 
     function initialize(users: Array<User>) {
       users.forEach((user) => {
-        friends.value.set(user.id, user);
+        friends.set(user.id, user);
       });
     }
 
     function find(userId: number): User {
-      const friend = friends.value.get(userId);
+      const friend = friends.get(userId);
       if (friend === undefined)
         throw Error(`Friend(userId = ${userId}) not found`);
 
@@ -22,7 +21,7 @@ export const useFriendStore = defineStore(
     }
 
     function getFriends(): Array<User> {
-      return Array.from(friends.value.values());
+      return Array.from(friends.values());
     }
     return { friends, initialize, find, getFriends };
   },

@@ -48,19 +48,19 @@ import {useGroupChatStore} from "@/store/GroupChatStore";
 import {ApiClient} from "@/modules/api/ApiClient";
 import InvitationLinkDialog from "@/components/dialog/InvitationLinkDialog.vue";
 import {VVirtualScroll} from "vuetify/components";
-import {User} from "@/modules/user/interface";
+import User from "@/modules/user/User";
 import Utility from "../../common/Utility";
 
 const authentication = useAuthenticationStore()
 const groupChatStore = useGroupChatStore()
 
-const groupChat: Ref<GroupChat> = ref(groupChatStore.selected)
-const messages = reactive(groupChatStore.selected.messages)
+const groupChat: Ref<GroupChat> = groupChatStore.getSelected()
+const messages = reactive(groupChatStore.getSelected().value.messages)
 const content = ref("")
 const user = authentication.getUser()
 const dialog = ref<InstanceType<typeof InvitationLinkDialog> | null>(null)
 
-if(groupChatStore.selected.id !== 0 && messages.length === 0){
+if(groupChatStore.getSelected().value.id !== 0 && messages.length === 0){
   loadPreviousMessage()
 }
 
@@ -74,8 +74,8 @@ function createMessage(): SentMessage {
 }
 
 function findUser(userId: number): User {
-  const users = groupChatStore.selected.users
-  return users.find(user => user.id === userId) ?? { id: -1, name: "Unknown", email: "", avatarUrl: "", statusMessage: "", publicIdentifier: "" }
+  const users = groupChatStore.getSelected().value.users
+  return users.find(user => user.id === userId) ?? new User( -1, "Unknown", "",  "",  "","" )
 }
 
 function sendMessageAndTextResetIfContentNotEmpty() {
@@ -100,9 +100,9 @@ function pressEnterHandler(event: KeyboardEvent) {
 }
 
 async function loadPreviousMessage(){
-  const groupChat = groupChatStore.selected;
-  const previousMessages = await ApiClient.getInstance().getPreviousGroupMessages(groupChat.id);
-  groupChat.messages.unshift(...previousMessages)
+  const groupChat = groupChatStore.getSelected();
+  const previousMessages = await ApiClient.getInstance().getPreviousGroupMessages(groupChat.value.id);
+  groupChat.value.messages.unshift(...previousMessages)
 }
 
 </script>
