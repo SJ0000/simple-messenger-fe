@@ -21,20 +21,23 @@ import {mdiChatPlus} from "@mdi/js";
 import {useGroupChatStore} from "@/store/GroupChatStore";
 import {reactive, ref} from "vue";
 import CreateGroupChatDialog from "@/components/dialog/CreateGroupChatDialog.vue";
-import {GroupChat} from "@/modules/groupchat/interface"
-import {messengerStore} from "@/store/messenger";
+import {useMessengerStore} from "@/store/messenger";
+import GroupChat from "@/modules/groupchat/GroupChat";
+import {useUserStore} from "@/store/UserStore";
 
 const groupChatStore = useGroupChatStore()
+const messengerStore = useMessengerStore()
+const userStore = useUserStore()
 
 const groupChats = groupChatStore.getGroupChats()
-const selected = reactive(groupChatStore.getSelected())
+const selected = reactive(messengerStore.selectedGroupChatRef)
 
 const dialog = ref<InstanceType<typeof CreateGroupChatDialog> | null>(null);
 
-
 function onGroupChatSelected(groupChatId: number) {
-  groupChatStore.select(groupChatId)
-  messengerStore().activateGroupChat()
+  const groupChat = groupChatStore.find(groupChatId)
+  messengerStore.selectGroupChat(groupChat)
+  useMessengerStore().activateGroupChat()
 }
 
 function onAddGroupChatClick() {
@@ -44,9 +47,12 @@ function onAddGroupChatClick() {
 function getLastMessageSender(groupChat: GroupChat): string {
   if (groupChat.messages.length === 0)
     return ""
+
   const lastMessage = groupChat.messages[groupChat.messages.length - 1]
-  const sender = groupChat.users.find(user => user.id === lastMessage.senderId)
-  return sender ? sender.name : "unknown"
+  if(!userStore.exists(lastMessage.senderId))
+    return "unknown"
+
+  return userStore.find(lastMessage.senderId).name
 }
 
 function getLastMessageContent(groupChat: GroupChat): string {

@@ -1,13 +1,3 @@
-import User from "@/modules/user/User";
-
-export interface GroupChat {
-  id: number;
-  name: string;
-  avatarUrl: string;
-  users: User[];
-  messages: ReceivedMessage[];
-}
-
 export interface ReceivedMessage {
   groupChatId: number;
   senderId: number;

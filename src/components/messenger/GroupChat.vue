@@ -11,16 +11,16 @@
       </header>
       <v-virtual-scroll id="virtual-scroll" class="ma-1" :items="messages" height="600" item-height="50">
         <template v-slot:default="{ item }">
-          <v-list-item v-if="item.senderId === user.id" :append-avatar="findUser(item.senderId).avatarUrl" class="ma-2">
+          <v-list-item v-if="item.senderId === user.id" :append-avatar="userStore.find(item.senderId).avatarUrl" class="ma-2">
             <div class="text-right">
-              <div class="text-subtitle-2 font-weight-bold">{{ findUser(item.senderId).name }}</div>
+              <div class="text-subtitle-2 font-weight-bold">{{ userStore.find(item.senderId).name }}</div>
               <div class="text-body-2">{{ item.content }}</div>
               <div class="text-caption font-italic">{{ Utility.getFormattedDate(item.receivedAt) }}</div>
             </div>
           </v-list-item>
-          <v-list-item v-else :prepend-avatar="findUser(item.senderId).avatarUrl" class="ma-2">
+          <v-list-item v-else :prepend-avatar="userStore.find(item.senderId).avatarUrl" class="ma-2">
             <div>
-              <div class="text-subtitle-2 font-weight-bold">{{ findUser(item.senderId).name }}</div>
+              <div class="text-subtitle-2 font-weight-bold">{{ userStore.find(item.senderId).name }}</div>
               <div class="text-body-2">{{ item.content }}</div>
               <div class="text-caption font-italic">{{ Utility.getFormattedDate(item.receivedAt) }}</div>
             </div>
@@ -40,7 +40,7 @@
 </template>
 <script setup lang="ts">
 import {mdiMessage} from "@mdi/js"
-import {GroupChat, SentMessage} from "@/modules/groupchat/interface";
+import {SentMessage} from "@/modules/groupchat/interface";
 import {reactive, Ref, ref} from "vue";
 import {MessageClient} from "@/modules/api/MessageClient";
 import {useAuthenticationStore} from "@/store/AuthenticationStore";
@@ -50,32 +50,31 @@ import InvitationLinkDialog from "@/components/dialog/InvitationLinkDialog.vue";
 import {VVirtualScroll} from "vuetify/components";
 import User from "@/modules/user/User";
 import Utility from "../../common/Utility";
+import {useMessengerStore} from "@/store/messenger";
+import {useUserStore} from "@/store/UserStore";
 
 const authentication = useAuthenticationStore()
 const groupChatStore = useGroupChatStore()
+const messengerStore = useMessengerStore()
+const userStore = useUserStore()
 
-const groupChat: Ref<GroupChat> = groupChatStore.getSelected()
-const messages = reactive(groupChatStore.getSelected().value.messages)
+const groupChat = messengerStore.selectedGroupChatRef
+const messages = reactive(groupChat.messages)
 const content = ref("")
 const user = authentication.getUser()
 const dialog = ref<InstanceType<typeof InvitationLinkDialog> | null>(null)
 
-if(groupChatStore.getSelected().value.id !== 0 && messages.length === 0){
+if(groupChat.id !== 0 && messages.length === 0){
   loadPreviousMessage()
 }
 
 function createMessage(): SentMessage {
   return {
-    groupChatId: groupChat.value.id,
+    groupChatId: groupChat.id,
     senderId: user.id,
     content: content.value,
     sentAt: new Date()
   }
-}
-
-function findUser(userId: number): User {
-  const users = groupChatStore.getSelected().value.users
-  return users.find(user => user.id === userId) ?? new User( -1, "Unknown", "",  "",  "","" )
 }
 
 function sendMessageAndTextResetIfContentNotEmpty() {
@@ -87,7 +86,7 @@ function sendMessageAndTextResetIfContentNotEmpty() {
 }
 
 async function onInvitationLinkClick() {
-  const groupChatId = groupChat.value.id
+  const groupChatId = groupChat.id
   const invitation = await ApiClient.getInstance().createInvitation(groupChatId)
   const host = `${window.location.protocol}//${window.location.host}`
   dialog.value?.open(`${host}/invite/${invitation.id}`)
@@ -100,9 +99,8 @@ function pressEnterHandler(event: KeyboardEvent) {
 }
 
 async function loadPreviousMessage(){
-  const groupChat = groupChatStore.getSelected();
-  const previousMessages = await ApiClient.getInstance().getPreviousGroupMessages(groupChat.value.id);
-  groupChat.value.messages.unshift(...previousMessages)
+  const previousMessages = await ApiClient.getInstance().getPreviousGroupMessages(groupChat.id);
+  groupChat.messages.unshift(...previousMessages)
 }
 
 </script>

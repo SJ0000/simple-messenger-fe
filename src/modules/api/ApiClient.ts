@@ -1,8 +1,8 @@
 import axios, {AxiosInstance, AxiosResponse} from "axios";
 import {LoginDto, SignUpDto} from "@/modules/auth/dto";
 import {useAuthenticationStore} from "@/store/AuthenticationStore";
-import {GroupChat, Invitation, ReceivedMessage} from "@/modules/groupchat/interface";
-import {GroupChatCreateDto} from "@/modules/groupchat/dto";
+import {Invitation, ReceivedMessage} from "@/modules/groupchat/interface";
+import {GroupChatCreateDto, GroupChatDto} from "@/modules/groupchat/dto";
 import {UpdateUserDto} from "../user/dto";
 import User from "@/modules/user/User";
 import {FriendRequestDto} from "../friend/dto";
@@ -63,24 +63,24 @@ export class ApiClient {
     return await this.client.post("/api/login", JSON.stringify(dto));
   }
 
-  async createGroupChat(dto: GroupChatCreateDto): Promise<GroupChat> {
-    const response = await this.client.post<GroupChat>(
+  async createGroupChat(dto: GroupChatCreateDto): Promise<GroupChatDto> {
+    const response = await this.client.post<GroupChatDto>(
       "/api/chats/groups",
       dto
     );
     return response.data;
   }
 
-  async joinGroupChat(groupChatId: number): Promise<GroupChat> {
-    const response = await this.client.post<GroupChat>(
+  async joinGroupChat(groupChatId: number): Promise<GroupChatDto> {
+    const response = await this.client.post<GroupChatDto>(
       `/api/chats/groups/${groupChatId}/join`
     );
     return response.data;
   }
 
-  async getMyGroupChats(): Promise<GroupChat[]> {
+  async getMyGroupChats(): Promise<GroupChatDto[]> {
     try {
-      const response = await this.client.get<GroupChat[]>(
+      const response = await this.client.get<GroupChatDto[]>(
         "/api/chats/groups/me"
       );
       return response.data;
@@ -90,8 +90,8 @@ export class ApiClient {
     }
   }
 
-  async getGroupChat(groupChatId: number): Promise<GroupChat> {
-    const response = await this.client.get<GroupChat>(
+  async getGroupChat(groupChatId: number): Promise<GroupChatDto> {
+    const response = await this.client.get<GroupChatDto>(
       `/api/chats/groups/${groupChatId}`
     );
     return response.data;
