@@ -1,13 +1,14 @@
 import {defineStore} from "pinia";
 import User from "@/modules/user/User";
+import {ref} from "vue";
 
 export const useUserStore = defineStore(
   "user",
   () => {
-    const userMap = new Map<number, User>();
+    const userMap = ref(new Map<number, User>());
 
-    function find(userId: number): User {
-      const result = userMap.get(userId)
+    function find(userId: number) {
+      const result = userMap.value.get(userId)
       if (result === undefined)
         throw Error(`User id ${userId} not exists.`)
       return result
@@ -15,16 +16,17 @@ export const useUserStore = defineStore(
 
     function addIfAbsent(...users: User[]): void {
       users.forEach(user => {
-        if (!userMap.has(user.id))
-          userMap.set(user.id, user)
+        if (!userMap.value.has(user.id))
+          userMap.value.set(user.id, user)
       })
     }
 
     function exists(userId: number): boolean{
-      return userMap.has(userId)
+      return userMap.value.has(userId)
     }
 
     return {
+      userMap,
       find,
       addIfAbsent,
       exists

@@ -41,18 +41,16 @@
 <script setup lang="ts">
 import {mdiMessage} from "@mdi/js"
 import {SentMessage} from "@/modules/groupchat/interface";
-import {reactive, Ref, ref} from "vue";
+import {reactive, ref} from "vue";
 import {MessageClient} from "@/modules/api/MessageClient";
 import {useAuthenticationStore} from "@/store/AuthenticationStore";
 import {useGroupChatStore} from "@/store/GroupChatStore";
 import {ApiClient} from "@/modules/api/ApiClient";
 import InvitationLinkDialog from "@/components/dialog/InvitationLinkDialog.vue";
 import {VVirtualScroll} from "vuetify/components";
-import User from "@/modules/user/User";
 import Utility from "../../common/Utility";
 import {useMessengerStateStore} from "@/store/MessengerStateStore";
 import {useUserStore} from "@/store/UserStore";
-import {storeToRefs} from "pinia";
 
 const authentication = useAuthenticationStore()
 const groupChatStore = useGroupChatStore()

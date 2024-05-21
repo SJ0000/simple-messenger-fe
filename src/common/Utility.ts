@@ -18,4 +18,11 @@ export default class Utility{
       return `0${num}`
     return `${num}`
   }
+
+  public static validateUndefined<T>(target : T | undefined, errorText: string): T{
+      if(target === undefined || target === null)
+        throw Error(errorText)
+      return target
+  }
+
 }

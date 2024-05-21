@@ -3,13 +3,13 @@ import {LoginDto, SignUpDto} from "@/modules/auth/dto";
 import {useAuthenticationStore} from "@/store/AuthenticationStore";
 import {Invitation, ReceivedMessage} from "@/modules/groupchat/interface";
 import {GroupChatCreateDto, GroupChatDto} from "@/modules/groupchat/dto";
-import {UpdateUserDto} from "../user/dto";
+import {UpdateUserDto, UserDto} from "../user/dto";
 import User from "@/modules/user/User";
 import {FriendRequestDto} from "../friend/dto";
 import {Friend} from "../friend/interface";
-import {DirectChat, ReceivedDirectMessage} from "../directchat/interface";
+import {ReceivedDirectMessage} from "../directchat/interface";
+import {DirectChatDto} from "@/modules/directchat/Dto";
 
-// Singleton
 export class ApiClient {
   private static instance: ApiClient;
 
@@ -97,7 +97,7 @@ export class ApiClient {
     return response.data;
   }
 
-  async getMyFriends(): Promise<User[]> {
+  async getMyFriends(): Promise<UserDto[]> {
     try {
       const response = await this.client.get<User[]>("/api/friends");
       return response.data;
@@ -139,12 +139,12 @@ export class ApiClient {
     return await this.client.patch(`/api/friends/requests/${id}/approve`);
   }
 
-  async getDirectChat(id: number): Promise<DirectChat> {
+  async getDirectChat(id: number): Promise<DirectChatDto> {
     const response = await this.client.get(`/api/chats/directs/${id}`);
     return response.data;
   }
 
-  async getDirectChats(): Promise<DirectChat[]> {
+  async getDirectChats(): Promise<DirectChatDto[]> {
     const response = await this.client.get(`/api/chats/directs/me`);
     return response.data;
   }

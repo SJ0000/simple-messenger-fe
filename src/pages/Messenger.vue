@@ -9,10 +9,10 @@
       </v-col>
       <v-divider vertical></v-divider>
       <v-col cols="6">
-        <div v-show="mode === ChattingMode.GroupChat">
+        <div v-if="mode === ChattingMode.GroupChat">
           <GroupChat/>
         </div>
-        <div v-show="mode === ChattingMode.DirectChat">
+        <div v-if="mode === ChattingMode.DirectChat">
           <DirectChat/>
         </div>
       </v-col>
@@ -35,22 +35,28 @@ import User from "@/modules/user/User";
 import {useFriendStore} from "@/store/FriendStore";
 import {storeToRefs} from "pinia";
 import {useUserStore} from "@/store/UserStore";
+import {UserDto} from "@/modules/user/dto";
 
 const authentication = useAuthenticationStore()
 const groupChatStore = useGroupChatStore()
 const messengerStore = useMessengerStateStore()
+const friendStore = useFriendStore()
 const userStore = useUserStore()
 
 const {mode} = storeToRefs(messengerStore)
 
-const friends: Array<User> = await ApiClient.getInstance().getMyFriends()
-useFriendStore().initialize(friends)
+const friends: Array<UserDto> = await ApiClient.getInstance().getMyFriends()
+friendStore.initialize(friends)
+
+friends.forEach((dto) => {
+  userStore.addIfAbsent(new User(dto.id, dto.name, dto.email, dto.avatarUrl, dto.statusMessage, dto.publicIdentifier))
+})
 
 const groupChats = await ApiClient.getInstance().getMyGroupChats();
 for (let groupChat of groupChats) {
   const groupChatWithUsers = await ApiClient.getInstance().getGroupChat(groupChat.id)
   const users = groupChatWithUsers.users.map((dto) => {
-    return new User(dto.id, dto.name,dto.email,dto.avatarUrl,dto.statusMessage,dto.publicIdentifier)
+    return new User(dto.id, dto.name, dto.email, dto.avatarUrl, dto.statusMessage, dto.publicIdentifier)
   })
   userStore.addIfAbsent(...users)
 }
@@ -67,8 +73,14 @@ useDirectChatStore().initialize(directChats)
 const authorization = authentication.getAccessToken()
 const user = authentication.getUser()
 MessageClient.getInstance().onGroupMessageReceived = message => {
-  if(messengerStore.mode === ChattingMode.GroupChat && messengerStore.selectedGroupChat.id === message.groupChatId){
+  if (messengerStore.mode === ChattingMode.GroupChat && messengerStore.selectedGroupChat.id === message.groupChatId) {
     messengerStore.selectedGroupChat.messages.push(message)
+  }
+}
+
+MessageClient.getInstance().onDirectMessageReceived = message => {
+  if (messengerStore.mode === ChattingMode.DirectChat && messengerStore.selectedDirectChat.id === message.directChatId) {
+    messengerStore.selectedDirectChat.messages.push(message)
   }
 }
 

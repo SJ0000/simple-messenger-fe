@@ -1,14 +1,21 @@
 import {defineStore} from "pinia";
 import {Ref, ref} from "vue";
-import GroupChat, {IGroupChat} from "@/modules/groupchat/GroupChat";
+import {IGroupChat} from "@/modules/groupchat/GroupChat";
 import {ReceivedMessage} from "@/modules/groupchat/interface";
-import {GroupChatDto} from "@/modules/groupchat/dto";
+import {ReceivedDirectMessage} from "@/modules/directchat/interface";
+import {IDirectChat} from "@/modules/directchat/DirectChat";
 
 interface GroupChatModel {
   id: number;
   name: string;
   avatarUrl: string;
   messages: ReceivedMessage[];
+}
+
+interface DirectChatModel {
+  id: number
+  otherUserId: number
+  messages: ReceivedDirectMessage[];
 }
 
 export enum ChattingMode {
@@ -28,12 +35,20 @@ export const useMessengerStateStore = defineStore(
         messages : [],
     })
 
+    const selectedDirectChat: Ref<DirectChatModel> = ref({
+      id : 0,
+      otherUserId : 0,
+      name : "",
+      messages : [],
+    })
+
     function activateGroupChat() {
       mode.value = ChattingMode.GroupChat;
     }
 
-    function activateDirectChat() {
+    function activateDirectChat(directChat: IDirectChat) {
       mode.value = ChattingMode.DirectChat;
+      selectDirectChat(directChat)
     }
 
     // GroupChat Select
@@ -47,10 +62,40 @@ export const useMessengerStateStore = defineStore(
       })
     }
 
+    function selectDirectChat(directChat : IDirectChat) {
+      selectedDirectChat.value.id = directChat.id;
+      selectedDirectChat.value.otherUserId = directChat.otherUserId;
+      selectedDirectChat.value.messages.splice(0);
+      directChat.messages.forEach((message) => {
+        selectedDirectChat.value.messages.push(message);
+      });
+    }
+
     // function addMessage(groupChatId: number, message: ReceivedMessage) {
     //   const findGroupChat = find(groupChatId);
     //   findGroupChat.messages.push(message);
     //   selected.value.messages.push(message);
+    // }
+
+    // DirectChat Legacy
+    // const selected : DirectChat  = dummyDirectChat;
+    // function getSelected() : DirectChat{
+    //   return selected
+    // }
+
+    // function addMessage(message: ReceivedDirectMessage) {
+    //   // 보낸 메시지
+    //   const authentication = useAuthenticationStore();
+    //   if (message.senderId === authentication.getUser().id) {
+    //     const directChat = find(message.directChatId);
+    //     directChat.messages.push(message);
+    //     selected.messages.push(message);
+    //   } else {
+    //     // 받은 메시지
+    //     const directChat = find(message.directChatId);
+    //     directChat.messages.push(message);
+    //     selected.messages.push(message);
+    //   }
     // }
 
     return {
@@ -59,6 +104,8 @@ export const useMessengerStateStore = defineStore(
       activateGroupChat,
       activateDirectChat,
       selectGroupChat,
+      selectedDirectChat,
+      selectDirectChat,
     };
   },
   {persist: false}

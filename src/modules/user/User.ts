@@ -1,7 +1,15 @@
-import {UserDto} from "@/modules/user/dto";
 import {Exclude, Expose} from "class-transformer";
 
-export default class User{
+export interface IUser {
+  id: number;
+  name: string;
+  email: string;
+  avatarUrl: string;
+  statusMessage: string;
+  publicIdentifier: string;
+}
+
+export default class User implements IUser{
   @Exclude() private _id: number;
   @Exclude() private _name: string;
   @Exclude() private _email: string;
@@ -9,7 +17,7 @@ export default class User{
   @Exclude() private _statusMessage: string;
   @Exclude() private _publicIdentifier: string;
 
-  constructor(id: number, name: string, email: string, avatarUrl: string, statusMessage:string, publicIdentifier: string){
+  constructor(id: number, name: string, email: string, avatarUrl: string, statusMessage: string, publicIdentifier: string) {
     this._id = id;
     this._name = name;
     this._email = email;
@@ -22,22 +30,27 @@ export default class User{
   public get id(): number {
     return this._id;
   }
+
   @Expose()
   public get name(): string {
     return this._name;
   }
+
   @Expose()
   public get email(): string {
     return this._email;
   }
+
   @Expose()
   public get avatarUrl(): string {
     return this._avatarUrl;
   }
+
   @Expose()
   public get statusMessage(): string {
     return this._statusMessage;
   }
+
   @Expose()
   public get publicIdentifier(): string {
     return this._publicIdentifier;

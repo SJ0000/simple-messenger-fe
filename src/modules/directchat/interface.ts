@@ -1,11 +1,3 @@
-import User from "@/modules/user/User";
-
-export interface DirectChat {
-  id: number;
-  otherUser: User;
-  messages: ReceivedDirectMessage[];
-}
-
 export interface ReceivedDirectMessage {
   directChatId: number;
   messageType: string;

@@ -16,9 +16,14 @@ export class MessageClient {
   private readonly client: Client;
   private readonly connectionUrl: string;
   private _onGroupMessageReceived : (message : ReceivedMessage) => void = (message ) => {}
+  private _onDirectMessageReceived : (message : ReceivedDirectMessage) => void = (message ) => {}
 
   public set onGroupMessageReceived(value: (message: ReceivedMessage) => void) {
     this._onGroupMessageReceived = value;
+  }
+
+  public set onDirectMessageReceived(value: (message: ReceivedDirectMessage) => void) {
+    this._onDirectMessageReceived = value;
   }
 
   private constructor(config: MessageClientConfig) {
@@ -102,6 +107,7 @@ export class MessageClient {
             useDirectChatStore().join(directChat);
           }
           useDirectChatStore().addMessage(received);
+          this._onDirectMessageReceived(received)
           break;
         }
         default: {
