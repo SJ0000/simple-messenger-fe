@@ -1,7 +1,14 @@
 import {ReceivedMessage} from "@/modules/groupchat/interface";
 
-export default class GroupChat{
+export interface IGroupChat{
+  readonly id: number;
+  readonly name: string;
+  readonly avatarUrl: string;
+  readonly participantIds: Set<number>;
+  readonly messages: ReceivedMessage[];
+}
 
+export default class GroupChat implements IGroupChat{
   private readonly _id: number;
   private readonly _name: string;
   private readonly _avatarUrl: string;

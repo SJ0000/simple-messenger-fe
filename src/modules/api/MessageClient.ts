@@ -8,13 +8,18 @@ import {useGroupChatStore} from "@/store/GroupChatStore";
 import User from "@/modules/user/User";
 import {ApiClient} from "./ApiClient";
 import {MessageClientConfig} from "./Configurations";
-import GroupChat from "@/modules/groupchat/GroupChat";
+import {IGroupChat} from "@/modules/groupchat/GroupChat";
+
 
 export class MessageClient {
   private static instance: MessageClient;
+  private readonly client: Client;
+  private readonly connectionUrl: string;
+  private _onGroupMessageReceived : (message : ReceivedMessage) => void = (message ) => {}
 
-  private client: Client;
-  private connectionUrl: string;
+  public set onGroupMessageReceived(value: (message: ReceivedMessage) => void) {
+    this._onGroupMessageReceived = value;
+  }
 
   private constructor(config: MessageClientConfig) {
     this.client = new Client();
@@ -27,11 +32,11 @@ export class MessageClient {
 
   public static getInstance(): MessageClient {
     if (this.instance === null || this.instance === undefined)
-      throw Error("MessageClient not initialized");
+      throw new Error("MessageClient not initialized");
     return this.instance;
   }
 
-  start(authorization: string, user: User, groupChats: GroupChat[]): void {
+  start(authorization: string, user: User, groupChats: IGroupChat[]): void {
     this.client.configure({
       brokerURL: `${this.connectionUrl}/message-broker`,
       connectHeaders: {
@@ -70,17 +75,18 @@ export class MessageClient {
     });
   }
 
-  sendDirect(to: number, message: SentDirectMessage) {
+  sendDirect(message: SentDirectMessage) {
     this.client.publish({
       destination: `/app/direct-message`,
       body: JSON.stringify(message),
     });
   }
 
-  subscribeChat(groupChat: GroupChat) {
+  subscribeChat(groupChat: IGroupChat) {
     this.client.subscribe(`/topic/group-chat/${groupChat.id}`, (message) => {
       const received: ReceivedMessage = JSON.parse(message.body);
-      useGroupChatStore().addMessage(groupChat.id, received);
+      useGroupChatStore().addMessage(groupChat.id, received)
+      this._onGroupMessageReceived(received)
     });
   }
 

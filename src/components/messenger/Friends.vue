@@ -28,7 +28,7 @@ import FriendRequestDialog from '@/components/dialog/FriendRequestDialog.vue'
 import AddFriendDialog from '@/components/dialog/AddFriendDialog.vue'
 import {ref} from 'vue';
 import {useDirectChatStore} from '@/store/DirectChatStore';
-import {useMessengerStore} from '@/store/messenger';
+import {useMessengerStateStore} from '@/store/MessengerStateStore';
 import {useFriendStore} from '@/store/FriendStore';
 import {ApiClient} from '@/modules/api/ApiClient';
 
@@ -55,7 +55,7 @@ async function onFriendDirectChatClick(otherUserId: number) {
         })
     }
     useDirectChatStore().select(otherUserId)
-    useMessengerStore().activateDirectChat()
+    useMessengerStateStore().activateDirectChat()
 }
 
 </script>

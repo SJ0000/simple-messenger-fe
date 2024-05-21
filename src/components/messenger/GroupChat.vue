@@ -50,23 +50,24 @@ import InvitationLinkDialog from "@/components/dialog/InvitationLinkDialog.vue";
 import {VVirtualScroll} from "vuetify/components";
 import User from "@/modules/user/User";
 import Utility from "../../common/Utility";
-import {useMessengerStore} from "@/store/messenger";
+import {useMessengerStateStore} from "@/store/MessengerStateStore";
 import {useUserStore} from "@/store/UserStore";
+import {storeToRefs} from "pinia";
 
 const authentication = useAuthenticationStore()
 const groupChatStore = useGroupChatStore()
-const messengerStore = useMessengerStore()
+const messengerStore = useMessengerStateStore()
 const userStore = useUserStore()
 
-const groupChat = messengerStore.selectedGroupChatRef
+const groupChat = messengerStore.selectedGroupChat
 const messages = reactive(groupChat.messages)
 const content = ref("")
 const user = authentication.getUser()
 const dialog = ref<InstanceType<typeof InvitationLinkDialog> | null>(null)
 
-if(groupChat.id !== 0 && messages.length === 0){
-  loadPreviousMessage()
-}
+// if(groupChat.id !== 0 && messages.length === 0){
+//   loadPreviousMessage()
+// }
 
 function createMessage(): SentMessage {
   return {
@@ -98,10 +99,10 @@ function pressEnterHandler(event: KeyboardEvent) {
   sendMessageAndTextResetIfContentNotEmpty()
 }
 
-async function loadPreviousMessage(){
-  const previousMessages = await ApiClient.getInstance().getPreviousGroupMessages(groupChat.id);
-  groupChat.messages.unshift(...previousMessages)
-}
+// async function loadPreviousMessage(){
+//   const previousMessages = await ApiClient.getInstance().getPreviousGroupMessages(groupChat.id);
+//   groupChat.messages.unshift(...previousMessages)
+// }
 
 </script>
 <style scoped></style>@/modules/groupchat/interface@/store/groupChat

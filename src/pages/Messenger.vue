@@ -30,7 +30,7 @@ import {ApiClient} from "@/modules/api/ApiClient";
 import {useGroupChatStore} from "@/store/GroupChatStore";
 import {useAuthenticationStore} from "@/store/AuthenticationStore";
 import {useDirectChatStore} from "@/store/DirectChatStore";
-import {useMessengerStore, ChattingMode} from "@/store/messenger";
+import {ChattingMode, useMessengerStateStore} from "@/store/MessengerStateStore";
 import User from "@/modules/user/User";
 import {useFriendStore} from "@/store/FriendStore";
 import {storeToRefs} from "pinia";
@@ -38,8 +38,10 @@ import {useUserStore} from "@/store/UserStore";
 
 const authentication = useAuthenticationStore()
 const groupChatStore = useGroupChatStore()
-const messengerStore = useMessengerStore()
+const messengerStore = useMessengerStateStore()
 const userStore = useUserStore()
+
+const {mode} = storeToRefs(messengerStore)
 
 const friends: Array<User> = await ApiClient.getInstance().getMyFriends()
 useFriendStore().initialize(friends)
@@ -56,7 +58,7 @@ for (let groupChat of groupChats) {
 if (groupChats.length > 0) {
   groupChatStore.initialize(groupChats)
   messengerStore.selectGroupChat(groupChatStore.find(groupChats[0].id))
-  useMessengerStore().activateGroupChat()
+  useMessengerStateStore().activateGroupChat()
 }
 
 const directChats = await ApiClient.getInstance().getDirectChats();
@@ -64,10 +66,13 @@ useDirectChatStore().initialize(directChats)
 
 const authorization = authentication.getAccessToken()
 const user = authentication.getUser()
+MessageClient.getInstance().onGroupMessageReceived = message => {
+  if(messengerStore.mode === ChattingMode.GroupChat && messengerStore.selectedGroupChat.id === message.groupChatId){
+    messengerStore.selectedGroupChat.messages.push(message)
+  }
+}
+
 MessageClient.getInstance().start(authorization, user, groupChatStore.findAll())
-
-const {mode} = storeToRefs(useMessengerStore())
-
 
 </script>
 

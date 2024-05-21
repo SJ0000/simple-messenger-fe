@@ -1,7 +1,8 @@
 import {defineStore} from "pinia";
 import {Ref, ref} from "vue";
-import GroupChat from "@/modules/groupchat/GroupChat";
+import GroupChat, {IGroupChat} from "@/modules/groupchat/GroupChat";
 import {ReceivedMessage} from "@/modules/groupchat/interface";
+import {GroupChatDto} from "@/modules/groupchat/dto";
 
 interface GroupChatModel {
   id: number;
@@ -15,11 +16,12 @@ export enum ChattingMode {
   DirectChat
 }
 
-export const useMessengerStore = defineStore(
+export const useMessengerStateStore = defineStore(
   "messenger",
   () => {
     const mode = ref(ChattingMode.DirectChat);
-    const selectedGroupChatRef: Ref<GroupChatModel> = ref({
+
+    const selectedGroupChat: Ref<GroupChatModel> = ref({
         id : 0,
         name : "",
         avatarUrl : "",
@@ -35,14 +37,14 @@ export const useMessengerStore = defineStore(
     }
 
     // GroupChat Select
-    function selectGroupChat(groupChat: GroupChat) {
-      selectedGroupChatRef.value.id = groupChat.id;
-      selectedGroupChatRef.value.name = groupChat.name;
-      selectedGroupChatRef.value.avatarUrl = groupChat.avatarUrl;
-      selectedGroupChatRef.value.messages.splice(0);
+    function selectGroupChat(groupChat: IGroupChat) {
+      selectedGroupChat.value.id = groupChat.id
+      selectedGroupChat.value.name = groupChat.name
+      selectedGroupChat.value.avatarUrl = groupChat.avatarUrl
+      selectedGroupChat.value.messages.splice(0)
       groupChat.messages.forEach((message) => {
-        selectedGroupChatRef.value.messages.push(message);
-      });
+        selectedGroupChat.value.messages.push(message)
+      })
     }
 
     // function addMessage(groupChatId: number, message: ReceivedMessage) {
@@ -53,10 +55,10 @@ export const useMessengerStore = defineStore(
 
     return {
       mode,
-      selectedGroupChatRef,
+      selectedGroupChat,
       activateGroupChat,
       activateDirectChat,
-      selectGroupChat
+      selectGroupChat,
     };
   },
   {persist: false}

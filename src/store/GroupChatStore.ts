@@ -1,21 +1,17 @@
-import {defineStore} from "pinia";
-import {ReceivedMessage} from "@/modules/groupchat/interface";
-import GroupChat from "@/modules/groupchat/GroupChat"
-import {GroupChatDto} from "@/modules/groupchat/dto";
-
+import {defineStore} from "pinia"
+import {ReceivedMessage} from "@/modules/groupchat/interface"
+import GroupChat, {IGroupChat} from "@/modules/groupchat/GroupChat"
+import {GroupChatDto} from "@/modules/groupchat/dto"
+import {ref} from "vue";
 
 export const useGroupChatStore = defineStore(
   "groupChat",
   () => {
 
-    const groupChatMap: Map<number, GroupChat> = new Map<number, GroupChat>();
-
-    function getGroupChats(): Map<number, GroupChat> {
-      return groupChatMap
-    }
+    const groupChats = ref(new Map<number, GroupChat>());
 
     function initialize(groupChatDtos: GroupChatDto[]) {
-      groupChatMap.clear()
+      groupChats.value.clear()
       groupChatDtos.forEach((groupChatDto) => {
         join(groupChatDto)
       });
@@ -24,33 +20,37 @@ export const useGroupChatStore = defineStore(
     function join(groupChatDto: GroupChatDto) {
       if (groupChatDto.avatarUrl === "")
         groupChatDto.avatarUrl = "/src/assets/default-avatar.jpg"
-      groupChatMap.set(groupChatDto.id, new GroupChat(groupChatDto.id, groupChatDto.name, groupChatDto.avatarUrl));
+      groupChats.value.set(groupChatDto.id, new GroupChat(groupChatDto.id, groupChatDto.name, groupChatDto.avatarUrl));
     }
 
-    function find(groupChatId: number): GroupChat {
-      const findGroupChat = groupChatMap.get(groupChatId);
+    function findAll() : IGroupChat[]{
+      return Array.from(groupChats.value.values())
+    }
+
+    function find(groupChatId: number) {
+      const findGroupChat = groupChats.value.get(groupChatId);
       if (findGroupChat === undefined)
         throw Error(`Chat Room id ${groupChatId} not found`);
       return findGroupChat;
     }
 
-    function findAll(): GroupChat[] {
-      return Array.from(groupChatMap.values())
+    function exists(groupChatId: number): boolean {
+      return groupChats.value.has(groupChatId)
     }
 
     function addMessage(groupChatId: number, message: ReceivedMessage) {
       const findGroupChat = find(groupChatId);
       findGroupChat.addMessage(message)
-      // selected에도
     }
 
     return {
-      getGroupChats,
+      groupChats,
       initialize,
       join,
       find,
       findAll,
       addMessage,
+      exists
     };
   },
   {persist: false}
