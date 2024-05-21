@@ -32,9 +32,11 @@ import {useMessengerStateStore} from '@/store/MessengerStateStore';
 import {useFriendStore} from '@/store/FriendStore';
 import {ApiClient} from '@/modules/api/ApiClient';
 import Utility from "@/common/Utility";
+import {useUserStore} from "@/store/UserStore";
 
 const directChatStore = useDirectChatStore()
 const messengerStateStore = useMessengerStateStore()
+const userStore = useUserStore()
 
 const addFriendDialog = ref<InstanceType<typeof AddFriendDialog> | null>(null);
 const friendRequestDialog = ref<InstanceType<typeof FriendRequestDialog> | null>(null);
@@ -65,9 +67,10 @@ async function onFriendDirectChatClick(otherUserId: number) {
 
 async function createDirectChat(otherUserId: number){
   const directChatId = await ApiClient.getInstance().createDirectChats(otherUserId)
+  const otherUser = userStore.find(otherUserId)
   directChatStore.join({
     id: directChatId,
-    otherUserId: otherUserId,
+    otherUser: otherUser,
   })
 }
 
