@@ -1,11 +1,13 @@
-export interface ReceivedMessage {
+import {UserDto} from "@/modules/user/dto";
+
+export interface ReceivedGroupMessage {
   groupChatId: number;
   senderId: number;
   content: string;
   receivedAt: Date;
 }
 
-export interface SentMessage {
+export interface SentGroupMessage {
   groupChatId: number;
   senderId: number;
   content: string;
@@ -18,4 +20,15 @@ export interface Invitation {
   groupChatName: string;
   inviterName: string;
   expiredAt: Date;
+}
+
+export interface GroupChatCreateDto {
+  name: string;
+}
+
+export interface GroupChatDto{
+  id: number;
+  name: string;
+  avatarUrl: string;
+  users: UserDto[]
 }

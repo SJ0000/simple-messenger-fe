@@ -1,7 +1,6 @@
 import {defineStore} from "pinia"
-import {ReceivedMessage} from "@/modules/groupchat/interface"
+import {ReceivedGroupMessage, GroupChatDto} from "@/modules/groupchat/interface"
 import GroupChat, {IGroupChat} from "@/modules/groupchat/GroupChat"
-import {GroupChatDto} from "@/modules/groupchat/dto"
 import {ref} from "vue";
 
 export const useGroupChatStore = defineStore(
@@ -38,7 +37,7 @@ export const useGroupChatStore = defineStore(
       return groupChats.value.has(groupChatId)
     }
 
-    function addMessage(groupChatId: number, message: ReceivedMessage) {
+    function addMessage(groupChatId: number, message: ReceivedGroupMessage) {
       const findGroupChat = find(groupChatId);
       findGroupChat.addMessage(message)
     }

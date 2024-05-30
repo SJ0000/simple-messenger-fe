@@ -1,6 +1,6 @@
 // Singleton
 import {Client} from "@stomp/stompjs";
-import {ReceivedMessage, SentMessage,} from "@/modules/groupchat/interface";
+import {ReceivedGroupMessage, SentGroupMessage,} from "@/modules/groupchat/interface";
 
 import {ReceivedDirectMessage, SentDirectMessage,} from "../directchat/interface";
 import {useDirectChatStore} from "@/store/DirectChatStore";
@@ -15,10 +15,10 @@ export class MessageClient {
   private static instance: MessageClient;
   private readonly client: Client;
   private readonly connectionUrl: string;
-  private _onGroupMessageReceived : (message : ReceivedMessage) => void = (message ) => {}
+  private _onGroupMessageReceived : (message : ReceivedGroupMessage) => void = (message ) => {}
   private _onDirectMessageReceived : (message : ReceivedDirectMessage) => void = (message ) => {}
 
-  public set onGroupMessageReceived(value: (message: ReceivedMessage) => void) {
+  public set onGroupMessageReceived(value: (message: ReceivedGroupMessage) => void) {
     this._onGroupMessageReceived = value;
   }
 
@@ -73,7 +73,7 @@ export class MessageClient {
     this.client.deactivate();
   }
 
-  send(message: SentMessage) {
+  send(message: SentGroupMessage) {
     this.client.publish({
       destination: "/app/group-message",
       body: JSON.stringify(message),
@@ -89,7 +89,7 @@ export class MessageClient {
 
   subscribeChat(groupChat: IGroupChat) {
     this.client.subscribe(`/topic/group-chat/${groupChat.id}`, (message) => {
-      const received: ReceivedMessage = JSON.parse(message.body);
+      const received: ReceivedGroupMessage = JSON.parse(message.body);
       useGroupChatStore().addMessage(groupChat.id, received)
       this._onGroupMessageReceived(received)
     });

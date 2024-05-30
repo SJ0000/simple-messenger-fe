@@ -1,10 +1,12 @@
-import {GroupChatCreateDto} from "@/modules/groupchat/dto";
+import {GroupChatCreateDto} from "@/modules/groupchat/interface";
 
 export class GroupChatCreateModel {
   name: string = "";
 
   toDto(): GroupChatCreateDto {
-    return new GroupChatCreateDto(this.name);
+    return {
+      name: this.name
+    }
   }
 
   clear() {

@@ -1,7 +1,7 @@
 import {defineStore} from "pinia";
 import {Ref, ref} from "vue";
 import {IGroupChat} from "@/modules/groupchat/GroupChat";
-import {ReceivedMessage} from "@/modules/groupchat/interface";
+import {ReceivedGroupMessage} from "@/modules/groupchat/interface";
 import {ReceivedDirectMessage} from "@/modules/directchat/interface";
 import {IDirectChat} from "@/modules/directchat/DirectChat";
 
@@ -9,7 +9,7 @@ interface GroupChatModel {
   id: number;
   name: string;
   avatarUrl: string;
-  messages: ReceivedMessage[];
+  messages: ReceivedGroupMessage[];
 }
 
 interface DirectChatModel {

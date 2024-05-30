@@ -1,14 +1,12 @@
 import axios, {AxiosInstance, AxiosResponse} from "axios";
 import {LoginDto, SignUpDto} from "@/modules/auth/dto";
 import {useAuthenticationStore} from "@/store/AuthenticationStore";
-import {Invitation, ReceivedMessage} from "@/modules/groupchat/interface";
-import {GroupChatCreateDto, GroupChatDto} from "@/modules/groupchat/dto";
+import {Invitation, ReceivedGroupMessage, GroupChatCreateDto, GroupChatDto} from "@/modules/groupchat/interface";
 import {UpdateUserDto, UserDto} from "../user/dto";
 import User from "@/modules/user/User";
 import {FriendRequestDto} from "../friend/dto";
 import {Friend} from "../friend/interface";
-import {ReceivedDirectMessage} from "../directchat/interface";
-import {DirectChatDto} from "@/modules/directchat/Dto";
+import {ReceivedDirectMessage, DirectChatDto} from "../directchat/interface";
 
 export class ApiClient {
   private static instance: ApiClient;
@@ -156,7 +154,7 @@ export class ApiClient {
     return response.data;
   }
 
-  async getPreviousGroupMessages(groupChatId : number) : Promise<Array<ReceivedMessage>>{
+  async getPreviousGroupMessages(groupChatId : number) : Promise<Array<ReceivedGroupMessage>>{
     const response = await this.client.get(`/api/chats/groups/${groupChatId}/messages`)
     return response.data
   }

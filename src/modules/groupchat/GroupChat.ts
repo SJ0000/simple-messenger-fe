@@ -1,11 +1,11 @@
-import {ReceivedMessage} from "@/modules/groupchat/interface";
+import {ReceivedGroupMessage} from "@/modules/groupchat/interface";
 
 export interface IGroupChat{
   readonly id: number;
   readonly name: string;
   readonly avatarUrl: string;
   readonly participantIds: Set<number>;
-  readonly messages: ReceivedMessage[];
+  readonly messages: ReceivedGroupMessage[];
 }
 
 export default class GroupChat implements IGroupChat{
@@ -13,7 +13,7 @@ export default class GroupChat implements IGroupChat{
   private readonly _name: string;
   private readonly _avatarUrl: string;
   private readonly _participantIds: Set<number>;
-  private readonly _messages: ReceivedMessage[];
+  private readonly _messages: ReceivedGroupMessage[];
 
   constructor(id: number, name: string, avatarUrl: string) {
     this._id = id;
@@ -39,7 +39,7 @@ export default class GroupChat implements IGroupChat{
     return this._participantIds;
   }
 
-  public get messages(): ReceivedMessage[] {
+  public get messages(): ReceivedGroupMessage[] {
     return this._messages;
   }
 
@@ -49,7 +49,7 @@ export default class GroupChat implements IGroupChat{
     })
   }
 
-  public addMessage(message: ReceivedMessage){
+  public addMessage(message: ReceivedGroupMessage){
     this._messages.push(message)
   }
 }

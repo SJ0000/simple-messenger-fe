@@ -40,7 +40,7 @@
 </template>
 <script setup lang="ts">
 import {mdiMessage} from "@mdi/js"
-import {SentMessage} from "@/modules/groupchat/interface";
+import {SentGroupMessage} from "@/modules/groupchat/interface";
 import {reactive, ref} from "vue";
 import {MessageClient} from "@/modules/api/MessageClient";
 import {useAuthenticationStore} from "@/store/AuthenticationStore";
@@ -67,7 +67,7 @@ const dialog = ref<InstanceType<typeof InvitationLinkDialog> | null>(null)
 //   loadPreviousMessage()
 // }
 
-function createMessage(): SentMessage {
+function createMessage(): SentGroupMessage {
   return {
     groupChatId: groupChat.id,
     senderId: user.id,

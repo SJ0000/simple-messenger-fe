@@ -1,8 +1,7 @@
 import {defineStore} from "pinia";
-import {ReceivedDirectMessage} from "@/modules/directchat/interface";
+import {ReceivedDirectMessage, DirectChatDto} from "@/modules/directchat/interface";
 import DirectChat, {IDirectChat} from "@/modules/directchat/DirectChat";
 import {ref} from "vue";
-import {DirectChatDto} from "@/modules/directchat/Dto";
 
 
 export const useDirectChatStore = defineStore(
