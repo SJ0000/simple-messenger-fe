@@ -1,35 +1,34 @@
 import {defineStore, StateTree} from "pinia";
 import User from "@/modules/user/User";
-import {Ref, ref} from "vue";
+import {computed, Ref, ref} from "vue";
 import {instanceToPlain, plainToInstance} from "class-transformer";
 import 'reflect-metadata';
 
 export const useAuthenticationStore = defineStore(
   "authentication",
   () => {
-    const isLoggedIn: Ref<boolean> = ref(false);
-    const user: Ref<User | null> = ref(null);
-    const accessToken: Ref<string | null> = ref(null);
+    const user: Ref<User | undefined> = ref(undefined);
+    const accessToken: Ref<string | undefined> = ref(undefined);
+
+    const isLoggedIn = computed(() => user.value !== undefined)
 
     function login(jwt: string, user: User) {
-      isLoggedIn.value = true;
       accessToken.value = jwt;
       updateUser(user);
     }
 
     function logout() {
-      isLoggedIn.value = false;
-      user.value = null;
-      accessToken.value = null;
+      user.value = undefined;
+      accessToken.value = undefined;
     }
 
     function getAccessToken(): string {
-      if (accessToken.value === null) throw Error("accessToken is null");
+      if (accessToken.value === undefined) throw Error("accessToken is null");
       return accessToken.value;
     }
 
     function getUser(): User {
-      if (user.value === null) throw Error("User is null");
+      if (user.value === undefined) throw Error("User is null");
       return user.value;
     }
 
@@ -53,7 +52,6 @@ export const useAuthenticationStore = defineStore(
       serializer:{
         serialize: (value) : string => {
           return JSON.stringify({
-            isLoggedIn: value.isLoggedIn,
             accessToken: value.accessToken,
             user: instanceToPlain(value.user)
           })
