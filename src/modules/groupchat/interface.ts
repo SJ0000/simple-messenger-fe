@@ -30,5 +30,10 @@ export interface GroupChatDto{
   id: number;
   name: string;
   avatarUrl: string;
-  users: UserDto[]
+  participants: ParticipantDto[];
+}
+
+export interface ParticipantDto{
+  user: UserDto;
+  role: string;
 }

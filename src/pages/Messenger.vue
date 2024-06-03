@@ -55,8 +55,9 @@ friends.forEach((dto) => {
 const groupChats = await ApiClient.getInstance().getMyGroupChats();
 for (let groupChat of groupChats) {
   const groupChatWithUsers = await ApiClient.getInstance().getGroupChat(groupChat.id)
-  const users = groupChatWithUsers.users.map((dto) => {
-    return new User(dto.id, dto.name, dto.email, dto.avatarUrl, dto.statusMessage, dto.publicIdentifier)
+  const users = groupChatWithUsers.participants.map((dto) => {
+    const userDto = dto.user;
+    return new User(userDto.id, userDto.name, userDto.email, userDto.avatarUrl, userDto.statusMessage, userDto.publicIdentifier)
   })
   userStore.addIfAbsent(...users)
 }
