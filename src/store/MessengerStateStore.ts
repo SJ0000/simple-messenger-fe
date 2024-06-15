@@ -19,6 +19,7 @@ interface DirectChatModel {
 }
 
 export enum ChattingMode {
+  None,
   GroupChat,
   DirectChat
 }
@@ -26,7 +27,7 @@ export enum ChattingMode {
 export const useMessengerStateStore = defineStore(
   "messenger",
   () => {
-    const mode = ref(ChattingMode.DirectChat);
+    const mode = ref(ChattingMode.None);
 
     const selectedGroupChat: Ref<GroupChatModel> = ref({
         id : 0,
