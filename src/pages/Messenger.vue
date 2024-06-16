@@ -64,8 +64,7 @@ for (let groupChat of groupChats) {
 
 if (groupChats.length > 0) {
   groupChatStore.initialize(groupChats)
-  messengerStore.selectGroupChat(groupChatStore.find(groupChats[0].id))
-  useMessengerStateStore().activateGroupChat()
+  messengerStore.activateGroupChat(groupChatStore.find(groupChats[0].id))
 }
 
 const directChats = await ApiClient.getInstance().getDirectChats();

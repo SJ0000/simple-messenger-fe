@@ -43,8 +43,9 @@ export const useMessengerStateStore = defineStore(
       messages : [],
     })
 
-    function activateGroupChat() {
+    function activateGroupChat(groupChat: IGroupChat) {
       mode.value = ChattingMode.GroupChat;
+      selectGroupChat(groupChat)
     }
 
     function activateDirectChat(directChat: IDirectChat) {
@@ -52,7 +53,6 @@ export const useMessengerStateStore = defineStore(
       selectDirectChat(directChat)
     }
 
-    // GroupChat Select
     function selectGroupChat(groupChat: IGroupChat) {
       selectedGroupChat.value.id = groupChat.id
       selectedGroupChat.value.name = groupChat.name
@@ -72,41 +72,12 @@ export const useMessengerStateStore = defineStore(
       });
     }
 
-    // function addMessage(groupChatId: number, message: ReceivedMessage) {
-    //   const findGroupChat = find(groupChatId);
-    //   findGroupChat.messages.push(message);
-    //   selected.value.messages.push(message);
-    // }
-
-    // DirectChat Legacy
-    // const selected : DirectChat  = dummyDirectChat;
-    // function getSelected() : DirectChat{
-    //   return selected
-    // }
-
-    // function addMessage(message: ReceivedDirectMessage) {
-    //   // 보낸 메시지
-    //   const authentication = useAuthenticationStore();
-    //   if (message.senderId === authentication.getUser().id) {
-    //     const directChat = find(message.directChatId);
-    //     directChat.messages.push(message);
-    //     selected.messages.push(message);
-    //   } else {
-    //     // 받은 메시지
-    //     const directChat = find(message.directChatId);
-    //     directChat.messages.push(message);
-    //     selected.messages.push(message);
-    //   }
-    // }
-
     return {
       mode,
       selectedGroupChat,
       activateGroupChat,
       activateDirectChat,
-      selectGroupChat,
       selectedDirectChat,
-      selectDirectChat,
     };
   },
   {persist: false}

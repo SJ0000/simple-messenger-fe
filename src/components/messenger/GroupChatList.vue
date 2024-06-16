@@ -26,17 +26,16 @@ import {useUserStore} from "@/store/UserStore";
 import {storeToRefs} from "pinia";
 
 const groupChatStore = useGroupChatStore()
-const messengerState = useMessengerStateStore()
+const messengerStateStore = useMessengerStateStore()
 const userStore = useUserStore()
 
-const { selectedGroupChat } = storeToRefs(messengerState)
+const { selectedGroupChat } = storeToRefs(messengerStateStore)
 
 const dialog = ref<InstanceType<typeof CreateGroupChatDialog> | null>(null);
 
 function onGroupChatSelected(groupChatId: number) {
   const groupChat = groupChatStore.find(groupChatId)
-  messengerState.selectGroupChat(groupChat)
-  useMessengerStateStore().activateGroupChat()
+  messengerStateStore.activateGroupChat(groupChat)
 }
 
 function onAddGroupChatClick() {
