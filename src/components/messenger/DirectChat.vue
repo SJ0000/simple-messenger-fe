@@ -50,9 +50,9 @@ import {useDirectChatStore} from "@/store/DirectChatStore";
 import Utility from "@/common/Utility";
 import {useMessengerStateStore} from "@/store/MessengerStateStore";
 import {useUserStore} from "@/store/UserStore";
+import {ApiClient} from "@/modules/api/ApiClient";
 
 const authentication = useAuthenticationStore()
-const directChatStore = useDirectChatStore()
 const messengerStateStore = useMessengerStateStore()
 const directChat = messengerStateStore.selectedDirectChat
 
@@ -62,9 +62,9 @@ const content = ref("")
 const user = authentication.getUser()
 const otherUser = useUserStore().find(directChat.otherUserId)
 
-// if(directChat.id !== 0 && messages.length === 0){
-//   loadPreviousMessage()
-// }
+if(directChat.id !== 0 && messages.length === 0){
+  loadPreviousMessage()
+}
 
 function createMessage(): SentDirectMessage {
   return {
@@ -72,8 +72,7 @@ function createMessage(): SentDirectMessage {
     messageType: "MESSAGE",
     senderId: user.id,
     receiverId: directChat.otherUserId,
-    content: content.value,
-    sentAt: new Date()
+    content: content.value
   }
 }
 
@@ -91,10 +90,10 @@ function pressEnterHandler(event: KeyboardEvent) {
   sendMessageAndTextResetIfContentNotEmpty()
 }
 
-// async function loadPreviousMessage(){
-//   const previousMessages = await ApiClient.getInstance().getPreviousDirectMessages(directChat.id);
-//   directChat.messages.unshift(...previousMessages)
-// }
+async function loadPreviousMessage(){
+  const previousMessages = await ApiClient.getInstance().getPreviousDirectMessages(directChat.id);
+  directChat.messages.unshift(...previousMessages)
+}
 
 </script>
 <style scoped></style>

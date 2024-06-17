@@ -11,7 +11,6 @@ export interface SentGroupMessage {
   groupChatId: number;
   senderId: number;
   content: string;
-  sentAt: Date;
 }
 
 export interface Invitation {

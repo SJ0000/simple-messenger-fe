@@ -4,7 +4,6 @@ export default class Utility{
 
   public static getFormattedDate(date: Date): string {
     const d = new Date(date)
-    d.setHours(d.getHours()+9)
     const year = d.getFullYear()
     const month = this.add0IfLessThan10(d.getMonth()+1)
     const day = this.add0IfLessThan10(d.getDate())

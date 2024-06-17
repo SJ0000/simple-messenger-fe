@@ -53,7 +53,6 @@ import {useMessengerStateStore} from "@/store/MessengerStateStore";
 import {useUserStore} from "@/store/UserStore";
 
 const authentication = useAuthenticationStore()
-const groupChatStore = useGroupChatStore()
 const messengerStore = useMessengerStateStore()
 const userStore = useUserStore()
 
@@ -63,16 +62,15 @@ const content = ref("")
 const user = authentication.getUser()
 const dialog = ref<InstanceType<typeof InvitationLinkDialog> | null>(null)
 
-// if(groupChat.id !== 0 && messages.length === 0){
-//   loadPreviousMessage()
-// }
+if(groupChat.id !== 0 && messages.length === 0){
+  loadPreviousMessage()
+}
 
 function createMessage(): SentGroupMessage {
   return {
     groupChatId: groupChat.id,
     senderId: user.id,
     content: content.value,
-    sentAt: new Date()
   }
 }
 
@@ -97,10 +95,10 @@ function pressEnterHandler(event: KeyboardEvent) {
   sendMessageAndTextResetIfContentNotEmpty()
 }
 
-// async function loadPreviousMessage(){
-//   const previousMessages = await ApiClient.getInstance().getPreviousGroupMessages(groupChat.id);
-//   groupChat.messages.unshift(...previousMessages)
-// }
+async function loadPreviousMessage(){
+  const previousMessages = await ApiClient.getInstance().getPreviousGroupMessages(groupChat.id);
+  groupChat.messages.unshift(...previousMessages)
+}
 
 </script>
 <style scoped></style>@/modules/groupchat/interface@/store/groupChat

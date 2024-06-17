@@ -19,5 +19,4 @@ export interface SentDirectMessage {
   senderId: number;
   receiverId: number;
   content: string;
-  sentAt: Date;
 }
