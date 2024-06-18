@@ -21,7 +21,7 @@ import {mdiChatPlus} from "@mdi/js";
 import {useGroupChatStore} from "@/store/GroupChatStore";
 import {ref} from "vue";
 import CreateGroupChatDialog from "@/components/dialog/CreateGroupChatDialog.vue";
-import {useMessengerStateStore} from "@/store/MessengerStateStore";
+import {ChattingMode, useMessengerStateStore} from "@/store/MessengerStateStore";
 import {useUserStore} from "@/store/UserStore";
 import {storeToRefs} from "pinia";
 
@@ -34,6 +34,9 @@ const { selectedGroupChat } = storeToRefs(messengerStateStore)
 const dialog = ref<InstanceType<typeof CreateGroupChatDialog> | null>(null);
 
 function onGroupChatSelected(groupChatId: number) {
+  if(messengerStateStore.mode === ChattingMode.GroupChat &&  messengerStateStore.selectedGroupChat.id === groupChatId)
+    return
+
   const groupChat = groupChatStore.find(groupChatId)
   messengerStateStore.activateGroupChat(groupChat)
 }

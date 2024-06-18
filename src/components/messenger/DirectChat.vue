@@ -54,6 +54,7 @@ import {ApiClient} from "@/modules/api/ApiClient";
 
 const authentication = useAuthenticationStore()
 const messengerStateStore = useMessengerStateStore()
+const directChatStore = useDirectChatStore()
 const directChat = messengerStateStore.selectedDirectChat
 
 const messages = reactive(directChat.messages)
@@ -62,7 +63,7 @@ const content = ref("")
 const user = authentication.getUser()
 const otherUser = useUserStore().find(directChat.otherUserId)
 
-if(directChat.id !== 0 && messages.length === 0){
+if (directChat.id !== 0 && messages.length === 0) {
   loadPreviousMessage()
 }
 
@@ -90,8 +91,11 @@ function pressEnterHandler(event: KeyboardEvent) {
   sendMessageAndTextResetIfContentNotEmpty()
 }
 
-async function loadPreviousMessage(){
+async function loadPreviousMessage() {
   const previousMessages = await ApiClient.getInstance().getPreviousDirectMessages(directChat.id);
+  previousMessages.forEach(message => {
+    directChatStore.addMessage(message)
+  })
   directChat.messages.unshift(...previousMessages)
 }
 

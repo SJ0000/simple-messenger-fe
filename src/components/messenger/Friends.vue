@@ -28,7 +28,7 @@ import FriendRequestDialog from '@/components/dialog/FriendRequestDialog.vue'
 import AddFriendDialog from '@/components/dialog/AddFriendDialog.vue'
 import {ref} from 'vue';
 import {useDirectChatStore} from '@/store/DirectChatStore';
-import {useMessengerStateStore} from '@/store/MessengerStateStore';
+import {ChattingMode, useMessengerStateStore} from '@/store/MessengerStateStore';
 import {useFriendStore} from '@/store/FriendStore';
 import {ApiClient} from '@/modules/api/ApiClient';
 import Utility from "@/common/Utility";
@@ -42,6 +42,7 @@ const addFriendDialog = ref<InstanceType<typeof AddFriendDialog> | null>(null);
 const friendRequestDialog = ref<InstanceType<typeof FriendRequestDialog> | null>(null);
 
 const friends = useFriendStore().getFriends()
+
 function onAddFriendClick() {
   addFriendDialog.value?.open()
 
@@ -52,8 +53,10 @@ function onFriendRequestClick() {
 }
 
 async function onFriendDirectChatClick(otherUserId: number) {
-  // 있으면 그냥 실행, 없으면 생성 후 실행
-  if(!directChatStore.existsByOtherUserId(otherUserId)){
+  if (messengerStateStore.mode === ChattingMode.DirectChat && messengerStateStore.selectedDirectChat.otherUserId === otherUserId)
+    return;
+
+  if (!directChatStore.existsByOtherUserId(otherUserId)) {
     await createDirectChat(otherUserId)
   }
 
@@ -65,7 +68,7 @@ async function onFriendDirectChatClick(otherUserId: number) {
   messengerStateStore.activateDirectChat(directChat)
 }
 
-async function createDirectChat(otherUserId: number){
+async function createDirectChat(otherUserId: number) {
   const directChatId = await ApiClient.getInstance().createDirectChats(otherUserId)
   const otherUser = userStore.find(otherUserId)
   directChatStore.join({

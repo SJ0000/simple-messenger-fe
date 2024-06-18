@@ -54,6 +54,7 @@ import {useUserStore} from "@/store/UserStore";
 
 const authentication = useAuthenticationStore()
 const messengerStore = useMessengerStateStore()
+const groupChatStore = useGroupChatStore()
 const userStore = useUserStore()
 
 const groupChat = messengerStore.selectedGroupChat
@@ -97,6 +98,9 @@ function pressEnterHandler(event: KeyboardEvent) {
 
 async function loadPreviousMessage(){
   const previousMessages = await ApiClient.getInstance().getPreviousGroupMessages(groupChat.id);
+  previousMessages.forEach(message => {
+    groupChatStore.addMessage(message.groupChatId, message)
+  })
   groupChat.messages.unshift(...previousMessages)
 }
 
