@@ -3,3 +3,8 @@ export class SnackbarModel {
   timeout: number = 1500;
   text: string = "";
 }
+
+export class AlertModel {
+  show: boolean = false;
+  text: string = "";
+}
