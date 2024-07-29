@@ -9,9 +9,11 @@
     <v-row>
       <v-col>
         <v-alert
+          class="ma-1"
           type="error"
           :model-value="alert.show"
-        > {{ alert.text }}</v-alert>
+        > {{ alert.text }}
+        </v-alert>
         <v-form ref="loginForm">
           <v-text-field label="이메일" v-model="loginModel.email" :rules="[notEmpty, email]"></v-text-field>
           <v-text-field label="비밀번호" v-model="loginModel.password" type="password"
@@ -60,16 +62,19 @@ async function onClick() {
           router.push("/messenger")
         }
       ).catch(error => {
-        alert.value.show = true;
-        if(error.response.status === 400){
-          alert.value.text = "이메일 혹은 비밀번호가 일치하지 않습니다."
-        }else{
-          alert.value.text = "알 수 없는 오류가 발생했습니다. 나중에 다시 시도해주세요."
+        if (error.response.status === 400) {
+          showAlert("이메일 혹은 비밀번호가 일치하지 않습니다.")
+        } else {
+          showAlert("알 수 없는 오류가 발생했습니다. 나중에 다시 시도해주세요.")
         }
       })
   }
 }
 
+function showAlert(message: string) {
+  alert.value.show = true;
+  alert.value.text = message;
+}
 
 </script>
 

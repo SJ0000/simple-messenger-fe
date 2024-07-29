@@ -8,6 +8,11 @@
     </v-row>
     <v-row>
       <v-col>
+        <v-alert
+          class="ma-1"
+          type="error"
+          :model-value="alert.show"
+        > {{ alert.text }}</v-alert>
         <v-form ref="signUpForm">
           <v-text-field label="이름" v-model="model.name" :rules="[notEmpty]"></v-text-field>
           <v-text-field label="이메일" type="email" v-model="model.email" :rules="[notEmpty, email]"></v-text-field>
@@ -29,12 +34,14 @@ import {email, notEmpty, password} from "@/modules/validation/rules"
 import {Ref, ref} from "vue";
 import {SignUpModel} from "@/modules/auth/model";
 
-import {VForm} from "vuetify/components";
+import {VAlert, VForm} from "vuetify/components";
 import router from "@/router";
 import {ApiClient} from "@/modules/api/ApiClient";
 import {useAuthenticationStore} from "@/store/AuthenticationStore";
+import {AlertModel} from "@/common/Models";
 
 const authentication = useAuthenticationStore()
+const alert = ref(new AlertModel());
 
 if (authentication.isLoggedIn)
   router.push("/messenger")
@@ -55,9 +62,18 @@ async function onClick() {
         router.push("/login")
       }
       ).catch(error => {
-        console.error(error)
+        if(error.response.status === 400){
+          showAlert("이미 가입된 사용자입니다.")
+        }else{
+          showAlert("알 수 없는 오류가 발생했습니다. 나중에 다시 시도해주세요.")
+        }
       })
   }
+}
+
+function showAlert(message: string) {
+  alert.value.show = true;
+  alert.value.text = message;
 }
 
 </script>
