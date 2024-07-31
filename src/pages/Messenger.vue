@@ -7,7 +7,6 @@
       <v-col cols="3">
         <GroupChatList/>
       </v-col>
-      <v-divider vertical></v-divider>
       <v-col cols="6">
         <div v-if="mode === ChattingMode.GroupChat">
           <GroupChat/>
@@ -86,6 +85,10 @@ MessageClient.getInstance().onDirectMessageReceived = message => {
 
 MessageClient.getInstance().start(authorization, user, groupChatStore.findAll())
 
+// notification
+if(Notification.permission === "default"){
+  const p = await Notification.requestPermission()
+}
 </script>
 
 <style scoped></style>@/store/groupChat

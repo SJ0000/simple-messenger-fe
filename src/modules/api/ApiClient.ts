@@ -7,6 +7,7 @@ import User from "@/modules/user/User";
 import {FriendRequestDto} from "../friend/dto";
 import {Friend} from "../friend/interface";
 import {ReceivedDirectMessage, DirectChatDto} from "../directchat/interface";
+import router from "@/router";
 
 export class ApiClient {
   private static instance: ApiClient;
@@ -39,7 +40,13 @@ export class ApiClient {
       (error) => {
         if (error.response.status === 401) {
           useAuthenticationStore().logout();
+          router.push("/")
         }
+        if (error.response.status <= 500) {
+          console.error("server error", error)
+          router.push("/")
+        }
+
         return Promise.reject(error);
       }
     );
@@ -154,12 +161,12 @@ export class ApiClient {
     return response.data;
   }
 
-  async getPreviousGroupMessages(groupChatId : number) : Promise<Array<ReceivedGroupMessage>>{
+  async getPreviousGroupMessages(groupChatId: number): Promise<Array<ReceivedGroupMessage>> {
     const response = await this.client.get(`/api/chats/groups/${groupChatId}/messages`)
     return response.data
   }
 
-  async getPreviousDirectMessages(directChatId : number) : Promise<Array<ReceivedDirectMessage>>{
+  async getPreviousDirectMessages(directChatId: number): Promise<Array<ReceivedDirectMessage>> {
     const response = await this.client.get(`/api/chats/groups/${directChatId}/messages`)
     return response.data
   }
