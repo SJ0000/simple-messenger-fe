@@ -43,6 +43,7 @@ export default defineConfig(({ command, mode }) => {
     define: {
       "process.env": {
         WS_URL: env.WS_URL,
+
         OBJECT_STORAGE_REGION: env.OBJECT_STORAGE_REGION,
         OBJECT_STORAGE_ENDPOINT: env.OBJECT_STORAGE_ENDPOINT,
         OBJECT_STORAGE_KEY_ID: env.OBJECT_STORAGE_KEY_ID,

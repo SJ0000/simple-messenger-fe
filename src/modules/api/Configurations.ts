@@ -23,22 +23,4 @@ export class MessageClientConfig {
   }
 }
 
-export class FirebaseConfig{
-  public apiKey : string;
-  public authDomain : string;
-  public projectId : string;
-  public storageBucket : string;
-  public messagingSenderId : string;
-  public appId : string;
-  public measurementId : string;
 
-  constructor(env: any) {
-    this.apiKey = env.FIREBASE_API_KEY
-    this.authDomain = env.FIREBASE_AUTH_DOMAIN
-    this.projectId = env.FIREBASE_PROJECT_ID
-    this.storageBucket = env.FIREBASE_STORAGE_BUCKET
-    this.messagingSenderId = env.FIREBASE_MESSAGING_SENDER_ID
-    this.appId = env.FIREBASE_APP_ID
-    this.measurementId = env.FIREBASE_MEASUREMENT_ID
-  }
-}

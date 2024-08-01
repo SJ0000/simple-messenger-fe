@@ -85,9 +85,8 @@ MessageClient.getInstance().onDirectMessageReceived = message => {
 
 MessageClient.getInstance().start(authorization, user, groupChatStore.findAll())
 
-// notification
-if(Notification.permission === "default"){
-  const p = await Notification.requestPermission()
+if (Notification.permission === "default") {
+  await Notification.requestPermission()
 }
 </script>
 
