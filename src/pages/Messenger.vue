@@ -85,9 +85,9 @@ MessageClient.getInstance().onDirectMessageReceived = message => {
 
 MessageClient.getInstance().start(authorization, user, groupChatStore.findAll())
 
-if (Notification.permission === "default") {
-  await Notification.requestPermission()
-}
+
+
+
 </script>
 
 <style scoped></style>@/store/groupChat

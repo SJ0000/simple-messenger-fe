@@ -4,9 +4,12 @@ import {createApp} from "vue";
 import {ObjectStorageClient} from "./modules/api/ObjectStorageClient";
 import {MessageClientConfig, ObjectStorageConfig} from "./modules/api/Configurations";
 import {MessageClient} from "./modules/api/MessageClient";
-import { initializeApp } from "firebase/app";
-import {getMessaging, getToken, onMessage} from "firebase/messaging";
-import {FirebaseConfig, publicVapidKey} from "@/modules/notification/Configurations";
+import {initializeApp} from "firebase/app";
+
+import {FirebaseConfig} from "@/modules/notification/Configurations";
+import {initializeNotification} from "@/modules/notification/NotificationService";
+import {getMessaging} from "firebase/messaging";
+
 
 const app = createApp(App);
 registerPlugins(app);
@@ -17,15 +20,5 @@ ObjectStorageClient.initialize(new ObjectStorageConfig(process.env));
 MessageClient.initialize(new MessageClientConfig(process.env));
 
 const firebaseApp = initializeApp(new FirebaseConfig());
-
 const messaging = getMessaging(firebaseApp)
-
-onMessage(messaging, (payload) => {
-  console.log(`message received = ${payload}`)
-})
-
-getToken(messaging, {
-  vapidKey: publicVapidKey
-}).then((currentToken) => {
-  console.log(currentToken)
-})
+initializeNotification(messaging)

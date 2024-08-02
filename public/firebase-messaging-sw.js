@@ -20,7 +20,7 @@ messaging.onBackgroundMessage((payload) => {
   // Customize notification here
   const notificationTitle = payload.notification.title;
   const notificationOptions = {
-    body: payload.notification.body,
+    body: `[background] ${payload.notification.body}`,
     icon: "/favicon.ico",
   };
   self.registration.showNotification(notificationTitle, notificationOptions);
