@@ -35,6 +35,7 @@ import {useFriendStore} from "@/store/FriendStore";
 import {storeToRefs} from "pinia";
 import {useUserStore} from "@/store/UserStore";
 import {UserDto} from "@/modules/user/dto";
+import {useNotificationStore} from "@/store/NotificationStore";
 
 const authentication = useAuthenticationStore()
 const groupChatStore = useGroupChatStore()
@@ -85,7 +86,7 @@ MessageClient.getInstance().onDirectMessageReceived = message => {
 
 MessageClient.getInstance().start(authorization, user, groupChatStore.findAll())
 
-
+useNotificationStore().initialize()
 
 
 </script>

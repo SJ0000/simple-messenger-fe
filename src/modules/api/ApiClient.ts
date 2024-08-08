@@ -8,6 +8,7 @@ import {FriendRequestDto} from "../friend/dto";
 import {Friend} from "../friend/interface";
 import {ReceivedDirectMessage, DirectChatDto} from "../directchat/interface";
 import router from "@/router";
+import {NotificationTokenDto} from "@/modules/notification/dto";
 
 export class ApiClient {
   private static instance: ApiClient;
@@ -169,5 +170,13 @@ export class ApiClient {
   async getPreviousDirectMessages(directChatId: number): Promise<Array<ReceivedDirectMessage>> {
     const response = await this.client.get(`/api/chats/groups/${directChatId}/messages`)
     return response.data
+  }
+
+  async postNotificationToken(dto: NotificationTokenDto): Promise<AxiosResponse> {
+    return await this.client.post(`/api/notifications/tokens`, dto)
+  }
+
+  async patchNotificationToken(dto: NotificationTokenDto): Promise<AxiosResponse> {
+    return await this.client.patch(`/api/notifications/tokens`, dto)
   }
 }

@@ -1,26 +1,46 @@
 import {getMessaging, getToken, onMessage} from "firebase/messaging";
 import {Messaging} from "@firebase/messaging";
-import {publicVapidKey} from "@/modules/notification/Configurations";
+import {FirebaseConfig, publicVapidKey} from "@/modules/notification/Configurations";
+import {initializeApp} from "firebase/app";
 
-export function initializeNotification(messaging: Messaging) {
-  if (Notification.permission !== "granted")
-    return;
+export class NotificationService {
+  private static instance: NotificationService;
 
-  onMessage(messaging, (payload) => {
-    console.log(`[foreground] Received message = ${payload}`)
+  private messaging: Messaging | undefined;
 
-    const title = payload.notification?.title ?? ""
-    new Notification(title, {
-      body: `[foregorund] ${payload.notification?.body}`,
-      icon: "/favicon.ico"
-    });
+  private constructor() {
+    this.initialize()
+  }
 
-  })
+  public static getInstance(): NotificationService {
+    if (this.instance === null || this.instance === undefined)
+      this.instance = new NotificationService()
+    return this.instance;
+  }
 
-  getToken(messaging, {
-    vapidKey: publicVapidKey
-  }).then((currentToken) => {
-    // TODO : send token to server
-    console.log(currentToken)
-  })
+  private initialize(){
+    const firebaseApp = initializeApp(new FirebaseConfig());
+    this.messaging = getMessaging(firebaseApp)
+
+    if (Notification.permission !== "granted")
+      return;
+
+    onMessage(this.messaging, (payload) => {
+      console.log(`[foreground] Received message = ${payload}`)
+      const title = payload.notification?.title ?? ""
+      new Notification(title, {
+        body: `[foreground] ${payload.notification?.body}`,
+        icon: "/favicon.ico"
+      });
+    })
+  }
+
+  public async createFcmToken() : Promise<string>{
+    if(this.messaging === undefined)
+      throw Error("messaging is undefined")
+
+    return getToken(this.messaging, {
+      vapidKey: publicVapidKey
+    })
+  }
 }
