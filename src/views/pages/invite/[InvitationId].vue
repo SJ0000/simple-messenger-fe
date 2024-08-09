@@ -18,7 +18,7 @@
 import {ApiClient} from "@/modules/api/ApiClient";
 import {useGroupChatStore} from "@/store/GroupChatStore";
 import {useAuthenticationStore} from "@/store/AuthenticationStore";
-import router from "@/router";
+import router from "@/plugins/unplugin-vue-router";
 import {useRoute} from "vue-router";
 
 const authentication = useAuthenticationStore()

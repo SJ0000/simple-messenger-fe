@@ -35,7 +35,7 @@ import {Ref, ref} from "vue";
 import {SignUpModel} from "@/modules/auth/model";
 
 import {VAlert, VForm} from "vuetify/components";
-import router from "@/router";
+import router from "@/plugins/unplugin-vue-router";
 import {ApiClient} from "@/modules/api/ApiClient";
 import {useAuthenticationStore} from "@/store/AuthenticationStore";
 import {AlertModel} from "@/common/Models";

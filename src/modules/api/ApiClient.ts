@@ -7,7 +7,7 @@ import User from "@/modules/user/User";
 import {FriendRequestDto} from "../friend/dto";
 import {Friend} from "../friend/interface";
 import {ReceivedDirectMessage, DirectChatDto} from "../directchat/interface";
-import router from "@/router";
+import router from "@/plugins/unplugin-vue-router";
 import {NotificationTokenDto} from "@/modules/notification/dto";
 
 export class ApiClient {

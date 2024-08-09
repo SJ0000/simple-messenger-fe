@@ -39,7 +39,7 @@ import {Ref, ref} from "vue";
 import {LoginModel} from "@/modules/auth/model";
 import {VAlert, VForm} from "vuetify/components";
 import {useAuthenticationStore} from "@/store/AuthenticationStore";
-import router from "@/router";
+import router from "@/plugins/unplugin-vue-router";
 import {AlertModel} from "@/common/Models";
 import {AxiosError} from "axios";
 

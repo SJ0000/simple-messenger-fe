@@ -40,7 +40,7 @@
 // user
 import {mdiAccountCircle} from '@mdi/js'
 import {useAuthenticationStore} from "@/store/AuthenticationStore";
-import router from "@/router";
+import router from "@/plugins/unplugin-vue-router";
 
 const authentication = useAuthenticationStore();
 
