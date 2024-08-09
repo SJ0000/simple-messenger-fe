@@ -20,32 +20,31 @@ export class ApiClient {
   }
 
   private createAxiosInstance(): AxiosInstance {
-    const axiosInstance: AxiosInstance = axios.create({
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const axiosInstance: AxiosInstance = axios.create();
 
-    axiosInstance.interceptors.request.use(function (config) {
+    axiosInstance.interceptors.request.use(function (request) {
+      request.headers.set("Content-Type", "application/json")
+
       const accessToken = useAuthenticationStore().accessToken;
       if (accessToken !== null) {
-        config.headers.Authorization = `Bearer ${accessToken}`;
+        request.headers.Authorization = `Bearer ${accessToken}`;
       }
-      return config;
+      console.log(`header = ${request.headers['Content-Type']}`)
+      return request;
     });
 
     axiosInstance.interceptors.response.use(
       (response) => {
         return response;
       },
-      (error) => {
+      async (error) => {
         if (error.response.status === 401) {
           useAuthenticationStore().logout();
-          router.push("/")
+          await router.push("/")
         }
         if (error.response.status <= 500) {
           console.error("server error", error)
-          router.push("/")
+          await router.push("/")
         }
 
         return Promise.reject(error);
