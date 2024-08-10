@@ -1,5 +1,5 @@
 import {defineStore, StateTree} from "pinia";
-import User from "@/modules/user/User";
+import User from "@/domain/user/User";
 import {computed, Ref, ref} from "vue";
 import {instanceToPlain, plainToInstance} from "class-transformer";
 import 'reflect-metadata';

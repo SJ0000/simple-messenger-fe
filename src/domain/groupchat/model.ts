@@ -1,4 +1,4 @@
-import {GroupChatCreateDto} from "@/modules/groupchat/interface";
+import {GroupChatCreateDto} from "@/domain/groupchat/interface";
 
 export class GroupChatCreateModel {
   name: string = "";

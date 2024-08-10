@@ -1,14 +1,14 @@
 import axios, {AxiosInstance, AxiosResponse} from "axios";
-import {LoginDto, SignUpDto} from "@/modules/auth/dto";
-import {useAuthenticationStore} from "@/store/AuthenticationStore";
-import {Invitation, ReceivedGroupMessage, GroupChatCreateDto, GroupChatDto} from "@/modules/groupchat/interface";
-import {UpdateUserDto, UserDto} from "../user/dto";
-import User from "@/modules/user/User";
-import {FriendRequestDto} from "../friend/dto";
-import {Friend} from "../friend/interface";
-import {ReceivedDirectMessage, DirectChatDto} from "../directchat/interface";
+import {LoginDto, SignUpDto} from "@/domain/auth/dto";
+import {useAuthenticationStore} from "@/domain/auth/AuthenticationStore";
+import {Invitation, ReceivedGroupMessage, GroupChatCreateDto, GroupChatDto} from "@/domain/groupchat/interface";
+import {UpdateUserDto, UserDto} from "@/domain/user/dto";
+import User from "@/domain/user/User";
+import {FriendRequestDto} from "@/domain/friend/dto";
+import {Friend} from "@/domain/friend/interface";
+import {ReceivedDirectMessage, DirectChatDto} from "@/domain/directchat/interface";
 import router from "@/plugins/unplugin-vue-router";
-import {NotificationTokenDto} from "@/modules/notification/dto";
+import {NotificationTokenDto} from "@/domain/notification/dto";
 
 export class ApiClient {
   private static instance: ApiClient;

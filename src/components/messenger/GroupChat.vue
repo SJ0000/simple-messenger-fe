@@ -40,17 +40,17 @@
 </template>
 <script setup lang="ts">
 import {mdiMessage} from "@mdi/js"
-import {SentGroupMessage} from "@/modules/groupchat/interface";
+import {SentGroupMessage} from "@/domain/groupchat/interface";
 import {reactive, ref} from "vue";
-import {MessageClient} from "@/modules/api/MessageClient";
-import {useAuthenticationStore} from "@/store/AuthenticationStore";
-import {useGroupChatStore} from "@/store/GroupChatStore";
-import {ApiClient} from "@/modules/api/ApiClient";
+import {MessageClient} from "@/common/api/MessageClient";
+import {useAuthenticationStore} from "@/domain/auth/AuthenticationStore";
+import {useGroupChatStore} from "@/domain/groupchat/GroupChatStore";
+import {ApiClient} from "@/common/api/ApiClient";
 import InvitationLinkDialog from "@/components/dialog/InvitationLinkDialog.vue";
 import {VVirtualScroll} from "vuetify/components";
 import Utility from "../../common/Utility";
-import {useMessengerStateStore} from "@/store/MessengerStateStore";
-import {useUserStore} from "@/store/UserStore";
+import {useMessengerStateStore} from "@/domain/messenger/MessengerStateStore";
+import {useUserStore} from "@/domain/user/UserStore";
 
 const authentication = useAuthenticationStore()
 const messengerStore = useMessengerStateStore()

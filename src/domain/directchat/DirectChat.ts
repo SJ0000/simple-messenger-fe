@@ -1,4 +1,4 @@
-import {ReceivedDirectMessage} from "@/modules/directchat/interface";
+import {ReceivedDirectMessage} from "@/domain/directchat/interface";
 
 export interface IDirectChat{
   readonly id : number

@@ -1,9 +1,9 @@
 import {defineStore} from "pinia";
 import {Ref, ref} from "vue";
-import {IGroupChat} from "@/modules/groupchat/GroupChat";
-import {ReceivedGroupMessage} from "@/modules/groupchat/interface";
-import {ReceivedDirectMessage} from "@/modules/directchat/interface";
-import {IDirectChat} from "@/modules/directchat/DirectChat";
+import {IGroupChat} from "@/domain/groupchat/GroupChat";
+import {ReceivedGroupMessage} from "@/domain/groupchat/interface";
+import {ReceivedDirectMessage} from "@/domain/directchat/interface";
+import {IDirectChat} from "@/domain/directchat/DirectChat";
 
 interface GroupChatModel {
   id: number;

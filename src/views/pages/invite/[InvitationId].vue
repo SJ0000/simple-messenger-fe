@@ -15,9 +15,9 @@
 </template>
 
 <script setup lang="ts">
-import {ApiClient} from "@/modules/api/ApiClient";
-import {useGroupChatStore} from "@/store/GroupChatStore";
-import {useAuthenticationStore} from "@/store/AuthenticationStore";
+import {ApiClient} from "@/common/api/ApiClient";
+import {useGroupChatStore} from "@/domain/groupchat/GroupChatStore";
+import {useAuthenticationStore} from "@/domain/auth/AuthenticationStore";
 import router from "@/plugins/unplugin-vue-router";
 import {useRoute} from "vue-router";
 

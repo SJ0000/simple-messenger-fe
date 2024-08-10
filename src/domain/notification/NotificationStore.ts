@@ -1,9 +1,9 @@
 import {defineStore} from "pinia";
 import {getToken} from "firebase/messaging";
 import {Ref, ref} from "vue";
-import {ApiClient} from "@/modules/api/ApiClient";
-import {NotificationTokenDto} from "@/modules/notification/dto";
-import {NotificationService} from "@/modules/notification/NotificationService";
+import {ApiClient} from "@/common/api/ApiClient";
+import {NotificationTokenDto} from "@/domain/notification/dto";
+import {NotificationService} from "@/domain/notification/NotificationService";
 
 export const useNotificationStore = defineStore(
   "notification",

@@ -5,8 +5,8 @@
  */
 
 // Plugins
-import vuetify from './vuetify/Vuetify'
-import pinia from '../store'
+import vuetify from './vuetify'
+import pinia from './pinia'
 import router from './unplugin-vue-router'
 
 // Types

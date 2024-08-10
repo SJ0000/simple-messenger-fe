@@ -33,12 +33,12 @@
 
 <script setup lang="ts">
 
-import {email, notEmpty, password} from "@/modules/validation/rules"
-import {ApiClient} from "@/modules/api/ApiClient";
+import {email, notEmpty, password} from "@/common/ValidationRules"
+import {ApiClient} from "@/common/api/ApiClient";
 import {Ref, ref} from "vue";
-import {LoginModel} from "@/modules/auth/model";
+import {LoginModel} from "@/domain/auth/model";
 import {VAlert, VForm} from "vuetify/components";
-import {useAuthenticationStore} from "@/store/AuthenticationStore";
+import {useAuthenticationStore} from "@/domain/auth/AuthenticationStore";
 import router from "@/plugins/unplugin-vue-router";
 import {AlertModel} from "@/common/Models";
 import {AxiosError} from "axios";

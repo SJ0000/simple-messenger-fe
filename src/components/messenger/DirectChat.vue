@@ -42,15 +42,15 @@
 <script setup lang="ts">
 import {mdiMessage} from "@mdi/js"
 import {reactive, ref} from "vue";
-import {MessageClient} from "@/modules/api/MessageClient";
-import {useAuthenticationStore} from "@/store/AuthenticationStore";
+import {MessageClient} from "@/common/api/MessageClient";
+import {useAuthenticationStore} from "@/domain/auth/AuthenticationStore";
 import {VVirtualScroll} from "vuetify/components";
-import {SentDirectMessage} from "@/modules/directchat/interface";
-import {useDirectChatStore} from "@/store/DirectChatStore";
+import {SentDirectMessage} from "@/domain/directchat/interface";
+import {useDirectChatStore} from "@/domain/directchat/DirectChatStore";
 import Utility from "@/common/Utility";
-import {useMessengerStateStore} from "@/store/MessengerStateStore";
-import {useUserStore} from "@/store/UserStore";
-import {ApiClient} from "@/modules/api/ApiClient";
+import {useMessengerStateStore} from "@/domain/messenger/MessengerStateStore";
+import {useUserStore} from "@/domain/user/UserStore";
+import {ApiClient} from "@/common/api/ApiClient";
 
 const authentication = useAuthenticationStore()
 const messengerStateStore = useMessengerStateStore()

@@ -1,4 +1,4 @@
-import {ReceivedGroupMessage} from "@/modules/groupchat/interface";
+import {ReceivedGroupMessage} from "@/domain/groupchat/interface";
 
 export interface IGroupChat{
   readonly id: number;

@@ -1,5 +1,5 @@
 import {defineStore} from "pinia";
-import User from "@/modules/user/User";
+import User from "@/domain/user/User";
 import {ref} from "vue";
 
 export const useUserStore = defineStore(

@@ -26,8 +26,8 @@
 <script setup lang="ts">
 import {mdiPlus} from "@mdi/js";
 import {reactive, ref} from "vue";
-import {ApiClient} from "@/modules/api/ApiClient";
-import {Friend} from "@/modules/friend/interface";
+import {ApiClient} from "@/common/api/ApiClient";
+import {Friend} from "@/domain/friend/interface";
 import {SnackbarModel} from "@/common/Models";
 
 const opened = ref(false)

@@ -1,5 +1,5 @@
 import {defineStore} from "pinia";
-import {IUser} from "@/modules/user/User";
+import {IUser} from "@/domain/user/User";
 
 export const useFriendStore = defineStore(
   "friend",

@@ -24,18 +24,18 @@ import GroupChatList from "@/components/messenger/GroupChatList.vue";
 import GroupChat from "@/components/messenger/GroupChat.vue";
 import DirectChat from "@/components/messenger/DirectChat.vue";
 import Friends from "@/components/messenger/Friends.vue";
-import {MessageClient} from "@/modules/api/MessageClient";
-import {ApiClient} from "@/modules/api/ApiClient";
-import {useGroupChatStore} from "@/store/GroupChatStore";
-import {useAuthenticationStore} from "@/store/AuthenticationStore";
-import {useDirectChatStore} from "@/store/DirectChatStore";
-import {ChattingMode, useMessengerStateStore} from "@/store/MessengerStateStore";
-import User from "@/modules/user/User";
-import {useFriendStore} from "@/store/FriendStore";
+import {MessageClient} from "@/common/api/MessageClient";
+import {ApiClient} from "@/common/api/ApiClient";
+import {useGroupChatStore} from "@/domain/groupchat/GroupChatStore";
+import {useAuthenticationStore} from "@/domain/auth/AuthenticationStore";
+import {useDirectChatStore} from "@/domain/directchat/DirectChatStore";
+import {ChattingMode, useMessengerStateStore} from "@/domain/messenger/MessengerStateStore";
+import User from "@/domain/user/User";
+import {useFriendStore} from "@/domain/friend/FriendStore";
 import {storeToRefs} from "pinia";
-import {useUserStore} from "@/store/UserStore";
-import {UserDto} from "@/modules/user/dto";
-import {useNotificationStore} from "@/store/NotificationStore";
+import {useUserStore} from "@/domain/user/UserStore";
+import {UserDto} from "@/domain/user/dto";
+import {useNotificationStore} from "@/domain/notification/NotificationStore";
 
 const authentication = useAuthenticationStore()
 const groupChatStore = useGroupChatStore()

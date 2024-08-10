@@ -1,14 +1,14 @@
 // Singleton
 import {Client} from "@stomp/stompjs";
-import {ReceivedGroupMessage, SentGroupMessage,} from "@/modules/groupchat/interface";
+import {ReceivedGroupMessage, SentGroupMessage,} from "@/domain/groupchat/interface";
 
-import {ReceivedDirectMessage, SentDirectMessage,} from "../directchat/interface";
-import {useDirectChatStore} from "@/store/DirectChatStore";
-import {useGroupChatStore} from "@/store/GroupChatStore";
-import User from "@/modules/user/User";
+import {ReceivedDirectMessage, SentDirectMessage,} from "@/domain/directchat/interface";
+import {useDirectChatStore} from "@/domain/directchat/DirectChatStore";
+import {useGroupChatStore} from "@/domain/groupchat/GroupChatStore";
+import User from "@/domain/user/User";
 import {ApiClient} from "./ApiClient";
 import {MessageClientConfig} from "./Configurations";
-import {IGroupChat} from "@/modules/groupchat/GroupChat";
+import {IGroupChat} from "@/domain/groupchat/GroupChat";
 
 
 export class MessageClient {

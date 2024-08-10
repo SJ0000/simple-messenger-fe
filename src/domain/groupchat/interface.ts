@@ -1,4 +1,4 @@
-import {UserDto} from "@/modules/user/dto";
+import {UserDto} from "@/domain/user/dto";
 
 export interface ReceivedGroupMessage {
   groupChatId: number;

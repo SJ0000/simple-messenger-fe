@@ -1,6 +1,6 @@
 import {getMessaging, getToken, onMessage} from "firebase/messaging";
 import {Messaging} from "@firebase/messaging";
-import {FirebaseConfig, publicVapidKey} from "@/modules/notification/Configurations";
+import {FirebaseConfig, publicVapidKey} from "@/domain/notification/Configurations";
 import {initializeApp} from "firebase/app";
 
 export class NotificationService {

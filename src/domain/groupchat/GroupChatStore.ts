@@ -1,6 +1,6 @@
 import {defineStore} from "pinia"
-import {ReceivedGroupMessage, GroupChatDto} from "@/modules/groupchat/interface"
-import GroupChat, {IGroupChat} from "@/modules/groupchat/GroupChat"
+import {ReceivedGroupMessage, GroupChatDto} from "@/domain/groupchat/interface"
+import GroupChat, {IGroupChat} from "@/domain/groupchat/GroupChat"
 import {ref} from "vue";
 
 export const useGroupChatStore = defineStore(

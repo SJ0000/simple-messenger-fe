@@ -16,8 +16,8 @@
 
 <script setup lang="ts">
 import {ref} from "vue";
-import {ApiClient} from "@/modules/api/ApiClient";
-import {FriendRequestModel} from "@/modules/friend/model"
+import {ApiClient} from "@/common/api/ApiClient";
+import {FriendRequestModel} from "@/domain/friend/model"
 
 const opened = ref(false)
 const model = ref(new FriendRequestModel())

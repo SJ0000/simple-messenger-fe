@@ -1,6 +1,6 @@
 import {PutObjectCommand, S3Client} from "@aws-sdk/client-s3";
 import {ObjectStorageConfig} from "./Configurations";
-import User from "@/modules/user/User";
+import User from "@/domain/user/User";
 
 export class ObjectStorageClient {
   private static instance: ObjectStorageClient;
