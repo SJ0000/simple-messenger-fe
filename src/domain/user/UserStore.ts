@@ -1,11 +1,18 @@
 import {defineStore} from "pinia";
 import User from "@/domain/user/User";
 import {ref} from "vue";
+import {ApiClient} from "@/common/api/ApiClient";
+import {SignUpDto} from "@/domain/auth/dto";
 
 export const useUserStore = defineStore(
   "user",
   () => {
+    const apiClient = ApiClient.getInstance()
     const userMap = ref(new Map<number, User>());
+
+    async function signUpUser(dto : SignUpDto){
+      await apiClient.signUp(dto)
+    }
 
     function find(userId: number) {
       const result = userMap.value.get(userId)
@@ -27,6 +34,7 @@ export const useUserStore = defineStore(
 
     return {
       userMap,
+      signUpUser,
       find,
       addIfAbsent,
       exists

@@ -68,6 +68,11 @@ export class ApiClient {
     return response.data
   }
 
+  async patchUser(userId: number, dto: UpdateUserDto): Promise<User> {
+    const response = await this.client.patch(`/api/users/${userId}`, dto);
+    return response.data;
+  }
+
   async createGroupChat(dto: GroupChatCreateDto): Promise<GroupChatDto> {
     const response = await this.client.post<GroupChatDto>(
       "/api/chats/groups",
@@ -123,11 +128,6 @@ export class ApiClient {
     const response = await this.client.post(
       `/api/chats/groups/${groupChatId}/invites`
     );
-    return response.data;
-  }
-
-  async patchUser(userId: number, dto: UpdateUserDto): Promise<User> {
-    const response = await this.client.patch(`/api/users/${userId}`, dto);
     return response.data;
   }
 

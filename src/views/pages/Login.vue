@@ -53,19 +53,20 @@ const loginModel = ref(new LoginModel());
 
 async function onClick() {
   const {valid} = await loginForm.value.validate();
-  if (valid) {
-    try {
-      await authenticationStore.login(loginModel.value.toDto())
-      await router.push("/messenger")
-    } catch (error) {
-      handleApiError(error, (response) => {
-        if (response.status === 400) {
-          showAlert("이메일 혹은 비밀번호가 일치하지 않습니다.")
-        } else {
-          showAlert("알 수 없는 오류가 발생했습니다. 나중에 다시 시도해주세요.")
-        }
-      })
-    }
+  if (!valid)
+    return
+
+  try {
+    await authenticationStore.login(loginModel.value.toDto())
+    await router.push("/messenger")
+  } catch (error) {
+    handleApiError(error, (response) => {
+      if (response.status === 400) {
+        showAlert("이메일 혹은 비밀번호가 일치하지 않습니다.")
+      } else {
+        showAlert("알 수 없는 오류가 발생했습니다. 나중에 다시 시도해주세요.")
+      }
+    })
   }
 }
 

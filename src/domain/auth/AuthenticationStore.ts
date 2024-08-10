@@ -5,19 +5,20 @@ import {instanceToPlain, plainToInstance} from "class-transformer";
 import 'reflect-metadata';
 import {ApiClient} from "@/common/api/ApiClient";
 import {LoginRequestDto} from "@/domain/auth/dto";
+import {UpdateUserDto} from "@/domain/user/dto";
 
 export const useAuthenticationStore = defineStore(
   "authentication",
   () => {
+    const apiClient = ApiClient.getInstance()
     const user: Ref<User | undefined> = ref(undefined);
     const accessToken: Ref<string | undefined> = ref(undefined);
     const isLoggedIn = computed(() => user.value !== undefined)
 
     async function login(loginRequestDto: LoginRequestDto){
-      const apiClient = ApiClient.getInstance()
       const loginResponse = await apiClient.login(loginRequestDto)
       accessToken.value = loginResponse.token
-      updateUser(loginResponse.user)
+      refreshUser(loginResponse.user)
     }
 
     function logout() {
@@ -35,7 +36,12 @@ export const useAuthenticationStore = defineStore(
       return user.value;
     }
 
-    function updateUser(data: User) {
+    async function updateUser(dto : UpdateUserDto){
+      const updatedUser = await apiClient.patchUser(getUser().id, dto)
+      refreshUser(updatedUser)
+    }
+
+    function refreshUser(data: User) {
       user.value = new User(data.id, data.name, data.email, data.avatarUrl, data.statusMessage, data.publicIdentifier);
     }
 
@@ -47,7 +53,7 @@ export const useAuthenticationStore = defineStore(
       logout,
       getAccessToken,
       getUser,
-      updateUser,
+      updateUser
     };
   },
   {

@@ -40,17 +40,12 @@ const osClient = ObjectStorageClient.getInstance();
 const profileImage = ref<File | undefined>(undefined)
 const profileImagePreviewUrl = ref<string>("")
 
-// TODO : 테스트하기
-
 async function onUpdateButtonClick() {
     const dto: UpdateUserDto = model.value.toDto()
-
     if (profileImage.value !== undefined) {
       dto.avatarUrl = await osClient.saveProfileImage(user, profileImage.value)
     }
-
-    const updatedUser = await ApiClient.getInstance().patchUser(user.id, dto)
-    authentication.updateUser(updatedUser)
+    await authentication.updateUser(dto)
 }
 
 function onProfileImageChanged() {
