@@ -45,9 +45,8 @@ const profileImagePreviewUrl = ref<string>("")
 async function onUpdateButtonClick() {
     const dto: UpdateUserDto = model.value.toDto()
 
-    if (profileImage.value !== null && profileImage.value !== undefined) {
-        const savedPath = await osClient.saveProfileImage(user, profileImage.value)
-        dto.avatarUrl = savedPath
+    if (profileImage.value !== undefined) {
+      dto.avatarUrl = await osClient.saveProfileImage(user, profileImage.value)
     }
 
     const updatedUser = await ApiClient.getInstance().patchUser(user.id, dto)
@@ -55,7 +54,7 @@ async function onUpdateButtonClick() {
 }
 
 function onProfileImageChanged() {
-    if (profileImage.value !== null && profileImage.value !== undefined) {
+    if (profileImage.value !== undefined) {
         profileImagePreviewUrl.value = URL.createObjectURL(profileImage.value)
     }
 }

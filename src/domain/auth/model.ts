@@ -1,4 +1,4 @@
-import {LoginDto, SignUpDto} from "@/domain/auth/dto";
+import {LoginRequestDto, SignUpDto} from "@/domain/auth/dto";
 import User from "@/domain/user/User";
 import {UpdateUserDto} from "../user/dto";
 
@@ -17,8 +17,8 @@ export class LoginModel {
   email: string = "";
   password: string = "";
 
-  toDto(): LoginDto {
-    return new LoginDto(this.email, this.password);
+  toDto(): LoginRequestDto {
+    return new LoginRequestDto(this.email, this.password);
   }
 }
 

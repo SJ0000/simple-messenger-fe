@@ -34,18 +34,17 @@
 <script setup lang="ts">
 
 import {email, notEmpty, password} from "@/common/ValidationRules"
-import {ApiClient} from "@/common/api/ApiClient";
 import {Ref, ref} from "vue";
 import {LoginModel} from "@/domain/auth/model";
 import {VAlert, VForm} from "vuetify/components";
 import {useAuthenticationStore} from "@/domain/auth/AuthenticationStore";
 import router from "@/plugins/unplugin-vue-router";
 import {AlertModel} from "@/common/Models";
-import {AxiosError} from "axios";
+import {handleApiError} from "@/common/api/ApiErrorHandler";
 
-const authentication = useAuthenticationStore()
+const authenticationStore = useAuthenticationStore()
 
-if (authentication.isLoggedIn)
+if (authenticationStore.isLoggedIn)
   router.push("/messenger")
 
 const loginForm: Ref<VForm> = ref<any>();
@@ -55,19 +54,18 @@ const loginModel = ref(new LoginModel());
 async function onClick() {
   const {valid} = await loginForm.value.validate();
   if (valid) {
-    const apiClient = ApiClient.getInstance();
-    await apiClient.login(loginModel.value.toDto())
-      .then(result => {
-          authentication.login(result.data.token, result.data.user);
-          router.push("/messenger")
-        }
-      ).catch(error => {
-        if (error.response.status === 400) {
+    try {
+      await authenticationStore.login(loginModel.value.toDto())
+      await router.push("/messenger")
+    } catch (error) {
+      handleApiError(error, (response) => {
+        if (response.status === 400) {
           showAlert("이메일 혹은 비밀번호가 일치하지 않습니다.")
         } else {
           showAlert("알 수 없는 오류가 발생했습니다. 나중에 다시 시도해주세요.")
         }
       })
+    }
   }
 }
 

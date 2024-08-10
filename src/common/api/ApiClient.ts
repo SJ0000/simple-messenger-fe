@@ -1,12 +1,12 @@
 import axios, {AxiosInstance, AxiosResponse} from "axios";
-import {LoginDto, SignUpDto} from "@/domain/auth/dto";
+import {LoginRequestDto, LoginResponseDto, SignUpDto} from "@/domain/auth/dto";
 import {useAuthenticationStore} from "@/domain/auth/AuthenticationStore";
-import {Invitation, ReceivedGroupMessage, GroupChatCreateDto, GroupChatDto} from "@/domain/groupchat/interface";
+import {GroupChatCreateDto, GroupChatDto, Invitation, ReceivedGroupMessage} from "@/domain/groupchat/interface";
 import {UpdateUserDto, UserDto} from "@/domain/user/dto";
 import User from "@/domain/user/User";
 import {FriendRequestDto} from "@/domain/friend/dto";
 import {Friend} from "@/domain/friend/interface";
-import {ReceivedDirectMessage, DirectChatDto} from "@/domain/directchat/interface";
+import {DirectChatDto, ReceivedDirectMessage} from "@/domain/directchat/interface";
 import router from "@/plugins/unplugin-vue-router";
 import {NotificationTokenDto} from "@/domain/notification/dto";
 
@@ -29,7 +29,6 @@ export class ApiClient {
       if (accessToken !== null) {
         request.headers.Authorization = `Bearer ${accessToken}`;
       }
-      console.log(`header = ${request.headers['Content-Type']}`)
       return request;
     });
 
@@ -42,11 +41,11 @@ export class ApiClient {
           useAuthenticationStore().logout();
           await router.push("/")
         }
-        if (error.response.status <= 500) {
+        if (error.response.status >= 500) {
+          // 서버 에러 페이지를 띄우고, 그 페이지에서 버튼을 눌러서 되돌아갈 수 있게
           console.error("server error", error)
           await router.push("/")
         }
-
         return Promise.reject(error);
       }
     );
@@ -64,8 +63,9 @@ export class ApiClient {
     return await this.client.post("/api/signup", JSON.stringify(dto));
   }
 
-  async login(dto: LoginDto): Promise<AxiosResponse> {
-    return await this.client.post("/api/login", JSON.stringify(dto));
+  async login(dto: LoginRequestDto): Promise<LoginResponseDto> {
+    const response = await this.client.post("/api/login", dto);
+    return response.data
   }
 
   async createGroupChat(dto: GroupChatCreateDto): Promise<GroupChatDto> {

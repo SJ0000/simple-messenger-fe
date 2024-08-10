@@ -47,8 +47,5 @@ async function onJoinButtonClick() {
 </script>
 
 <style scoped>
-.mwh-500 {
-  max-width: 500px;
-  max-height: 500px;
-}
+
 </style>@/store/groupChat

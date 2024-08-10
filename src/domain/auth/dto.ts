@@ -1,3 +1,5 @@
+import User from "@/domain/user/User";
+
 export class SignUpDto{
   name: string;
   email: string;
@@ -10,7 +12,7 @@ export class SignUpDto{
   }
 }
 
-export class LoginDto{
+export class LoginRequestDto {
   email: string;
   password: string;
 
@@ -18,4 +20,9 @@ export class LoginDto{
     this.email = email;
     this.password = password;
   }
+}
+
+export interface LoginResponseDto{
+  token: string,
+  user: User
 }

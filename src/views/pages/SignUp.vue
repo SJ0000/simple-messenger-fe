@@ -58,7 +58,7 @@ async function onClick() {
   if (valid) {
     const apiClient = ApiClient.getInstance();
     await apiClient.signUp(model.value.toDto())
-      .then((response) => {
+      .then((_) => {
         router.push("/login")
       }
       ).catch(error => {

@@ -10,9 +10,9 @@ export interface IUser {
 }
 
 export default class User implements IUser{
-  @Exclude() private _id: number;
+  @Exclude() private readonly _id: number;
   @Exclude() private _name: string;
-  @Exclude() private _email: string;
+  @Exclude() private readonly _email: string;
   @Exclude() private _avatarUrl: string;
   @Exclude() private _statusMessage: string;
   @Exclude() private _publicIdentifier: string;
@@ -70,13 +70,5 @@ export default class User implements IUser{
 
   public set publicIdentifier(value: string) {
     this._publicIdentifier = value;
-  }
-
-  private set id(value: number) {
-    this._id = value;
-  }
-
-  private set email(value: string) {
-    this._email = value;
   }
 }

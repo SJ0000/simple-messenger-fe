@@ -3,18 +3,21 @@ import User from "@/domain/user/User";
 import {computed, Ref, ref} from "vue";
 import {instanceToPlain, plainToInstance} from "class-transformer";
 import 'reflect-metadata';
+import {ApiClient} from "@/common/api/ApiClient";
+import {LoginRequestDto} from "@/domain/auth/dto";
 
 export const useAuthenticationStore = defineStore(
   "authentication",
   () => {
     const user: Ref<User | undefined> = ref(undefined);
     const accessToken: Ref<string | undefined> = ref(undefined);
-
     const isLoggedIn = computed(() => user.value !== undefined)
 
-    function login(jwt: string, user: User) {
-      accessToken.value = jwt;
-      updateUser(user);
+    async function login(loginRequestDto: LoginRequestDto){
+      const apiClient = ApiClient.getInstance()
+      const loginResponse = await apiClient.login(loginRequestDto)
+      accessToken.value = loginResponse.token
+      updateUser(loginResponse.user)
     }
 
     function logout() {

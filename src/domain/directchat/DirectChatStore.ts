@@ -1,5 +1,5 @@
 import {defineStore} from "pinia";
-import {ReceivedDirectMessage, DirectChatDto} from "@/domain/directchat/interface";
+import {DirectChatDto, ReceivedDirectMessage} from "@/domain/directchat/interface";
 import DirectChat, {IDirectChat} from "@/domain/directchat/DirectChat";
 import {ref} from "vue";
 

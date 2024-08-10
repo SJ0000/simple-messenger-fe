@@ -1,5 +1,5 @@
 import {defineStore} from "pinia"
-import {ReceivedGroupMessage, GroupChatDto} from "@/domain/groupchat/interface"
+import {GroupChatDto, ReceivedGroupMessage} from "@/domain/groupchat/interface"
 import GroupChat, {IGroupChat} from "@/domain/groupchat/GroupChat"
 import {ref} from "vue";
 
