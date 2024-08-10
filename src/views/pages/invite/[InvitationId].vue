@@ -39,8 +39,7 @@ if (groupChatStore.exists(invitation.groupChatId)) {
 }
 
 async function onJoinButtonClick() {
-  const joinedGroupChat = await ApiClient.getInstance().joinGroupChat(invitation.groupChatId)
-  groupChatStore.join(joinedGroupChat)
+  await groupChatStore.join(invitation.groupChatId)
   await router.push("/messenger")
 }
 

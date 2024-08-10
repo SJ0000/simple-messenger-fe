@@ -52,19 +52,11 @@ friends.forEach((dto) => {
   userStore.addIfAbsent(new User(dto.id, dto.name, dto.email, dto.avatarUrl, dto.statusMessage, dto.publicIdentifier))
 })
 
-const groupChats = await ApiClient.getInstance().getMyGroupChats();
-for (let groupChat of groupChats) {
-  const groupChatWithUsers = await ApiClient.getInstance().getGroupChat(groupChat.id)
-  const users = groupChatWithUsers.participants.map((dto) => {
-    const userDto = dto.user;
-    return new User(userDto.id, userDto.name, userDto.email, userDto.avatarUrl, userDto.statusMessage, userDto.publicIdentifier)
-  })
-  userStore.addIfAbsent(...users)
-}
-
-if (groupChats.length > 0) {
-  groupChatStore.initialize(groupChats)
-  messengerStore.activateGroupChat(groupChatStore.find(groupChats[0].id))
+// groupChat Initialize
+await groupChatStore.initialize()
+const groupChats = groupChatStore.findAll();
+if (groupChatStore.groupChats.size > 0) {
+  messengerStore.activateGroupChat(groupChats[0])
 }
 
 const directChats = await ApiClient.getInstance().getDirectChats();

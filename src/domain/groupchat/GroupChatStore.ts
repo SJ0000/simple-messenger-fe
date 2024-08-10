@@ -1,28 +1,57 @@
 import {defineStore} from "pinia"
-import {GroupChatDto, ReceivedGroupMessage} from "@/domain/groupchat/interface"
+import {GroupChatCreateDto, GroupChatDto, ParticipantDto, ReceivedGroupMessage} from "@/domain/groupchat/interface"
 import GroupChat, {IGroupChat} from "@/domain/groupchat/GroupChat"
 import {ref} from "vue";
+import {ApiClient} from "@/common/api/ApiClient";
+import {MessageClient} from "@/common/api/MessageClient";
+import {useUserStore} from "@/domain/user/UserStore";
+import User from "@/domain/user/User";
 
 export const useGroupChatStore = defineStore(
   "groupChat",
   () => {
+    const apiClient = ApiClient.getInstance()
+    const userStore = useUserStore()
+    const groupChats = ref(new Map<number, GroupChat>())
 
-    const groupChats = ref(new Map<number, GroupChat>());
-
-    function initialize(groupChatDtos: GroupChatDto[]) {
+    async function initialize(){
       groupChats.value.clear()
-      groupChatDtos.forEach((groupChatDto) => {
-        join(groupChatDto)
-      });
+      const myGroupChats = await apiClient.getMyGroupChats()
+
+      for (const groupChat of myGroupChats) {
+        addGroupChat(groupChat)
+        const groupChatWithUsers = await apiClient.getGroupChat(groupChat.id)
+        const users = extractUsers(...groupChatWithUsers.participants)
+        userStore.addIfAbsent(...users)
+      }
     }
 
-    function join(groupChatDto: GroupChatDto) {
-      if (groupChatDto.avatarUrl === "")
-        groupChatDto.avatarUrl = "/src/assets/default-avatar.jpg"
-      groupChats.value.set(groupChatDto.id, new GroupChat(groupChatDto.id, groupChatDto.name, groupChatDto.avatarUrl));
+    function extractUsers(...participants : ParticipantDto[]) : User[]{
+      return participants.map((dto) => {
+        const userDto = dto.user;
+        return new User(userDto.id, userDto.name, userDto.email, userDto.avatarUrl, userDto.statusMessage, userDto.publicIdentifier)
+      })
     }
 
-    function findAll() : IGroupChat[]{
+    async function create(dto: GroupChatCreateDto): Promise<number> {
+      const createdGroupChat = await apiClient.createGroupChat(dto)
+      await join(createdGroupChat.id)
+      MessageClient.getInstance().subscribeChat(find(createdGroupChat.id))
+      return createdGroupChat.id
+    }
+
+    async function join(groupChatId: number) {
+      const joinedGroupChat = await apiClient.joinGroupChat(groupChatId)
+      addGroupChat(joinedGroupChat)
+    }
+
+    function addGroupChat(dto : GroupChatDto){
+      if (dto.avatarUrl === "")
+        dto.avatarUrl = "/src/assets/default-avatar.jpg"
+      groupChats.value.set(dto.id, new GroupChat(dto.id, dto.name, dto.avatarUrl));
+    }
+
+    function findAll(): IGroupChat[] {
       return Array.from(groupChats.value.values())
     }
 
@@ -45,6 +74,7 @@ export const useGroupChatStore = defineStore(
     return {
       groupChats,
       initialize,
+      create,
       join,
       find,
       findAll,
