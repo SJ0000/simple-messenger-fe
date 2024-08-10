@@ -1,15 +1,26 @@
 import {defineStore} from "pinia";
-import {IUser} from "@/domain/user/User";
+import User, {IUser} from "@/domain/user/User";
+import {ApiClient} from "@/common/api/ApiClient";
+import {useUserStore} from "@/domain/user/UserStore";
+import {FriendRequestDto} from "@/domain/friend/dto";
+import {Friend} from "@/domain/friend/interface";
 
 export const useFriendStore = defineStore(
   "friend",
   () => {
-    const friends: Map<number, IUser> = new Map<number, IUser>();
+    const apiClient = ApiClient.getInstance()
+    const userStore = useUserStore()
+    const friends: Map<number, IUser> = new Map<number, IUser>()
 
-    function initialize(users: Array<IUser>) {
-      users.forEach((user) => {
+    async function initialize() {
+      const myFriends = await apiClient.getMyFriends()
+      myFriends.forEach((user) => {
         friends.set(user.id, user);
       });
+
+      friends.forEach((dto) => {
+        userStore.addIfAbsent(new User(dto))
+      })
     }
 
     function find(userId: number): IUser {
@@ -23,7 +34,20 @@ export const useFriendStore = defineStore(
     function getFriends(): Array<IUser> {
       return Array.from(friends.values());
     }
-    return { friends, initialize, find, getFriends };
+
+    async function request(dto: FriendRequestDto) {
+      await apiClient.requestFriend(dto)
+    }
+
+    async function getReceivedRequest(): Promise<Array<Friend>> {
+      return await apiClient.getReceivedFriendRequest()
+    }
+
+    async function approveRequest(requestId: number) {
+      await apiClient.approveFriendRequest(requestId)
+    }
+
+    return {friends, initialize, find, getFriends, request, getReceivedRequest, approveRequest};
   },
-  { persist: false }
+  {persist: false}
 );

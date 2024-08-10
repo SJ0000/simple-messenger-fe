@@ -16,15 +16,16 @@
 
 <script setup lang="ts">
 import {ref} from "vue";
-import {ApiClient} from "@/common/api/ApiClient";
 import {FriendRequestModel} from "@/domain/friend/model"
+import {useFriendStore} from "@/domain/friend/FriendStore";
+
+const friendStore = useFriendStore()
 
 const opened = ref(false)
 const model = ref(new FriendRequestModel())
 
 function onSendClick() {
-    const dto = model.value.toDto()
-    ApiClient.getInstance().requestFriend(dto)
+    friendStore.request(model.value.toDto())
     model.value.clear()
     opened.value = false
 }

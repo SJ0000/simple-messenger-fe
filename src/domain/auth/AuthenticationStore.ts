@@ -41,8 +41,8 @@ export const useAuthenticationStore = defineStore(
       refreshUser(updatedUser)
     }
 
-    function refreshUser(data: User) {
-      user.value = new User(data.id, data.name, data.email, data.avatarUrl, data.statusMessage, data.publicIdentifier);
+    function refreshUser(newUser: User) {
+      user.value = new User(newUser);
     }
 
     return {

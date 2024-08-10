@@ -15,13 +15,14 @@
 </template>
 
 <script setup lang="ts">
-import {ApiClient} from "@/common/api/ApiClient";
 import {useGroupChatStore} from "@/domain/groupchat/GroupChatStore";
 import {useAuthenticationStore} from "@/domain/auth/AuthenticationStore";
 import router from "@/plugins/unplugin-vue-router";
 import {useRoute} from "vue-router";
+import {useInvitationStore} from "@/domain/friend/InvitationStore";
 
 const authentication = useAuthenticationStore()
+const invitationStore = useInvitationStore()
 const groupChatStore = useGroupChatStore()
 
 const route = useRoute()
@@ -31,7 +32,7 @@ if (!authentication.isLoggedIn)
   router.push("/")
 
 const { invitationId } = route.params as { invitationId: string; }
-const invitation = await ApiClient.getInstance().getInvitation(invitationId)
+const invitation = await invitationStore.get(invitationId)
 
 // Case 2: 이미 대화방에 참여한 경우
 if (groupChatStore.exists(invitation.groupChatId)) {

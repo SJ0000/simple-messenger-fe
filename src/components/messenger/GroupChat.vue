@@ -51,10 +51,12 @@ import {VVirtualScroll} from "vuetify/components";
 import Utility from "../../common/Utility";
 import {useMessengerStateStore} from "@/domain/messenger/MessengerStateStore";
 import {useUserStore} from "@/domain/user/UserStore";
+import {useInvitationStore} from "@/domain/friend/InvitationStore";
 
 const authentication = useAuthenticationStore()
 const messengerStore = useMessengerStateStore()
 const groupChatStore = useGroupChatStore()
+const invitationStore = useInvitationStore()
 const userStore = useUserStore()
 
 const groupChat = messengerStore.selectedGroupChat
@@ -84,8 +86,7 @@ function sendMessageAndTextResetIfContentNotEmpty() {
 }
 
 async function onInvitationLinkClick() {
-  const groupChatId = groupChat.id
-  const invitation = await ApiClient.getInstance().createInvitation(groupChatId)
+  const invitation = await invitationStore.create(groupChat.id)
   const host = `${window.location.protocol}//${window.location.host}`
   dialog.value?.open(`${host}/invite/${invitation.id}`)
 }

@@ -45,12 +45,9 @@ const userStore = useUserStore()
 
 const {mode} = storeToRefs(messengerStore)
 
-const friends: Array<UserDto> = await ApiClient.getInstance().getMyFriends()
-friendStore.initialize(friends)
 
-friends.forEach((dto) => {
-  userStore.addIfAbsent(new User(dto.id, dto.name, dto.email, dto.avatarUrl, dto.statusMessage, dto.publicIdentifier))
-})
+
+await friendStore.initialize()
 
 // groupChat Initialize
 await groupChatStore.initialize()

@@ -9,7 +9,7 @@ export interface IUser {
   publicIdentifier: string;
 }
 
-export default class User implements IUser{
+export default class User implements IUser {
   @Exclude() private readonly _id: number;
   @Exclude() private _name: string;
   @Exclude() private readonly _email: string;
@@ -17,13 +17,13 @@ export default class User implements IUser{
   @Exclude() private _statusMessage: string;
   @Exclude() private _publicIdentifier: string;
 
-  constructor(id: number, name: string, email: string, avatarUrl: string, statusMessage: string, publicIdentifier: string) {
-    this._id = id;
-    this._name = name;
-    this._email = email;
-    this._avatarUrl = avatarUrl;
-    this._statusMessage = statusMessage;
-    this._publicIdentifier = publicIdentifier;
+  constructor(iUser: IUser) {
+    this._id = iUser.id;
+    this._name = iUser.name;
+    this._email = iUser.email;
+    this._avatarUrl = iUser.avatarUrl;
+    this._statusMessage = iUser.statusMessage;
+    this._publicIdentifier = iUser.publicIdentifier;
   }
 
   @Expose()

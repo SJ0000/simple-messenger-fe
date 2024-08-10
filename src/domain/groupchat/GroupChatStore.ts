@@ -28,8 +28,7 @@ export const useGroupChatStore = defineStore(
 
     function extractUsers(...participants : ParticipantDto[]) : User[]{
       return participants.map((dto) => {
-        const userDto = dto.user;
-        return new User(userDto.id, userDto.name, userDto.email, userDto.avatarUrl, userDto.statusMessage, userDto.publicIdentifier)
+        return new User(dto.user)
       })
     }
 
