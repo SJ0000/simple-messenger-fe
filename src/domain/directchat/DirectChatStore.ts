@@ -2,18 +2,32 @@ import {defineStore} from "pinia";
 import {DirectChatDto, ReceivedDirectMessage} from "@/domain/directchat/interface";
 import DirectChat, {IDirectChat} from "@/domain/directchat/DirectChat";
 import {ref} from "vue";
+import {ApiClient} from "@/common/api/ApiClient";
+import {useUserStore} from "@/domain/user/UserStore";
 
 
 export const useDirectChatStore = defineStore(
   "directChat",
   () => {
+    const apiClient = ApiClient.getInstance()
+    const userStore = useUserStore()
     const directChats = ref(new Map<number, DirectChat>())
 
-    function initialize(directChatDtos: DirectChatDto[]) {
+    async function initialize() {
+      const directChatDtos = await apiClient.getDirectChats()
       directChats.value.clear()
       directChatDtos.forEach((directChatDto) => {
         join(directChatDto)
       });
+    }
+
+    async function create(otherUserId: number) {
+      const otherUser = userStore.find(otherUserId)
+      const directChatId = await apiClient.createDirectChats(otherUserId)
+      join({
+        id: directChatId,
+        otherUser: otherUser,
+      })
     }
 
     function join(dto: DirectChatDto) {
@@ -23,13 +37,13 @@ export const useDirectChatStore = defineStore(
 
     function find(directChatId: number) {
       const directChat = directChats.value.get(directChatId);
-      if (directChat === undefined){
+      if (directChat === undefined) {
         throw Error(`DirectChat(id = ${directChatId}) not found`)
       }
       return directChat
     }
 
-    function findByOtherUserId(otherUserId: number): IDirectChat | undefined{
+    function findByOtherUserId(otherUserId: number): IDirectChat | undefined {
       return Array.from(directChats.value.values()).find(directChat => {
         return directChat.otherUserId === otherUserId
       })
@@ -51,7 +65,16 @@ export const useDirectChatStore = defineStore(
       directChat.messages.push(message);
     }
 
-    return {initialize, find, join, exists, addMessage, findByOtherUserId, existsByOtherUserId};
+    async function loadPreviousMessages(directChatId: number): Promise<ReceivedDirectMessage[]> {
+      const previousMessages = await apiClient.getPreviousDirectMessages(directChatId);
+      previousMessages.forEach(message => {
+        addMessage(message)
+      })
+      return previousMessages
+    }
+
+    return {initialize, find, join, exists, addMessage, findByOtherUserId,
+      existsByOtherUserId, create, loadPreviousMessages};
   },
   {persist: false}
 );

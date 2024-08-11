@@ -7,7 +7,7 @@ import {NotificationService} from "@/domain/notification/NotificationService";
 export const useNotificationStore = defineStore(
   "notification",
   () => {
-
+    const apiClient = ApiClient.getInstance()
     const fcmToken: Ref<string | undefined> = ref(undefined);
 
     async function initialize() {
@@ -35,12 +35,12 @@ export const useNotificationStore = defineStore(
 
     async function registerFcmToken(token: string) {
       const dto = new NotificationTokenDto(token)
-      await ApiClient.getInstance().postNotificationToken(dto)
+      await apiClient.postNotificationToken(dto)
     }
 
     async function updateFcmToken(token : string){
       const dto = new NotificationTokenDto(token)
-      await ApiClient.getInstance().patchNotificationToken(dto)
+      await apiClient.patchNotificationToken(dto)
     }
 
     return {

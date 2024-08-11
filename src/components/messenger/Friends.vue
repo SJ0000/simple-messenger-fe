@@ -69,12 +69,7 @@ async function onFriendDirectChatClick(otherUserId: number) {
 }
 
 async function createDirectChat(otherUserId: number) {
-  const directChatId = await ApiClient.getInstance().createDirectChats(otherUserId)
-  const otherUser = userStore.find(otherUserId)
-  directChatStore.join({
-    id: directChatId,
-    otherUser: otherUser,
-  })
+  await directChatStore.create(otherUserId)
 }
 
 </script>

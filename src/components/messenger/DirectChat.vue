@@ -1,9 +1,9 @@
 <template>
   <div class="d-flex flex-column w-100 h-100">
-    <div class="align-self-center" v-if="directChat.id === 0">
+    <div class="align-self-center" v-if="selectedDirectChat.id === 0">
       <div class="text-h6">대화방을 선택해주세요.</div>
     </div>
-    <div v-show="directChat.id !== 0">
+    <div v-show="selectedDirectChat.id !== 0">
       <header class="d-flex">
         <v-avatar class="mr-3">
           <v-img :src="otherUser.avatarUrl"/>
@@ -50,29 +50,29 @@ import {useDirectChatStore} from "@/domain/directchat/DirectChatStore";
 import Utility from "@/common/Utility";
 import {useMessengerStateStore} from "@/domain/messenger/MessengerStateStore";
 import {useUserStore} from "@/domain/user/UserStore";
-import {ApiClient} from "@/common/api/ApiClient";
 
 const authentication = useAuthenticationStore()
 const messengerStateStore = useMessengerStateStore()
 const directChatStore = useDirectChatStore()
-const directChat = messengerStateStore.selectedDirectChat
+const selectedDirectChat = messengerStateStore.selectedDirectChat
 
-const messages = reactive(directChat.messages)
+const messages = reactive(selectedDirectChat.messages)
 const content = ref("")
 
 const user = authentication.getUser()
-const otherUser = useUserStore().find(directChat.otherUserId)
+const otherUser = useUserStore().find(selectedDirectChat.otherUserId)
 
-if (directChat.id !== 0 && messages.length === 0) {
-  loadPreviousMessage()
+if (selectedDirectChat.id !== 0 && messages.length === 0) {
+  const previousMessages = await directChatStore.loadPreviousMessages(selectedDirectChat.id);
+  selectedDirectChat.messages.unshift(...previousMessages)
 }
 
 function createMessage(): SentDirectMessage {
   return {
-    directChatId: directChat.id,
+    directChatId: selectedDirectChat.id,
     messageType: "MESSAGE",
     senderId: user.id,
-    receiverId: directChat.otherUserId,
+    receiverId: selectedDirectChat.otherUserId,
     content: content.value
   }
 }
@@ -89,14 +89,6 @@ function pressEnterHandler(event: KeyboardEvent) {
   if (event.isComposing)
     return;
   sendMessageAndTextResetIfContentNotEmpty()
-}
-
-async function loadPreviousMessage() {
-  const previousMessages = await ApiClient.getInstance().getPreviousDirectMessages(directChat.id);
-  previousMessages.forEach(message => {
-    directChatStore.addMessage(message)
-  })
-  directChat.messages.unshift(...previousMessages)
 }
 
 </script>

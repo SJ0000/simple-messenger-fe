@@ -55,9 +55,8 @@ const groupChats = groupChatStore.findAll();
 if (groupChatStore.groupChats.size > 0) {
   messengerStore.activateGroupChat(groupChats[0])
 }
-
-const directChats = await ApiClient.getInstance().getDirectChats();
-useDirectChatStore().initialize(directChats)
+// directChat Initialize
+useDirectChatStore().initialize()
 
 const authorization = authentication.getAccessToken()
 const user = authentication.getUser()

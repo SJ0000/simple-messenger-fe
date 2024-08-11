@@ -1,11 +1,11 @@
 <template>
   <div class="d-flex flex-column w-100 h-100">
-    <div class="align-self-center" v-if="groupChat.id === 0">
+    <div class="align-self-center" v-if="selectedGroupChat.id === 0">
       <div class="text-h6">대화방을 선택해주세요.</div>
     </div>
-    <div v-show="groupChat.id !== 0">
+    <div v-show="selectedGroupChat.id !== 0">
       <header class="d-flex justify-space-between">
-        <span class="text-h4">{{ groupChat.name }}</span>
+        <span class="text-h4">{{ selectedGroupChat.name }}</span>
         <v-btn @click="onInvitationLinkClick">초대 링크</v-btn>
         <InvitationLinkDialog ref="dialog" />
       </header>
@@ -45,7 +45,6 @@ import {reactive, ref} from "vue";
 import {MessageClient} from "@/common/api/MessageClient";
 import {useAuthenticationStore} from "@/domain/auth/AuthenticationStore";
 import {useGroupChatStore} from "@/domain/groupchat/GroupChatStore";
-import {ApiClient} from "@/common/api/ApiClient";
 import InvitationLinkDialog from "@/components/dialog/InvitationLinkDialog.vue";
 import {VVirtualScroll} from "vuetify/components";
 import Utility from "../../common/Utility";
@@ -59,19 +58,20 @@ const groupChatStore = useGroupChatStore()
 const invitationStore = useInvitationStore()
 const userStore = useUserStore()
 
-const groupChat = messengerStore.selectedGroupChat
-const messages = reactive(groupChat.messages)
+const selectedGroupChat = messengerStore.selectedGroupChat
+const messages = reactive(selectedGroupChat.messages)
 const content = ref("")
 const user = authentication.getUser()
 const dialog = ref<InstanceType<typeof InvitationLinkDialog> | null>(null)
 
-if(groupChat.id !== 0 && messages.length === 0){
-  loadPreviousMessage()
+if(selectedGroupChat.id !== 0 && messages.length === 0){
+  const previousMessages = await groupChatStore.loadPreviousMessages(selectedGroupChat.id)
+  selectedGroupChat.messages.unshift(...previousMessages)
 }
 
 function createMessage(): SentGroupMessage {
   return {
-    groupChatId: groupChat.id,
+    groupChatId: selectedGroupChat.id,
     senderId: user.id,
     content: content.value,
   }
@@ -86,7 +86,7 @@ function sendMessageAndTextResetIfContentNotEmpty() {
 }
 
 async function onInvitationLinkClick() {
-  const invitation = await invitationStore.create(groupChat.id)
+  const invitation = await invitationStore.create(selectedGroupChat.id)
   const host = `${window.location.protocol}//${window.location.host}`
   dialog.value?.open(`${host}/invite/${invitation.id}`)
 }
@@ -95,14 +95,6 @@ function pressEnterHandler(event: KeyboardEvent) {
   if (event.isComposing)
     return;
   sendMessageAndTextResetIfContentNotEmpty()
-}
-
-async function loadPreviousMessage(){
-  const previousMessages = await ApiClient.getInstance().getPreviousGroupMessages(groupChat.id);
-  previousMessages.forEach(message => {
-    groupChatStore.addMessage(message.groupChatId, message)
-  })
-  groupChat.messages.unshift(...previousMessages)
 }
 
 </script>

@@ -143,7 +143,7 @@ export class ApiClient {
   async approveFriendRequest(id: number): Promise<AxiosResponse> {
     return await this.client.patch(`/api/friends/requests/${id}/approve`);
   }
-
+  // 시작
   async getDirectChat(id: number): Promise<DirectChatDto> {
     const response = await this.client.get(`/api/chats/directs/${id}`);
     return response.data;

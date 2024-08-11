@@ -70,6 +70,14 @@ export const useGroupChatStore = defineStore(
       findGroupChat.addMessage(message)
     }
 
+    async function loadPreviousMessages(groupChatId: number) :Promise<ReceivedGroupMessage[]>{
+      const previousMessages = await apiClient.getPreviousGroupMessages(groupChatId);
+      previousMessages.forEach(message => {
+        addMessage(message.groupChatId, message)
+      })
+      return previousMessages
+    }
+
     return {
       groupChats,
       initialize,
@@ -78,7 +86,8 @@ export const useGroupChatStore = defineStore(
       find,
       findAll,
       addMessage,
-      exists
+      exists,
+      loadPreviousMessages
     };
   },
   {persist: false}
