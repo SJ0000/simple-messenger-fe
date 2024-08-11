@@ -11,10 +11,15 @@ const useGroupChatStore = defineStore(
   "groupChat",
   () => {
     const apiClient = ApiClient.getInstance()
+    const messageClient = MessageClient.getInstance()
     const userStore = useUserStore()
     const groupChats = ref(new Map<number, GroupChat>())
 
-    async function initialize(){
+    messageClient.addGroupMessageHandler((message) => {
+      addMessage(message.groupChatId, message)
+    })
+
+    async function initialize() {
       groupChats.value.clear()
       const myGroupChats = await apiClient.getMyGroupChats()
 
@@ -26,7 +31,7 @@ const useGroupChatStore = defineStore(
       }
     }
 
-    function extractUsers(...participants : ParticipantDto[]) : User[]{
+    function extractUsers(...participants: ParticipantDto[]): User[] {
       return participants.map((dto) => {
         return new User(dto.user)
       })
@@ -34,8 +39,8 @@ const useGroupChatStore = defineStore(
 
     async function create(dto: GroupChatCreateDto): Promise<number> {
       const createdGroupChat = await apiClient.createGroupChat(dto)
-      await join(createdGroupChat.id)
-      MessageClient.getInstance().subscribeChat(find(createdGroupChat.id))
+      addGroupChat(createdGroupChat)
+      messageClient.subscribeChat(find(createdGroupChat.id))
       return createdGroupChat.id
     }
 
@@ -44,7 +49,7 @@ const useGroupChatStore = defineStore(
       addGroupChat(joinedGroupChat)
     }
 
-    function addGroupChat(dto : GroupChatDto){
+    function addGroupChat(dto: GroupChatDto) {
       if (dto.avatarUrl === "")
         dto.avatarUrl = "/src/assets/default-avatar.jpg"
       groupChats.value.set(dto.id, new GroupChat(dto.id, dto.name, dto.avatarUrl));
@@ -70,7 +75,7 @@ const useGroupChatStore = defineStore(
       findGroupChat.addMessage(message)
     }
 
-    async function loadPreviousMessages(groupChatId: number) :Promise<ReceivedGroupMessage[]>{
+    async function loadPreviousMessages(groupChatId: number): Promise<ReceivedGroupMessage[]> {
       const previousMessages = await apiClient.getPreviousGroupMessages(groupChatId);
       previousMessages.forEach(message => {
         addMessage(message.groupChatId, message)
@@ -85,7 +90,6 @@ const useGroupChatStore = defineStore(
       join,
       find,
       findAll,
-      addMessage,
       exists,
       loadPreviousMessages
     };

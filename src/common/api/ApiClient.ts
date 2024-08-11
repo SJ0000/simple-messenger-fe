@@ -167,7 +167,7 @@ export default class ApiClient {
   }
 
   async getPreviousDirectMessages(directChatId: number): Promise<Array<ReceivedDirectMessage>> {
-    const response = await this.client.get(`/api/chats/groups/${directChatId}/messages`)
+    const response = await this.client.get(`/api/chats/directs/${directChatId}/messages`)
     return response.data
   }
 

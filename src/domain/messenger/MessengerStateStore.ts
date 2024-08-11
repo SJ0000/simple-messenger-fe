@@ -19,22 +19,19 @@ export const useMessengerStateStore = defineStore(
     const mode = ref(ChattingMode.None);
 
     const selectedGroupChat: Ref<GroupChatModel> = ref(new GroupChatModel())
-
     const selectedDirectChat: Ref<DirectChatModel> = ref(new DirectChatModel())
 
-    function initialize(){
-      messageClient.onGroupMessageReceived = message => {
-        if (selectedGroupChat.value.id === message.groupChatId) {
-          selectedGroupChat.value.messages.push(message)
-        }
+    messageClient.addGroupMessageHandler(message => {
+      if (selectedGroupChat.value.id === message.groupChatId) {
+        selectedGroupChat.value.messages.push(message)
       }
+    })
 
-      messageClient.onDirectMessageReceived = message => {
-        if (selectedDirectChat.value.id === message.directChatId) {
-          selectedDirectChat.value.messages.push(message)
-        }
+    messageClient.addDirectMessageHandler(message => {
+      if (selectedDirectChat.value.id === message.directChatId) {
+        selectedDirectChat.value.messages.push(message)
       }
-    }
+    })
 
     function activateGroupChat(groupChat: IGroupChat) {
       mode.value = ChattingMode.GroupChat;
@@ -48,7 +45,6 @@ export const useMessengerStateStore = defineStore(
 
     return {
       mode,
-      initialize,
       selectedGroupChat,
       activateGroupChat,
       activateDirectChat,

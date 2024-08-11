@@ -2,28 +2,17 @@ import {Client} from "@stomp/stompjs";
 import {ReceivedGroupMessage, SentGroupMessage,} from "@/domain/groupchat/interface";
 
 import {ReceivedDirectMessage, SentDirectMessage,} from "@/domain/directchat/interface";
-import useDirectChatStore from "@/domain/directchat/DirectChatStore";
-import useGroupChatStore from "@/domain/groupchat/GroupChatStore";
 import User from "@/domain/user/User";
-import ApiClient from "../api/ApiClient";
 import MessageClientConfig from "./MessageClientConfig";
 import {IGroupChat} from "@/domain/groupchat/GroupChat";
+import {MessageEventBus, MessageHandler} from "@/common/websocket/MessageEventBus";
 
 
 export default class MessageClient {
   private static instance: MessageClient;
   private readonly client: Client;
   private readonly connectionUrl: string;
-  private _onGroupMessageReceived : (message : ReceivedGroupMessage) => void = ( ) => {}
-  private _onDirectMessageReceived : (message : ReceivedDirectMessage) => void = ( ) => {}
-
-  public set onGroupMessageReceived(value: (message: ReceivedGroupMessage) => void) {
-    this._onGroupMessageReceived = value;
-  }
-
-  public set onDirectMessageReceived(value: (message: ReceivedDirectMessage) => void) {
-    this._onDirectMessageReceived = value;
-  }
+  private messageEventBus : MessageEventBus = new MessageEventBus()
 
   private constructor(config: MessageClientConfig) {
     this.client = new Client();
@@ -38,6 +27,14 @@ export default class MessageClient {
     if (this.instance === null || this.instance === undefined)
       throw new Error("MessageClient not initialized");
     return this.instance;
+  }
+
+  public addGroupMessageHandler(handler: MessageHandler<ReceivedGroupMessage>){
+    this.messageEventBus.addGroupMessageEventListener(handler)
+  }
+
+  public addDirectMessageHandler(handler: MessageHandler<ReceivedDirectMessage>){
+    this.messageEventBus.addDirectMessageEventListener(handler)
   }
 
   start(authorization: string, user: User, groupChats: IGroupChat[]): void {
@@ -89,8 +86,7 @@ export default class MessageClient {
   subscribeChat(groupChat: IGroupChat) {
     this.client.subscribe(`/topic/group-chat/${groupChat.id}`, (message) => {
       const received: ReceivedGroupMessage = JSON.parse(message.body);
-      useGroupChatStore().addMessage(groupChat.id, received)
-      this._onGroupMessageReceived(received)
+      this.messageEventBus.dispatchGroupMessageEvent(received)
     });
   }
 
@@ -99,14 +95,7 @@ export default class MessageClient {
       const received: ReceivedDirectMessage = JSON.parse(message.body);
       switch (received.messageType) {
         case "MESSAGE": {
-          if (!useDirectChatStore().exists(received.senderId)) {
-            const directChat = await ApiClient.getInstance().getDirectChat(
-              received.directChatId
-            );
-            useDirectChatStore().join(directChat);
-          }
-          useDirectChatStore().addMessage(received);
-          this._onDirectMessageReceived(received)
+          this.messageEventBus.dispatchDirectMessageEvent(received)
           break;
         }
         default: {

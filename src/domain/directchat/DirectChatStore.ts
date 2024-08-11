@@ -4,14 +4,24 @@ import DirectChat, {IDirectChat} from "@/domain/directchat/DirectChat";
 import {ref} from "vue";
 import ApiClient from "@/common/api/ApiClient";
 import useUserStore from "@/domain/user/UserStore";
+import MessageClient from "@/common/websocket/MessageClient";
 
 
 const useDirectChatStore = defineStore(
   "directChat",
   () => {
     const apiClient = ApiClient.getInstance()
+    const messageClient = MessageClient.getInstance()
     const userStore = useUserStore()
     const directChats = ref(new Map<number, DirectChat>())
+
+    messageClient.addDirectMessageHandler(async (message) => {
+      if (!exists(message.senderId)) {
+        const directChat = await apiClient.getDirectChat(message.directChatId);
+        useDirectChatStore().join(directChat);
+      }
+      useDirectChatStore().addMessage(message);
+    })
 
     async function initialize() {
       const directChatDtos = await apiClient.getDirectChats()

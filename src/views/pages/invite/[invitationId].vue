@@ -31,6 +31,7 @@ const route = useRoute()
 if (!authentication.isLoggedIn)
   router.push("/")
 
+// const invitationId = route.params.invitationId
 const { invitationId } = route.params as { invitationId: string; }
 const invitation = await invitationStore.get(invitationId)
 

@@ -1,7 +1,7 @@
 import {defineStore, StateTree} from "pinia";
 import User from "@/domain/user/User";
 import {computed, Ref, ref} from "vue";
-import {instanceToPlain, plainToInstance} from "class-transformer";
+import {instanceToPlain} from "class-transformer";
 import 'reflect-metadata';
 import ApiClient from "@/common/api/ApiClient";
 import {LoginRequestDto} from "@/domain/auth/dto";
@@ -15,7 +15,7 @@ const useAuthenticationStore = defineStore(
     const accessToken: Ref<string | undefined> = ref(undefined);
     const isLoggedIn = computed(() => user.value !== undefined)
 
-    async function login(loginRequestDto: LoginRequestDto){
+    async function login(loginRequestDto: LoginRequestDto) {
       const loginResponse = await apiClient.login(loginRequestDto)
       accessToken.value = loginResponse.token
       refreshUser(loginResponse.user)
@@ -36,7 +36,7 @@ const useAuthenticationStore = defineStore(
       return user.value;
     }
 
-    async function updateUser(dto : UpdateUserDto){
+    async function updateUser(dto: UpdateUserDto) {
       const updatedUser = await apiClient.patchUser(getUser().id, dto)
       refreshUser(updatedUser)
     }
@@ -58,17 +58,15 @@ const useAuthenticationStore = defineStore(
   },
   {
     persist: {
-      serializer:{
-        serialize: (value) : string => {
+      serializer: {
+        serialize: (value): string => {
           return JSON.stringify({
             accessToken: value.accessToken,
             user: instanceToPlain(value.user)
           })
         },
         deserialize: (value): StateTree => {
-          const deserialized = JSON.parse(value)
-          deserialized.user = plainToInstance(User, deserialized.user)
-          return deserialized
+          return JSON.parse(value)
         }
       }
     }

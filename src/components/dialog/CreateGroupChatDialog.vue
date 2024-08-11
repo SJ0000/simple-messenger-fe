@@ -31,12 +31,12 @@ const snackbar = reactive(new SnackbarModel())
 async function onSaveClick() {
   try {
     const groupChatId = await groupChatStore.create(model.value.toDto())
-    let createdGroupChat = groupChatStore.find(groupChatId);
-
+    const createdGroupChat = groupChatStore.find(groupChatId);
     opened.value = false
-    snackbar.text = `대화방 '${createdGroupChat}' 이 생성되었습니다.`
+    snackbar.text = `대화방 '${createdGroupChat.name}' 이 생성되었습니다.`
     snackbar.open = true
   } catch (e) {
+    console.error(e)
     snackbar.text = `대화방 생성에 실패하였습니다`
     snackbar.open = true
   }

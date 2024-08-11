@@ -58,8 +58,6 @@ useDirectChatStore().initialize()
 const authorization = authentication.getAccessToken()
 const user = authentication.getUser()
 
-messengerStore.initialize()
-
 MessageClient.getInstance().start(authorization, user, groupChatStore.findAll())
 
 useNotificationStore().initialize()
