@@ -23,13 +23,12 @@
 <script setup lang="ts">
 
 
-import {ObjectStorageClient} from '@/common/api/ObjectStorageClient';
+import ObjectStorageClient from '@/common/object-storage/ObjectStorageClient';
 import {notEmpty} from "@/common/ValidationRules"
 import {UpdateUserModel} from '@/domain/auth/model';
-import {useAuthenticationStore} from '@/domain/auth/AuthenticationStore';
+import useAuthenticationStore from '@/domain/auth/AuthenticationStore';
 import {ref} from 'vue';
 import {UpdateUserDto} from "@/domain/user/dto";
-import {ApiClient} from "@/common/api/ApiClient";
 import {mdiAccountCircle} from '@mdi/js';
 
 const authentication = useAuthenticationStore()

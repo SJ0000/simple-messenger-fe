@@ -3,11 +3,11 @@ import User from "@/domain/user/User";
 import {computed, Ref, ref} from "vue";
 import {instanceToPlain, plainToInstance} from "class-transformer";
 import 'reflect-metadata';
-import {ApiClient} from "@/common/api/ApiClient";
+import ApiClient from "@/common/api/ApiClient";
 import {LoginRequestDto} from "@/domain/auth/dto";
 import {UpdateUserDto} from "@/domain/user/dto";
 
-export const useAuthenticationStore = defineStore(
+const useAuthenticationStore = defineStore(
   "authentication",
   () => {
     const apiClient = ApiClient.getInstance()
@@ -74,3 +74,5 @@ export const useAuthenticationStore = defineStore(
     }
   }
 );
+
+export default useAuthenticationStore

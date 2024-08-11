@@ -2,12 +2,12 @@ import {defineStore} from "pinia"
 import {GroupChatCreateDto, GroupChatDto, ParticipantDto, ReceivedGroupMessage} from "@/domain/groupchat/interface"
 import GroupChat, {IGroupChat} from "@/domain/groupchat/GroupChat"
 import {ref} from "vue";
-import {ApiClient} from "@/common/api/ApiClient";
-import {MessageClient} from "@/common/api/MessageClient";
-import {useUserStore} from "@/domain/user/UserStore";
+import ApiClient from "@/common/api/ApiClient";
+import MessageClient from "@/common/websocket/MessageClient";
+import useUserStore from "@/domain/user/UserStore";
 import User from "@/domain/user/User";
 
-export const useGroupChatStore = defineStore(
+const useGroupChatStore = defineStore(
   "groupChat",
   () => {
     const apiClient = ApiClient.getInstance()
@@ -92,3 +92,5 @@ export const useGroupChatStore = defineStore(
   },
   {persist: false}
 );
+
+export default useGroupChatStore

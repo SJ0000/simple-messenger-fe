@@ -42,15 +42,15 @@
 import {mdiMessage} from "@mdi/js"
 import {SentGroupMessage} from "@/domain/groupchat/interface";
 import {reactive, ref} from "vue";
-import {MessageClient} from "@/common/api/MessageClient";
-import {useAuthenticationStore} from "@/domain/auth/AuthenticationStore";
-import {useGroupChatStore} from "@/domain/groupchat/GroupChatStore";
+import MessageClient from "@/common/websocket/MessageClient";
+import useAuthenticationStore from "@/domain/auth/AuthenticationStore";
+import useGroupChatStore from "@/domain/groupchat/GroupChatStore";
 import InvitationLinkDialog from "@/components/dialog/InvitationLinkDialog.vue";
 import {VVirtualScroll} from "vuetify/components";
 import Utility from "../../common/Utility";
 import {useMessengerStateStore} from "@/domain/messenger/MessengerStateStore";
-import {useUserStore} from "@/domain/user/UserStore";
-import {useInvitationStore} from "@/domain/friend/InvitationStore";
+import useUserStore from "@/domain/user/UserStore";
+import useInvitationStore from "@/domain/friend/InvitationStore";
 
 const authentication = useAuthenticationStore()
 const messengerStore = useMessengerStateStore()

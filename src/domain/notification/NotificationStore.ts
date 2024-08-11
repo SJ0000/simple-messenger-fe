@@ -1,6 +1,6 @@
 import {defineStore} from "pinia";
 import {Ref, ref} from "vue";
-import {ApiClient} from "@/common/api/ApiClient";
+import ApiClient from "@/common/api/ApiClient";
 import {NotificationTokenDto} from "@/domain/notification/dto";
 import {NotificationService} from "@/domain/notification/NotificationService";
 

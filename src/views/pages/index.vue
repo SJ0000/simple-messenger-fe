@@ -19,9 +19,9 @@
 
 <script lang="ts" setup>
 // log in
-import {useAuthenticationStore} from "@/domain/auth/AuthenticationStore";
+import useAuthenticationStore from "@/domain/auth/AuthenticationStore";
 import router from "@/plugins/unplugin-vue-router";
-import {MessageClient} from "@/common/api/MessageClient";
+import MessageClient from "@/common/websocket/MessageClient";
 
 const authentication = useAuthenticationStore()
 const isLoggedIn = authentication.isLoggedIn

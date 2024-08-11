@@ -1,6 +1,6 @@
 import axios, {AxiosInstance, AxiosResponse} from "axios";
 import {LoginRequestDto, LoginResponseDto, SignUpDto} from "@/domain/auth/dto";
-import {useAuthenticationStore} from "@/domain/auth/AuthenticationStore";
+import useAuthenticationStore from "@/domain/auth/AuthenticationStore";
 import {GroupChatCreateDto, GroupChatDto, Invitation, ReceivedGroupMessage} from "@/domain/groupchat/interface";
 import {UpdateUserDto, UserDto} from "@/domain/user/dto";
 import User from "@/domain/user/User";
@@ -10,7 +10,7 @@ import {DirectChatDto, ReceivedDirectMessage} from "@/domain/directchat/interfac
 import router from "@/plugins/unplugin-vue-router";
 import {NotificationTokenDto} from "@/domain/notification/dto";
 
-export class ApiClient {
+export default class ApiClient {
   private static instance: ApiClient;
 
   private client: AxiosInstance;
@@ -143,7 +143,7 @@ export class ApiClient {
   async approveFriendRequest(id: number): Promise<AxiosResponse> {
     return await this.client.patch(`/api/friends/requests/${id}/approve`);
   }
-  // 시작
+
   async getDirectChat(id: number): Promise<DirectChatDto> {
     const response = await this.client.get(`/api/chats/directs/${id}`);
     return response.data;

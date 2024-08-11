@@ -15,11 +15,11 @@
 </template>
 
 <script setup lang="ts">
-import {useGroupChatStore} from "@/domain/groupchat/GroupChatStore";
-import {useAuthenticationStore} from "@/domain/auth/AuthenticationStore";
+import useGroupChatStore from "@/domain/groupchat/GroupChatStore";
+import useAuthenticationStore from "@/domain/auth/AuthenticationStore";
 import router from "@/plugins/unplugin-vue-router";
 import {useRoute} from "vue-router";
-import {useInvitationStore} from "@/domain/friend/InvitationStore";
+import useInvitationStore from "@/domain/friend/InvitationStore";
 
 const authentication = useAuthenticationStore()
 const invitationStore = useInvitationStore()

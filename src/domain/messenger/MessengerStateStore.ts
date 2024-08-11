@@ -1,22 +1,10 @@
 import {defineStore} from "pinia";
 import {Ref, ref} from "vue";
 import {IGroupChat} from "@/domain/groupchat/GroupChat";
-import {ReceivedGroupMessage} from "@/domain/groupchat/interface";
-import {ReceivedDirectMessage} from "@/domain/directchat/interface";
 import {IDirectChat} from "@/domain/directchat/DirectChat";
-
-interface GroupChatModel {
-  id: number;
-  name: string;
-  avatarUrl: string;
-  messages: ReceivedGroupMessage[];
-}
-
-interface DirectChatModel {
-  id: number
-  otherUserId: number
-  messages: ReceivedDirectMessage[];
-}
+import MessageClient from "@/common/websocket/MessageClient";
+import GroupChatModel from "@/domain/messenger/GroupChatModel";
+import DirectChatModel from "@/domain/messenger/DirectChatModel";
 
 export enum ChattingMode {
   None,
@@ -27,53 +15,40 @@ export enum ChattingMode {
 export const useMessengerStateStore = defineStore(
   "messenger",
   () => {
+    const messageClient = MessageClient.getInstance()
     const mode = ref(ChattingMode.None);
 
-    const selectedGroupChat: Ref<GroupChatModel> = ref({
-        id : 0,
-        name : "",
-        avatarUrl : "",
-        messages : [],
-    })
+    const selectedGroupChat: Ref<GroupChatModel> = ref(new GroupChatModel())
 
-    const selectedDirectChat: Ref<DirectChatModel> = ref({
-      id : 0,
-      otherUserId : 0,
-      name : "",
-      messages : [],
-    })
+    const selectedDirectChat: Ref<DirectChatModel> = ref(new DirectChatModel())
+
+    function initialize(){
+      messageClient.onGroupMessageReceived = message => {
+        if (selectedGroupChat.value.id === message.groupChatId) {
+          selectedGroupChat.value.messages.push(message)
+        }
+      }
+
+      messageClient.onDirectMessageReceived = message => {
+        if (selectedDirectChat.value.id === message.directChatId) {
+          selectedDirectChat.value.messages.push(message)
+        }
+      }
+    }
 
     function activateGroupChat(groupChat: IGroupChat) {
       mode.value = ChattingMode.GroupChat;
-      selectGroupChat(groupChat)
+      selectedGroupChat.value.assign(groupChat)
     }
 
     function activateDirectChat(directChat: IDirectChat) {
       mode.value = ChattingMode.DirectChat;
-      selectDirectChat(directChat)
-    }
-
-    function selectGroupChat(groupChat: IGroupChat) {
-      selectedGroupChat.value.id = groupChat.id
-      selectedGroupChat.value.name = groupChat.name
-      selectedGroupChat.value.avatarUrl = groupChat.avatarUrl
-      selectedGroupChat.value.messages.splice(0)
-      groupChat.messages.forEach((message) => {
-        selectedGroupChat.value.messages.push(message)
-      })
-    }
-
-    function selectDirectChat(directChat : IDirectChat) {
-      selectedDirectChat.value.id = directChat.id;
-      selectedDirectChat.value.otherUserId = directChat.otherUserId;
-      selectedDirectChat.value.messages.splice(0);
-      directChat.messages.forEach((message) => {
-        selectedDirectChat.value.messages.push(message);
-      });
+      selectedDirectChat.value.assign(directChat)
     }
 
     return {
       mode,
+      initialize,
       selectedGroupChat,
       activateGroupChat,
       activateDirectChat,

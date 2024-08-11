@@ -1,11 +1,11 @@
 import {defineStore} from "pinia";
 import User, {IUser} from "@/domain/user/User";
-import {ApiClient} from "@/common/api/ApiClient";
-import {useUserStore} from "@/domain/user/UserStore";
+import ApiClient from "@/common/api/ApiClient";
+import useUserStore from "@/domain/user/UserStore";
 import {FriendRequestDto} from "@/domain/friend/dto";
 import {Friend} from "@/domain/friend/interface";
 
-export const useFriendStore = defineStore(
+const useFriendStore = defineStore(
   "friend",
   () => {
     const apiClient = ApiClient.getInstance()
@@ -51,3 +51,5 @@ export const useFriendStore = defineStore(
   },
   {persist: false}
 );
+
+export default useFriendStore

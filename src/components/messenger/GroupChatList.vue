@@ -18,11 +18,11 @@
 <script setup lang="ts">
 
 import {mdiChatPlus} from "@mdi/js";
-import {useGroupChatStore} from "@/domain/groupchat/GroupChatStore";
+import useGroupChatStore from "@/domain/groupchat/GroupChatStore";
 import {ref} from "vue";
 import CreateGroupChatDialog from "@/components/dialog/CreateGroupChatDialog.vue";
 import {ChattingMode, useMessengerStateStore} from "@/domain/messenger/MessengerStateStore";
-import {useUserStore} from "@/domain/user/UserStore";
+import useUserStore from "@/domain/user/UserStore";
 import {storeToRefs} from "pinia";
 
 const groupChatStore = useGroupChatStore()

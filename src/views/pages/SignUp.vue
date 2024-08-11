@@ -37,9 +37,9 @@ import {SignUpModel} from "@/domain/auth/model";
 
 import {VAlert, VForm} from "vuetify/components";
 import router from "@/plugins/unplugin-vue-router";
-import {useAuthenticationStore} from "@/domain/auth/AuthenticationStore";
+import useAuthenticationStore from "@/domain/auth/AuthenticationStore";
 import {AlertModel} from "@/common/Models";
-import {useUserStore} from "@/domain/user/UserStore";
+import useUserStore from "@/domain/user/UserStore";
 import {handleApiError} from "@/common/api/ApiErrorHandler";
 
 const authentication = useAuthenticationStore()

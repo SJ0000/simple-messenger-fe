@@ -1,4 +1,4 @@
-export class ObjectStorageConfig {
+export default class ObjectStorageConfig {
   public region: string;
   public endpoint: string;
   public accessKeyId: string;
@@ -15,12 +15,3 @@ export class ObjectStorageConfig {
     this.publicUrlPrefix = env.OBJECT_STORAGE_PUBLIC_URL_PREFIX;
   }
 }
-
-export class MessageClientConfig {
-  public url: string;
-  constructor(env: any) {
-    this.url = env.WS_URL;
-  }
-}
-
-

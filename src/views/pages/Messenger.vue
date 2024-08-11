@@ -24,17 +24,14 @@ import GroupChatList from "@/components/messenger/GroupChatList.vue";
 import GroupChat from "@/components/messenger/GroupChat.vue";
 import DirectChat from "@/components/messenger/DirectChat.vue";
 import Friends from "@/components/messenger/Friends.vue";
-import {MessageClient} from "@/common/api/MessageClient";
-import {ApiClient} from "@/common/api/ApiClient";
-import {useGroupChatStore} from "@/domain/groupchat/GroupChatStore";
-import {useAuthenticationStore} from "@/domain/auth/AuthenticationStore";
-import {useDirectChatStore} from "@/domain/directchat/DirectChatStore";
+import MessageClient from "@/common/websocket/MessageClient";
+import useGroupChatStore from "@/domain/groupchat/GroupChatStore";
+import useAuthenticationStore from "@/domain/auth/AuthenticationStore";
+import useDirectChatStore from "@/domain/directchat/DirectChatStore";
 import {ChattingMode, useMessengerStateStore} from "@/domain/messenger/MessengerStateStore";
-import User from "@/domain/user/User";
-import {useFriendStore} from "@/domain/friend/FriendStore";
+import useFriendStore from "@/domain/friend/FriendStore";
 import {storeToRefs} from "pinia";
-import {useUserStore} from "@/domain/user/UserStore";
-import {UserDto} from "@/domain/user/dto";
+import useUserStore from "@/domain/user/UserStore";
 import {useNotificationStore} from "@/domain/notification/NotificationStore";
 
 const authentication = useAuthenticationStore()
@@ -60,17 +57,8 @@ useDirectChatStore().initialize()
 
 const authorization = authentication.getAccessToken()
 const user = authentication.getUser()
-MessageClient.getInstance().onGroupMessageReceived = message => {
-  if (messengerStore.mode === ChattingMode.GroupChat && messengerStore.selectedGroupChat.id === message.groupChatId) {
-    messengerStore.selectedGroupChat.messages.push(message)
-  }
-}
 
-MessageClient.getInstance().onDirectMessageReceived = message => {
-  if (messengerStore.mode === ChattingMode.DirectChat && messengerStore.selectedDirectChat.id === message.directChatId) {
-    messengerStore.selectedDirectChat.messages.push(message)
-  }
-}
+messengerStore.initialize()
 
 MessageClient.getInstance().start(authorization, user, groupChatStore.findAll())
 

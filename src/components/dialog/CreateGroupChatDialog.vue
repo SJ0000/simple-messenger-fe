@@ -18,10 +18,8 @@
 <script setup lang="ts">
 import {reactive, ref} from "vue";
 import {GroupChatCreateModel} from "@/domain/groupchat/model";
-import {ApiClient} from "@/common/api/ApiClient";
-import {useGroupChatStore} from "@/domain/groupchat/GroupChatStore";
+import useGroupChatStore from "@/domain/groupchat/GroupChatStore";
 import {SnackbarModel} from "@/common/Models";
-import {MessageClient} from "@/common/api/MessageClient";
 
 const groupChatStore = useGroupChatStore()
 

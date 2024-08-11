@@ -37,7 +37,7 @@ import {email, notEmpty, password} from "@/common/ValidationRules"
 import {Ref, ref} from "vue";
 import {LoginModel} from "@/domain/auth/model";
 import {VAlert, VForm} from "vuetify/components";
-import {useAuthenticationStore} from "@/domain/auth/AuthenticationStore";
+import useAuthenticationStore from "@/domain/auth/AuthenticationStore";
 import router from "@/plugins/unplugin-vue-router";
 import {AlertModel} from "@/common/Models";
 import {handleApiError} from "@/common/api/ApiErrorHandler";

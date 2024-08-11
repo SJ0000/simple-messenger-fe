@@ -1,4 +1,4 @@
-import {useAuthenticationStore} from "@/domain/auth/AuthenticationStore";
+import useAuthenticationStore from "@/domain/auth/AuthenticationStore";
 import {jwtDecode} from "jwt-decode";
 
 const authRequiredPaths = ["/messenger", "/account"];

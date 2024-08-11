@@ -17,7 +17,7 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import {FriendRequestModel} from "@/domain/friend/model"
-import {useFriendStore} from "@/domain/friend/FriendStore";
+import useFriendStore from "@/domain/friend/FriendStore";
 
 const friendStore = useFriendStore()
 

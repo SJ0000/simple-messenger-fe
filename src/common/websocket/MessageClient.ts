@@ -1,22 +1,21 @@
-// Singleton
 import {Client} from "@stomp/stompjs";
 import {ReceivedGroupMessage, SentGroupMessage,} from "@/domain/groupchat/interface";
 
 import {ReceivedDirectMessage, SentDirectMessage,} from "@/domain/directchat/interface";
-import {useDirectChatStore} from "@/domain/directchat/DirectChatStore";
-import {useGroupChatStore} from "@/domain/groupchat/GroupChatStore";
+import useDirectChatStore from "@/domain/directchat/DirectChatStore";
+import useGroupChatStore from "@/domain/groupchat/GroupChatStore";
 import User from "@/domain/user/User";
-import {ApiClient} from "./ApiClient";
-import {MessageClientConfig} from "./Configurations";
+import ApiClient from "../api/ApiClient";
+import MessageClientConfig from "./MessageClientConfig";
 import {IGroupChat} from "@/domain/groupchat/GroupChat";
 
 
-export class MessageClient {
+export default class MessageClient {
   private static instance: MessageClient;
   private readonly client: Client;
   private readonly connectionUrl: string;
-  private _onGroupMessageReceived : (message : ReceivedGroupMessage) => void = (message ) => {}
-  private _onDirectMessageReceived : (message : ReceivedDirectMessage) => void = (message ) => {}
+  private _onGroupMessageReceived : (message : ReceivedGroupMessage) => void = ( ) => {}
+  private _onDirectMessageReceived : (message : ReceivedDirectMessage) => void = ( ) => {}
 
   public set onGroupMessageReceived(value: (message: ReceivedGroupMessage) => void) {
     this._onGroupMessageReceived = value;

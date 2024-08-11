@@ -2,11 +2,11 @@ import {defineStore} from "pinia";
 import {DirectChatDto, ReceivedDirectMessage} from "@/domain/directchat/interface";
 import DirectChat, {IDirectChat} from "@/domain/directchat/DirectChat";
 import {ref} from "vue";
-import {ApiClient} from "@/common/api/ApiClient";
-import {useUserStore} from "@/domain/user/UserStore";
+import ApiClient from "@/common/api/ApiClient";
+import useUserStore from "@/domain/user/UserStore";
 
 
-export const useDirectChatStore = defineStore(
+const useDirectChatStore = defineStore(
   "directChat",
   () => {
     const apiClient = ApiClient.getInstance()
@@ -78,3 +78,5 @@ export const useDirectChatStore = defineStore(
   },
   {persist: false}
 );
+
+export default useDirectChatStore

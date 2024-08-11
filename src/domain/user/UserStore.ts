@@ -1,10 +1,10 @@
 import {defineStore} from "pinia";
 import User from "@/domain/user/User";
 import {ref} from "vue";
-import {ApiClient} from "@/common/api/ApiClient";
+import ApiClient from "@/common/api/ApiClient";
 import {SignUpDto} from "@/domain/auth/dto";
 
-export const useUserStore = defineStore(
+const useUserStore = defineStore(
   "user",
   () => {
     const apiClient = ApiClient.getInstance()
@@ -42,3 +42,5 @@ export const useUserStore = defineStore(
   },
   {persist: false}
 )
+
+export default useUserStore

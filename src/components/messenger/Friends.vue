@@ -27,16 +27,13 @@ import {mdiAccountBox, mdiAccountPlus, mdiChat} from '@mdi/js';
 import FriendRequestDialog from '@/components/dialog/FriendRequestDialog.vue'
 import AddFriendDialog from '@/components/dialog/AddFriendDialog.vue'
 import {ref} from 'vue';
-import {useDirectChatStore} from '@/domain/directchat/DirectChatStore';
+import useDirectChatStore from '@/domain/directchat/DirectChatStore';
 import {ChattingMode, useMessengerStateStore} from '@/domain/messenger/MessengerStateStore';
-import {useFriendStore} from '@/domain/friend/FriendStore';
-import {ApiClient} from '@/common/api/ApiClient';
+import useFriendStore from '@/domain/friend/FriendStore';
 import Utility from "@/common/Utility";
-import {useUserStore} from "@/domain/user/UserStore";
 
 const directChatStore = useDirectChatStore()
 const messengerStateStore = useMessengerStateStore()
-const userStore = useUserStore()
 
 const addFriendDialog = ref<InstanceType<typeof AddFriendDialog> | null>(null);
 const friendRequestDialog = ref<InstanceType<typeof FriendRequestDialog> | null>(null);

@@ -28,7 +28,7 @@ import {mdiPlus} from "@mdi/js";
 import {reactive, ref} from "vue";
 import {Friend} from "@/domain/friend/interface";
 import {SnackbarModel} from "@/common/Models";
-import {useFriendStore} from "@/domain/friend/FriendStore";
+import useFriendStore from "@/domain/friend/FriendStore";
 
 const friendStore = useFriendStore()
 

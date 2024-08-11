@@ -1,9 +1,7 @@
 import {defineStore} from "pinia";
-import User, {IUser} from "@/domain/user/User";
-import {ApiClient} from "@/common/api/ApiClient";
-import {useUserStore} from "@/domain/user/UserStore";
+import ApiClient from "@/common/api/ApiClient";
 
-export const useInvitationStore = defineStore(
+const useInvitationStore = defineStore(
   "invitation",
   () => {
     const apiClient = ApiClient.getInstance()
@@ -20,3 +18,5 @@ export const useInvitationStore = defineStore(
   },
   {persist: false}
 );
+
+export default useInvitationStore
