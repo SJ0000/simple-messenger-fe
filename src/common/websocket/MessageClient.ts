@@ -41,7 +41,7 @@ export default class MessageClient {
     this.client.configure({
       brokerURL: `${this.connectionUrl}/message-broker`,
       connectHeaders: {
-        Authorization: authorization,
+        Authorization: `Bearer ${authorization}`,
       },
     });
 
