@@ -26,7 +26,7 @@ export default class ApiClient {
       request.headers.set("Content-Type", "application/json")
 
       const accessToken = useAuthenticationStore().accessToken;
-      if (accessToken !== null) {
+      if (accessToken !== undefined) {
         request.headers.Authorization = `Bearer ${accessToken}`;
       }
       return request;
